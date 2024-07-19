@@ -1,12 +1,12 @@
 import React from "react";
-import LikeDislike from "./components/functional/likeDislike";
-import "./App.css";
+import Card from "./components/card/card";
+import CreateCard from "./components/functional/createCard";
 
-const App: React.FC = () => {
+const App = () => {
   return (
-    <div>
-      <h1>React Like/Dislike Example</h1>
-      <LikeDislike />
+    <div className="app">
+      <Card />
+      <CreateCard />
     </div>
   );
 };

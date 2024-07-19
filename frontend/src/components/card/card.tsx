@@ -1,34 +1,60 @@
 import React from "react";
 import LikeDislike from "../functional/likeDislike";
 import CardText from "./cardText";
-import Comment from "../functional/comment";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import {
+  faUtensils,
+  faMusic,
+  faFilm,
+  faGamepad,
+  faPlaneDeparture,
+  faPalette,
+  faQuestionCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import "./card.css";
 
-const Card = () => {
-  const handleSubmit = (text: string) => {
-    console.log("Submitted comment:", text);
-    // Here you would send the comment to your backend
-  };
+interface CardProps {
+  eventName: string;
+  eventType: string;
+  location: string;
+}
 
-  const handleTextClick = () => {
-    console.log("CardText clicked");
+const Card: React.FC<CardProps> = ({ eventName, eventType, location }) => {
+  const getEventIcon = (type: string): IconProp => {
+    switch (type) {
+      case "food":
+        return faUtensils;
+      case "music":
+        return faMusic;
+      case "movie":
+        return faFilm;
+      case "games":
+        return faGamepad;
+      case "travel":
+        return faPlaneDeparture;
+      case "art":
+        return faPalette;
+      default:
+        return faQuestionCircle;
+    }
   };
 
   return (
     <div className="card">
+      <h1 className="card-title">{eventName}</h1>
+      <div className="event-type-icon">
+        <FontAwesomeIcon icon={getEventIcon(eventType)} />
+      </div>
       <div className="like-dislike-container">
         <LikeDislike />
       </div>
       <div className="card-text-container">
         <CardText
-          // icon={} depends on what event it is
-          text="This is the main card text This is the main card text This is the main card text This is the main card text"
-          onClick={handleTextClick}
+          text={eventType.charAt(0).toUpperCase() + eventType.slice(1)}
         />
       </div>
-      <div className="comment-container">
-        <Comment buttonText="Add a comment" onSubmit={handleSubmit} />
-      </div>
+      <div className="location-container">{location}</div>
     </div>
   );
 };

@@ -1,37 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
 import Input from "../general/input";
 import Dropdown from "../general/dropdown";
+import Button from "../general/button";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
-const InputForm = () => {
-  const handleInputChange = (value: string) => {
-    console.log("Input value changed:", value);
+interface InputFormProps {
+  onSubmit: (cardData: CardData) => void;
+}
+
+interface CardData {
+  eventName: string;
+  eventType: string;
+  cost: string;
+  location: string;
+}
+
+const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
+  const [formData, setFormData] = useState<CardData>({
+    eventName: "",
+    eventType: "",
+    cost: "",
+    location: "",
+  });
+
+  const handleInputChange = (field: keyof CardData) => (value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleDropdownChange = (value: string) => {
-    console.log("Dropdown value changed:", value);
+  const handleSubmit = () => {
+    onSubmit(formData);
   };
 
   return (
-    <div className="screen-sized-card">
-      <div className="form-container">
-        <h2>Event Details</h2>
+    <div className="form-container">
+      <h2>Event Details</h2>
 
-        <Input
-          placeholder="Event Name"
-          onChange={handleInputChange}
-          className="event-name-input"
-        />
+      <Input
+        placeholder="Event Name"
+        onChange={handleInputChange("eventName")}
+        className="event-name-input"
+      />
 
-        <Dropdown onChange={handleDropdownChange} className="event" />
+      <Dropdown onChange={handleInputChange("eventType")} className="event" />
 
-        <Dropdown onChange={handleDropdownChange} className="cost" />
+      <Dropdown onChange={handleInputChange("cost")} className="cost" />
 
-        <Input
-          placeholder="Location"
-          onChange={handleInputChange}
-          className="location-input"
-        />
-      </div>
+      <Input
+        placeholder="Location"
+        onChange={handleInputChange("location")}
+        className="location-input"
+      />
+
+      <Button
+        icon={faCheck}
+        onClick={handleSubmit}
+        className="submit-button"
+        label="Submit"
+      />
     </div>
   );
 };

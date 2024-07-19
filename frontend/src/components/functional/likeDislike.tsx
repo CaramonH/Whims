@@ -3,7 +3,7 @@ import Button from "../general/button";
 import { faThumbsDown, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import useLikeDislike from "../../customHooks/useLikeAndDislike";
 
-const App: React.FC = () => {
+const likeDislike: React.FC = () => {
   const { likeCount, dislikeCount, handleLike, handleDislike } =
     useLikeDislike();
 
@@ -25,4 +25,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default likeDislike;

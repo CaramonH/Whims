@@ -3,20 +3,22 @@ import { useState } from "react";
 const useLikeDislike = () => {
   const [likeCount, setLikeCount] = useState(0);
   const [dislikeCount, setDislikeCount] = useState(0);
-  const [hasInteracted, setHasInteracted] = useState(false);
+  const [userChoice, setUserChoice] = useState<"like" | "dislike" | null>(null);
 
   const handleLike = () => {
-    if (!hasInteracted) {
-      setLikeCount(1);
-      setHasInteracted(true);
-    }
+    if (userChoice === "like") return;
+
+    setLikeCount(1);
+    setDislikeCount(0);
+    setUserChoice("like");
   };
 
   const handleDislike = () => {
-    if (!hasInteracted) {
-      setDislikeCount(1);
-      setHasInteracted(true);
-    }
+    if (userChoice === "dislike") return;
+
+    setLikeCount(0);
+    setDislikeCount(1);
+    setUserChoice("dislike");
   };
 
   return {
@@ -24,7 +26,7 @@ const useLikeDislike = () => {
     dislikeCount,
     handleLike,
     handleDislike,
-    hasInteracted,
+    userChoice,
   };
 };
 

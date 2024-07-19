@@ -4,7 +4,7 @@ import { faThumbsDown, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import useLikeDislike from "../../customHooks/useLikeAndDislike";
 
 const likeDislike: React.FC = () => {
-  const { likeCount, dislikeCount, handleLike, handleDislike, hasInteracted } =
+  const { likeCount, dislikeCount, handleLike, handleDislike, userChoice } =
     useLikeDislike();
 
   return (
@@ -12,16 +12,18 @@ const likeDislike: React.FC = () => {
       <Button
         icon={faThumbsUp}
         onClick={handleLike}
-        className={`like-button ${hasInteracted ? "disabled" : ""}`}
+        className={`like-button ${userChoice === "like" ? "selected" : ""}`}
         label={`Like (${likeCount})`}
-        disabled={hasInteracted}
+        disabled={false}
       />
       <Button
         icon={faThumbsDown}
         onClick={handleDislike}
-        className={`dislike-button ${hasInteracted ? "disabled" : ""}`}
+        className={`dislike-button ${
+          userChoice === "dislike" ? "selected" : ""
+        }`}
         label={`Dislike (${dislikeCount})`}
-        disabled={hasInteracted}
+        disabled={false}
       />
     </div>
   );

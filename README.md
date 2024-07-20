@@ -1,1 +1,1 @@
-# Whims
+This is a README

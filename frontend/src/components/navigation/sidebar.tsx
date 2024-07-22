@@ -11,6 +11,11 @@ import "./navigation.css";
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const handleExpand = (expanded: boolean) => {
+    setIsExpanded(expanded);
+    document.body.classList.toggle("sidebar-expanded", expanded);
+  };
+
   const handleHome = () => console.log("Home clicked");
   const handleSettings = () => console.log("Settings clicked");
   const handleAccount = () => console.log("Account clicked");
@@ -19,8 +24,8 @@ const Sidebar = () => {
   return (
     <div
       className={`sidebar ${isExpanded ? "expanded" : ""}`}
-      onMouseEnter={() => setIsExpanded(true)}
-      onMouseLeave={() => setIsExpanded(false)}
+      onMouseEnter={() => handleExpand(true)}
+      onMouseLeave={() => handleExpand(false)}
     >
       <nav className="sidebar-nav">
         <div>

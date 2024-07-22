@@ -1,0 +1,22 @@
+.dashboard {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.dashboard-content {
+  margin-left: 60px; /* Width of the collapsed sidebar */
+  transition: margin-left 0.3s ease;
+}
+
+/* When sidebar is expanded */
+.dashboard.sidebar-expanded .dashboard-content {
+  margin-left: 200px; /* Width of the expanded sidebar */
+}
+
+.main-content {
+  padding: 20px;
+  height: calc(100vh - 60px); /* Adjust based on your header height */
+  overflow-y: auto;
+}

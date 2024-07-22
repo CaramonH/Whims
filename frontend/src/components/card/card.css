@@ -7,13 +7,12 @@
   padding: 16px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .card-title {
   font-size: 1.5em;
-  margin-bottom: 10px;
   text-align: center;
+  margin-top: 50px;
 }
 
 .event-type-icon {
@@ -23,26 +22,26 @@
   font-size: 1.2em;
 }
 
-.like-dislike-container {
+.card-text-container {
   position: absolute;
   top: 16px;
   right: 16px;
 }
 
-.card-text-container {
+.like-dislike-container {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
+  gap: 4px; /* space between like and dislike buttons */
 }
 
 .location-container {
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
+  text-align: center;
   font-size: 0.9em;
 }
 
+/* Additional styles */
 .cards-container {
   display: flex;
   flex-wrap: wrap;
@@ -50,15 +49,15 @@
   margin-top: 20px;
 }
 
-/* Additional styles to make components fit better in the card */
 .card-text {
   text-align: center;
   padding: 8px;
-  background-color: #f0f0f0;
+  background-color: #000000;
   border-radius: 4px;
 }
 
 .like-button,
 .dislike-button {
-  margin: 0 4px;
+  padding: 4px 8px;
+  font-size: 0.9em;
 }

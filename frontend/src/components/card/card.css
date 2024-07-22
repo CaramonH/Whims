@@ -1,7 +1,8 @@
+@import '../../App.css';
 .card {
   position: relative;
   width: 300px;
-  height: 200px;
+  height: 300px;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 16px;
@@ -10,16 +11,17 @@
 }
 
 .card-title {
-  font-size: 1.5em;
+  font-size: 2em;
   text-align: center;
   margin-top: 50px;
+  color: var(--color-ui-black);
 }
 
 .event-type-icon {
   position: absolute;
   top: 16px;
   left: 16px;
-  font-size: 1.2em;
+  font-size: 1.5em;
 }
 
 .card-text-container {
@@ -52,7 +54,6 @@
 .card-text {
   text-align: center;
   padding: 8px;
-  background-color: #000000;
   border-radius: 4px;
 }
 
@@ -60,4 +61,52 @@
 .dislike-button {
   padding: 4px 8px;
   font-size: 0.9em;
+}
+
+.card.--color-turq {
+  background-color: var(--color-turq);
+  color: var(--color-dark-turq);
+
+}
+
+.card.--color-mant {
+  background-color: var(--color-mant);
+  color: var(--color-dark-mant);
+
+}
+
+.card.--color-apg {
+  background-color: var(--color-apg);
+  color: var(--color-dark-apg);
+
+}
+
+.card.--color-yell {
+  background-color: var(--color-yell);
+  color: var(--color-dark-yell);
+
+}
+
+.card.--color-org {
+  background-color: var(--color-org);
+  color: var(--color-dark-org);
+
+}
+
+.card.--color-red {
+  background-color: var(--color-red);
+  color: var(--color-dark-red);
+
+}
+
+.card.--color-ind {
+  background-color: var(--color-ind);
+  color: var(--color-dark-ind);
+
+}
+
+.card.--color-purp {
+  background-color: var(--color-purp);
+  color: var(--color-dark-purp);
+
 }

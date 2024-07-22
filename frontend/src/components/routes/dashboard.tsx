@@ -20,13 +20,17 @@ const Dashboard: React.FC = () => {
     setCards((prevCards) => [...prevCards, cardData]);
   }
 
+  function handleCreateClick() {
+    console.log("Create button clicked in Header"); // Debug log
+  }
+
   console.log("Current cards:", cards); // Debug log
 
   return (
     <div className="dashboard">
       <Sidebar />
       <div className="dashboard-content">
-        <Header />
+        <Header onCreateClick={handleCreateClick} />
         <main className="main-content">
           <CreateCard onCreateCard={handleCreateCard} />
           <div className="cards-container">

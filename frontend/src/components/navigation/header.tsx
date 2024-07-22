@@ -1,14 +1,22 @@
 import React from "react";
-import CreateCard from "../functional/createCard";
+import Button from "../general/button";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import "./navigation.css";
 
-const Header = () => {
+interface HeaderProps {
+  onCreateClick: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ onCreateClick }) => {
   return (
     <header className="header">
-      <h1 className="header-title">Whims</h1>
-      <div className="create-card-container">
-        <CreateCard />
-      </div>
+      <h1>Dashboard</h1>
+      <Button
+        icon={faPlus}
+        onClick={onCreateClick}
+        className="create-button"
+        label="Create New Event"
+      />
     </header>
   );
 };

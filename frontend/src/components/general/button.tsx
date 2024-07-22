@@ -8,6 +8,7 @@ interface ButtonProps {
   className?: string;
   label: string;
   disabled?: boolean;
+  isExpanded?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -16,11 +17,12 @@ const Button: React.FC<ButtonProps> = ({
   className,
   label,
   disabled,
+  isExpanded
 }) => {
   return (
     <button onClick={onClick} className={className} disabled={disabled}>
       <FontAwesomeIcon icon={icon} />
-      {label}
+      {isExpanded && <span className="label">{label}</span>}
     </button>
   );
 };

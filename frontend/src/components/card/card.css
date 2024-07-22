@@ -1,0 +1,63 @@
+.card {
+  position: relative;
+  width: 300px;
+  height: 200px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-title {
+  font-size: 1.5em;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.event-type-icon {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font-size: 1.2em;
+}
+
+.card-text-container {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.like-dislike-container {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  display: flex;
+  gap: 4px; /* space between like and dislike buttons */
+}
+
+.location-container {
+  text-align: center;
+  font-size: 0.9em;
+}
+
+/* Additional styles */
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card-text {
+  text-align: center;
+  padding: 8px;
+  background-color: #000000;
+  border-radius: 4px;
+}
+
+.like-button,
+.dislike-button {
+  padding: 4px 8px;
+  font-size: 0.9em;
+}

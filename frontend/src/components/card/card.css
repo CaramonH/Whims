@@ -32,10 +32,11 @@
 
 .like-dislike-container {
   position: absolute;
+  margin: auto;
   bottom: 16px;
   right: 16px;
   display: flex;
-  gap: 4px; /* space between like and dislike buttons */
+  column-gap: 30px; /* space between like and dislike buttons */
 }
 
 .location-container {
@@ -60,7 +61,7 @@
 .like-button,
 .dislike-button {
   padding: 4px 8px;
-  font-size: 0.9em;
+  font-size: 1.2em;
 }
 
 .card.--color-turq {

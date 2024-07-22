@@ -13,7 +13,7 @@ const likeDislike: React.FC = () => {
         icon={faThumbsUp}
         onClick={handleLike}
         className={`like-button ${userChoice === "like" ? "selected" : ""}`}
-        label={`Like (${likeCount})`}
+        label={` (${likeCount})`}
         disabled={false}
       />
       <Button
@@ -22,7 +22,7 @@ const likeDislike: React.FC = () => {
         className={`dislike-button ${
           userChoice === "dislike" ? "selected" : ""
         }`}
-        label={`Dislike (${dislikeCount})`}
+        label={` (${dislikeCount})`}
         disabled={false}
       />
     </div>

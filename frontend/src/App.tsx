@@ -1,12 +1,10 @@
 import React from "react";
-import Header from "./components/navigation/header";
-import Sidebar from "./components/navigation/sidebar";
+import Dashboard from "./components/routes/dashboard";
 
 const App = () => {
   return (
     <div className="app">
-      <Header />
-      <Sidebar />
+      <Dashboard />
     </div>
   );
 };

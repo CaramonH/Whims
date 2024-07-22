@@ -15,7 +15,6 @@ interface CardData {
   location: string;
 }
 
-//make sure formData correctly updates on user input
 const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
   const [formData, setFormData] = useState<CardData>({
     eventName: "",
@@ -29,7 +28,10 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
   };
 
   const handleSubmit = () => {
-    onSubmit(formData);
+    console.log("Form submitted with data:", formData); // Debug log
+    if (onSubmit) {
+      onSubmit(formData);
+    }
   };
 
   return (

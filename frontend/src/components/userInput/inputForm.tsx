@@ -28,12 +28,15 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
   };
 
   const handleSubmit = () => {
-    onSubmit(formData);
+    console.log("Form submitted with data:", formData); // Debug log
+    if (onSubmit) {
+      onSubmit(formData);
+    }
   };
 
   return (
     <div className="form-container">
-      <h2>Event Details</h2>
+      <h2>Create a Whim</h2>
 
       <Input
         placeholder="Event Name"

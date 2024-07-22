@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Button from "../general/button";
 import InputForm from "../userInput/inputForm";
-import Card from "../card/card";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import "./functional.css";
 
@@ -12,9 +11,13 @@ interface CardData {
   location: string;
 }
 
-const CreateCard: React.FC = () => {
+interface CreateCardProps {
+  onCreateCard: (cardData: CardData) => void;
+}
+
+export function CreateCard(Props: CreateCardProps) {
   const [showInputForm, setShowInputForm] = useState(false);
-  const [cards, setCards] = useState<CardData[]>([]);
+  console.log(Props);
 
   const handleCreateClick = () => {
     setShowInputForm(true);
@@ -25,7 +28,11 @@ const CreateCard: React.FC = () => {
   };
 
   const handleSubmit = (cardData: CardData) => {
-    setCards((prevCards) => [...prevCards, cardData]);
+    console.log("Submitting card data:", cardData, Props.onCreateCard); // Debug
+    if (Props.onCreateCard) {
+      Props.onCreateCard(cardData);
+      console.log("AHHHHH");
+    }
     setShowInputForm(false);
   };
 
@@ -51,18 +58,8 @@ const CreateCard: React.FC = () => {
           </div>
         </div>
       )}
-      <div className="cards-container">
-        {cards.map((card, index) => (
-          <Card
-            key={index}
-            eventName={card.eventName}
-            eventType={card.eventType}
-            location={card.location}
-          />
-        ))}
-      </div>
     </div>
   );
-};
+}
 
 export default CreateCard;

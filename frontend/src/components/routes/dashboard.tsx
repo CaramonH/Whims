@@ -21,7 +21,7 @@ const Dashboard: React.FC = () => {
   }
 
   function handleCreateClick() {
-    console.log("Create button clicked in Header"); // Debug log
+    console.log("Create button clicked"); // Debug log
   }
 
   console.log("Current cards:", cards); // Debug log
@@ -30,9 +30,11 @@ const Dashboard: React.FC = () => {
     <div className="dashboard">
       <Sidebar />
       <div className="dashboard-content">
-        <Header onCreateClick={handleCreateClick} />
+        <Header />
         <main className="main-content">
-          <CreateCard onCreateCard={handleCreateCard} />
+          <div className="create-card-container">
+            <CreateCard onCreateCard={handleCreateCard} />
+          </div>
           <div className="cards-container">
             {cards.map((card, index) => (
               <Card

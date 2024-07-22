@@ -1,9 +1,7 @@
-// CreateCard.tsx
 import React, { useState } from "react";
 import Button from "../general/button";
 import InputForm from "../userInput/inputForm";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
-import Header from "../navigation/header"; // Import Header
 import "./functional.css";
 
 interface CardData {
@@ -19,6 +17,7 @@ interface CreateCardProps {
 
 export function CreateCard(Props: CreateCardProps) {
   const [showInputForm, setShowInputForm] = useState(false);
+  console.log(Props);
 
   const handleCreateClick = () => {
     setShowInputForm(true);
@@ -29,15 +28,16 @@ export function CreateCard(Props: CreateCardProps) {
   };
 
   const handleSubmit = (cardData: CardData) => {
+    console.log("Submitting card data:", cardData, Props.onCreateCard); // Debug
     if (Props.onCreateCard) {
       Props.onCreateCard(cardData);
+      console.log("AHHHHH");
     }
     setShowInputForm(false);
   };
 
   return (
     <div className="create-card-container">
-      <Header onCreateClick={handleCreateClick} /> {/* Pass the function */}
       {!showInputForm ? (
         <Button
           icon={faPlus}

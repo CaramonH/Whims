@@ -1,19 +1,26 @@
+@import "../../App.css";
+
 .header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  background-color: #f0f0f0;
-  padding: 1rem 2rem;
+  background-color: var(--color-ui-white);
+  padding: 1rem 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .header-title {
-  margin-left: 50px;
+  margin-left: 20px;
   font-size: 1.5rem;
+  text-align: left;
+}
+
+.create-card-container {
+  align-items: flex-end;
+  margin-left: auto;
 }
 
 /*SIDEBAR STYLING*/
@@ -23,17 +30,22 @@
   top: 0;
   bottom: 0;
   width: 60px;
-  background-color: #333;
+  background-color: var(--color-ui-blue);
   transition: width 0.3s ease;
   overflow-x: hidden;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   z-index: 999;
+  box-shadow: 2px 0 4px rgba(0,88,182,0.8);
 }
 
 .sidebar.expanded {
   width: 200px;
+}
+
+.sidebar:not(.expanded) h1{
+  font-size: 1.5rem;
 }
 
 .sidebar-nav {
@@ -48,7 +60,7 @@
   display: flex;
   align-items: center;
   padding: 10px 20px;
-  color: white;
+  color: var(--color-ui-white);
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -59,7 +71,7 @@
 }
 
 .nav-item:hover {
-  background-color: #444;
+  background-color: var(--color-ui-dark-blue);
 }
 
 .nav-item svg {
@@ -78,7 +90,7 @@
 }
 
 .sidebar:not(.expanded) .nav-item {
-  justify-content: center;
+  justify-content: left;
 }
 
 .sidebar:not(.expanded) .nav-item svg {

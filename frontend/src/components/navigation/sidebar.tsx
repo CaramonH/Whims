@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./navigation.css";
 
-const Sidebar = () => {
+const Sidebar: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleExpand = (expanded: boolean) => {
@@ -27,6 +27,7 @@ const Sidebar = () => {
       onMouseEnter={() => handleExpand(true)}
       onMouseLeave={() => handleExpand(false)}
     >
+      <h1 className="header-title">{isExpanded ? "Whims" : "W"}</h1>
       <nav className="sidebar-nav">
         <div>
           <Button
@@ -34,6 +35,7 @@ const Sidebar = () => {
             onClick={handleHome}
             className="nav-item home-button"
             label="Home"
+            isExpanded={isExpanded}
           />
         </div>
         <div className="bottom-buttons">
@@ -42,18 +44,21 @@ const Sidebar = () => {
             onClick={handleSettings}
             className="nav-item"
             label="Settings"
+            isExpanded={isExpanded}
           />
           <Button
             icon={faUser}
             onClick={handleAccount}
             className="nav-item"
             label="Account"
+            isExpanded={isExpanded}
           />
           <Button
             icon={faSignOutAlt}
             onClick={handleLogout}
             className="nav-item"
             label="Logout"
+            isExpanded={isExpanded}
           />
         </div>
       </nav>

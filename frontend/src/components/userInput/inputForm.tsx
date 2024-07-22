@@ -15,6 +15,7 @@ interface CardData {
   location: string;
 }
 
+//make sure formData correctly updates on user input
 const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
   const [formData, setFormData] = useState<CardData>({
     eventName: "",
@@ -33,7 +34,7 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
 
   return (
     <div className="form-container">
-      <h2>Event Details</h2>
+      <h2>Create a Whim</h2>
 
       <Input
         placeholder="Event Name"

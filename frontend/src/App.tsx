@@ -1,10 +1,12 @@
 import React from "react";
-import CreateCard from "./components/functional/createCard";
+import Header from "./components/navigation/header";
+import Sidebar from "./components/navigation/sidebar";
 
 const App = () => {
   return (
     <div className="app">
-      <CreateCard />
+      <Header />
+      <Sidebar />
     </div>
   );
 };

@@ -3,6 +3,7 @@ import Button from "../general/button";
 import InputForm from "../userInput/inputForm";
 import Card from "../card/card";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import "./functional.css";
 
 interface CardData {
   eventName: string;

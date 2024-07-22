@@ -1,15 +1,12 @@
 import React from "react";
-import CreateCard from "../functional/createCard";
 import "./navigation.css";
 
-const Header = () => {
-  return (
-    <header className="header">
-      <div className="create-card-container">
-        <CreateCard />
-      </div>
-    </header>
-  );
+interface HeaderProps {
+  // Remove onCreateClick from HeaderProps
+}
+
+const Header: React.FC<HeaderProps> = () => {
+  return <header className="header">{/* No button here */}</header>;
 };
 
 export default Header;

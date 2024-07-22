@@ -1,0 +1,109 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #f0f0f0;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-title {
+  margin-left: 50px;
+  font-size: 1.5rem;
+}
+
+/*SIDEBAR STYLING*/
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  background-color: #333;
+  transition: width 0.3s ease;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
+}
+
+.sidebar.expanded {
+  width: 200px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px 0;
+  min-height: min-content;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  color: white;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+  width: 100%;
+  min-height: 44px; /* Ensure buttons are easy to tap on touch devices */
+}
+
+.nav-item:hover {
+  background-color: #444;
+}
+
+.nav-item svg {
+  margin-right: 15px;
+  width: 20px;
+  flex-shrink: 0;
+}
+
+.home-button {
+  margin-bottom: 20px;
+}
+
+.bottom-buttons {
+  margin-top: auto;
+  padding-top: 20px;
+}
+
+.sidebar:not(.expanded) .nav-item {
+  justify-content: center;
+}
+
+.sidebar:not(.expanded) .nav-item svg {
+  margin-right: 0;
+}
+
+.sidebar:not(.expanded) .nav-item span {
+  display: none;
+}
+
+@media (max-height: 600px) {
+  .sidebar-nav {
+    justify-content: space-between;
+  }
+
+  .home-button {
+    margin-bottom: 10px;
+  }
+
+  .bottom-buttons {
+    padding-top: 10px;
+  }
+
+  .nav-item {
+    padding: 8px 20px;
+    min-height: 36px;
+  }
+}

@@ -23,7 +23,7 @@
   --color-purp: #8332AC;
   --color-dark-purp: #3C174F;
   /* max-width: 1280px;  this limits the card space to 3*/
-  padding: 2rem;
+  /* padding: 2rem; This spawns an unnecessary scroll bar*/
   text-align: center;
 }
 

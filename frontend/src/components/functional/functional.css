@@ -70,3 +70,7 @@
   align-items: center;
   gap: 10px;
 }
+
+.like-button .dislike-button {
+  background: none;
+}

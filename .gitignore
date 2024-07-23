@@ -25,3 +25,4 @@ dist-ssr
 
 # Ignore the service account key file
 backend/serviceAccountKey.json
+frontend/src/firebaseConfig.ts

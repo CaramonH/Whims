@@ -6,10 +6,14 @@ import {
   faUser,
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import { getAuth, signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 import "./navigation.css";
 
 const Sidebar: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const navigate = useNavigate();
+  const auth = getAuth();
 
   const handleExpand = (expanded: boolean) => {
     setIsExpanded(expanded);
@@ -19,7 +23,14 @@ const Sidebar: React.FC = () => {
   const handleHome = () => console.log("Home clicked");
   const handleSettings = () => console.log("Settings clicked");
   const handleAccount = () => console.log("Account clicked");
-  const handleLogout = () => console.log("Logout clicked");
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate('/login');
+    } catch (error) {
+      console.error("Error logging out", error);
+    }
+  };
 
   return (
     <div

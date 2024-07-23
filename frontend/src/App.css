@@ -20,10 +20,9 @@
   --color-dark-red: #911234;
   --color-ind: #B53387;
   --color-dark-ind: #5F1B47;
-  --color-prup: #8332AC;
+  --color-purp: #8332AC;
   --color-dark-purp: #3C174F;
   max-width: 1280px;
-  margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }

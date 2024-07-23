@@ -1,7 +1,12 @@
 import React from "react";
+import "./navigation.css";
 
-const header = () => {
-  return <div>header</div>;
+interface HeaderProps {
+  // Remove onCreateClick from HeaderProps
+}
+
+const Header: React.FC<HeaderProps> = () => {
+  return <header className="header">{/* No button here */}</header>;
 };
 
-export default header;
+export default Header;

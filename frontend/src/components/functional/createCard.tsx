@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import Button from "../general/button";
 import InputForm from "../userInput/inputForm";
 import "./functional.css";

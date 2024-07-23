@@ -1,8 +1,9 @@
 .dashboard {
   position: relative;
   height: 100vh;
-  width: 100vw;
-  overflow: hidden;
+  /* width: 100vw;
+  overflow-x: hidden;
+  overflow-y: auto;  these mess with the formatting of the cards on the dashboard*/
   background-color: var(--color-ui-black);
 }
 
@@ -18,7 +19,7 @@
 
 .main-content {
   padding: 20px;
-  height: calc(100vh - 60px);
+  /* height: calc(100vh - 60px); adds an additional scrollbar when screen size is limited*/
   overflow-y: auto;
 }
 

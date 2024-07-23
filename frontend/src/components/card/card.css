@@ -14,6 +14,7 @@
   text-align: center;
   margin-top: 50px;
   color: var(--color-ui-black);
+  overflow-wrap: break-word;
 }
 
 .event-type-icon {
@@ -40,10 +41,14 @@
 .like-button,
 .dislike-button {
   margin: 8px;
-  font-size: 1em;
+  font-size: 1.2em;
   background: none;
   padding: 6px;
   color: var(--color-ui-black);
+}
+
+.like-button:hover, .dislike-button:hover {
+  opacity: 0.8;
 }
 
 .location-container {

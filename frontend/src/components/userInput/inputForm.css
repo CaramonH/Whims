@@ -1,13 +1,15 @@
+@import '../../App.css';
+
 .screen-sized-card {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f0f0f0;
+  background-color: var(--color-ui-white);
 }
 
 .form-container {
-  background-color: white;
+  background-color: var(--color-ui-white);
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -18,12 +20,38 @@
 h2 {
   margin-bottom: 1.5rem;
   text-align: center;
+  color: var(--color-ui-black);
 }
 
-.input, .dropdown {
-  width: 100%;
+.input {
+  border: none;
+  color: var(--color-ui-black);
+  border-bottom: 2px solid var(--color-ui-blue);
+  width: 87.6%;
   margin-bottom: 1rem;
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  background-color: transparent;
+  outline: none;
+}
+
+.dropdown {
+  border-radius: 8px;
+  color: var(--color-ui-black);
+  border: 2px solid var(--color-ui-blue);
+  width: 90%;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
   border-radius: 4px;
+  background-color: transparent;
+}
+
+.submit-button {
+  position: absolute;
+  background-color: var(--color-ui-green);
+  bottom: 10px;
+  right: 10px;
+}
+
+.submit-button:hover, .input:hover, .dropdown:hover {
+  opacity: 0.8;
 }

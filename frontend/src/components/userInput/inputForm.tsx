@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Input from "../general/input";
 import Dropdown from "../general/dropdown";
 import Button from "../general/button";
+import "./inputForm.css"
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 interface InputFormProps {
@@ -35,9 +36,8 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <div className="form-container">
+    <>
       <h2>Create a Whim</h2>
-
       <Input
         placeholder="Event Name"
         onChange={handleInputChange("eventName")}
@@ -45,9 +45,7 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
       />
 
       <Dropdown onChange={handleInputChange("eventType")} className="event" />
-
       <Dropdown onChange={handleInputChange("cost")} className="cost" />
-
       <Input
         placeholder="Location"
         onChange={handleInputChange("location")}
@@ -60,7 +58,7 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
         className="submit-button"
         label="Submit"
       />
-    </div>
+    </>
   );
 };
 

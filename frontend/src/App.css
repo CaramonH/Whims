@@ -22,7 +22,7 @@
   --color-dark-ind: #5F1B47;
   --color-purp: #8332AC;
   --color-dark-purp: #3C174F;
-  max-width: 1280px;
+  /* max-width: 1280px;  this limits the card space to 3*/
   padding: 2rem;
   text-align: center;
 }

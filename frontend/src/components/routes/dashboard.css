@@ -18,6 +18,7 @@
 }
 
 .main-content {
+  /* padding-top: 40px;*/
   padding: 20px;
   /* height: calc(100vh - 60px); adds an additional scrollbar when screen size is limited*/
   overflow-y: auto;

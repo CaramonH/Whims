@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Sidebar from "../navigation/sidebar";
 import Header from "../navigation/header";
-import { CreateCard } from "../functional/createCard";
 import Card from "../card/card";
 import "./dashboard.css";
 
@@ -20,21 +19,14 @@ const Dashboard: React.FC = () => {
     setCards((prevCards) => [...prevCards, cardData]);
   }
 
-  function handleCreateClick() {
-    console.log("Create button clicked"); // Debug log
-  }
-
   console.log("Current cards:", cards); // Debug log
 
   return (
     <div className="dashboard">
       <Sidebar />
       <div className="dashboard-content">
-        <Header />
+        <Header onCreateCard={handleCreateCard} />
         <main className="main-content">
-          <div className="create-card-container">
-            <CreateCard onCreateCard={handleCreateCard} />
-          </div>
           <div className="cards-container">
             {cards.map((card, index) => (
               <Card

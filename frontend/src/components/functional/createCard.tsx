@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "../general/button";
 import InputForm from "../userInput/inputForm";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -14,50 +14,31 @@ interface CardData {
 
 interface CreateCardProps {
   onCreateCard: (cardData: CardData) => void;
+  onCloseForm: () => void;
 }
 
-export function CreateCard(Props: CreateCardProps) {
-  const [showInputForm, setShowInputForm] = useState(false);
-  console.log(Props);
-
-  const handleCreateClick = () => {
-    setShowInputForm(true);
-  };
-
-  const handleCloseForm = () => {
-    setShowInputForm(false);
-  };
-
+export function CreateCard({ onCreateCard, onCloseForm }: CreateCardProps) {
   const handleSubmit = (cardData: CardData) => {
+    if (onCreateCard) {
+      onCreateCard(cardData);
     console.log("Submitting card data:", cardData, Props.onCreateCard); // Debug
     if (Props.onCreateCard) {
       Props.onCreateCard(cardData);
     }
-    setShowInputForm(false);
+    onCloseForm();
   };
 
   return (
-    <div className="create-card-container">
-      {!showInputForm ? (
+    <div className="input-form-overlay">
+      <div className="input-form-wrapper">
+        <InputForm onSubmit={handleSubmit} />
         <Button
-          icon={faPlus}
-          onClick={handleCreateClick}
-          className="create-button"
-          label="Create New Event"
+          icon={faCancel}
+          onClick={onCloseForm}
+          className="close-button"
+          label="Close"
         />
-      ) : (
-        <div className="input-form-overlay">
-          <div className="input-form-wrapper">
-            <InputForm onSubmit={handleSubmit} />
-            <Button
-              icon={faCancel}
-              onClick={handleCloseForm}
-              className="close-button"
-              label="Close"
-            />
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 }

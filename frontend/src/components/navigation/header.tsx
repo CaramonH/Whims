@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { CreateCard } from "../functional/createCard";
 import Button from "../general/button";
+import Sorting from "../functional/sorting";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import "./navigation.css";
 
@@ -28,6 +29,9 @@ const Header: React.FC<HeaderProps> = ({ onCreateCard }) => {
 
   return (
     <header className="header">
+      <div className="header-left">
+        <Sorting />
+      </div>
       <div className="create-card-container">
         {!showInputForm ? (
           <Button

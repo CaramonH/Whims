@@ -1,5 +1,8 @@
 @import "../../App.css";
 
+/*HEADER STYLING*/
+/*HEADER STYLING*/
+/*HEADER STYLING*/
 .header {
   position: fixed;
   top: 0;
@@ -19,11 +22,20 @@
   color: var(--color-ui-white);
 }
 
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 55px;
+}
+
 .create-card-container {
   align-items: flex-end;
   margin-left: auto;
 }
 
+/*SIDEBAR STYLING*/
+/*SIDEBAR STYLING*/
 /*SIDEBAR STYLING*/
 .sidebar {
   position: fixed;

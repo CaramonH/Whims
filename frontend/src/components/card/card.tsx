@@ -1,6 +1,6 @@
 import React from "react";
 import LikeDislike from "../functional/likeDislike";
-import CardText from "./cardText";
+// import CardText from "./cardText";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import {

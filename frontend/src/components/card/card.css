@@ -40,7 +40,7 @@
 .like-button,
 .dislike-button {
   margin: 8px;
-  font-size: 1em;
+  font-size: 1.2em;
   background: none;
   padding: 6px;
   color: var(--color-ui-black);

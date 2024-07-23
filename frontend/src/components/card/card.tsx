@@ -59,9 +59,11 @@ const Card: React.FC<CardProps> = ({ eventName, eventType, location }) => {
     }
   };
 
+  const truncatedEventName = eventName.length > 70 ? eventName.slice(0, 70) + "..." : eventName;
+
   return (
     <div className={`card ${randomColor}`}>
-      <h1 className="card-title">{eventName}</h1>
+      <h1 className="card-title">{truncatedEventName}</h1>
       <div className="event-type-icon">
         <FontAwesomeIcon icon={getEventIcon(eventType)} />
       </div>
@@ -71,7 +73,7 @@ const Card: React.FC<CardProps> = ({ eventName, eventType, location }) => {
       <div className="card-text-container">
         {/* <CardText
           text={eventType.charAt(0).toUpperCase() + eventType.slice(1)}
-        />  the Event Icons*/}
+        />  the Event Icons */ /*This displays the text of the icon and not the text inputted by the user*/}
       </div>
       <div className="location-container">{location}</div>
     </div>

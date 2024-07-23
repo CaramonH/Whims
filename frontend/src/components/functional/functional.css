@@ -1,17 +1,18 @@
+@import '../../App.css';
+
 .create-card-container {
   position: relative;
 }
 
 .create-button {
   padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
+  background-color: var(--color-ui-blue);
+  color: var(--color-ui-white);
   border: none;
   border-radius: 5px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 10px;
 }
 
 .input-form-overlay {
@@ -27,44 +28,29 @@
 }
 
 .input-form-wrapper {
-  background-color: white;
+  width: 600px;
+  height: 600px;
+  background-color: var(--color-ui-white);
   padding: 20px;
   border-radius: 10px;
   position: relative;
 }
 
-.cancel-button {
+.close-button {
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+  background-color: var(--color-dark-red);
 }
+
+.close-button:hover, .create-button:hover {
+  opacity: 0.8;
+}
+
 
 .cards-container {
   display: flex;
   flex-wrap: wrap;
-}
-
-.submit-button {
-  margin-top: 10px;
-  padding: 10px 20px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 /* .like-button .dislike-button {

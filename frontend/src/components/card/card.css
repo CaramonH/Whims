@@ -47,6 +47,10 @@
   color: var(--color-ui-black);
 }
 
+.like-button:hover, .dislike-button:hover {
+  opacity: 0.8;
+}
+
 .location-container {
   position: absolute;
   bottom: 16px;

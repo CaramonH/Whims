@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "../general/button";
 import InputForm from "../userInput/inputForm";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import "./functional.css";
 import { faCancel } from "@fortawesome/free-solid-svg-icons/faCancel";
 
@@ -21,10 +20,8 @@ export function CreateCard({ onCreateCard, onCloseForm }: CreateCardProps) {
   const handleSubmit = (cardData: CardData) => {
     if (onCreateCard) {
       onCreateCard(cardData);
-    console.log("Submitting card data:", cardData, Props.onCreateCard); // Debug
-    if (Props.onCreateCard) {
-      Props.onCreateCard(cardData);
     }
+    console.log("Submitting card data:", cardData); // Debug
     onCloseForm();
   };
 

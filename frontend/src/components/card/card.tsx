@@ -69,9 +69,9 @@ const Card: React.FC<CardProps> = ({ eventName, eventType, location }) => {
         <LikeDislike />
       </div>
       <div className="card-text-container">
-        <CardText
+        {/* <CardText
           text={eventType.charAt(0).toUpperCase() + eventType.slice(1)}
-        />
+        />  the Event Icons*/}
       </div>
       <div className="location-container">{location}</div>
     </div>

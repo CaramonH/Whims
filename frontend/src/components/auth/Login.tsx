@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
-// import './Login.css';
+import './Login.css';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -44,16 +44,18 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className='login-div'>
       <h1>{isRegistering ? 'Register' : 'Login'}</h1>
-      <div className="inputContainer">
+      <div className="login-input-container">
         <input
+          className='login-input'
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
+          className='login-input'
           type="password"
           placeholder="Password"
           value={password}
@@ -61,11 +63,11 @@ const Login: React.FC = () => {
         />
       </div>
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-      <div className="buttonContainer">
-        <button onClick={isRegistering ? handleRegister : handleLogin}>
+      <div className="login-button-container">
+        <button className='login-button' onClick={isRegistering ? handleRegister : handleLogin}>
           {isRegistering ? 'Register' : 'Login'}
         </button>
-        <button onClick={toggleRegistering}>
+        <button className='login-button' onClick={toggleRegistering}>
           {isRegistering ? 'Already have an account? Login' : 'Create an account'}
         </button>
       </div>

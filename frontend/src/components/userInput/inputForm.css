@@ -34,12 +34,22 @@ h2 {
   outline: none;
 }
 
+.input-form-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.event{
+  margin-bottom: 16px;
+}
+
 .dropdown {
   border-radius: 8px;
   color: var(--color-ui-black);
   border: 2px solid var(--color-ui-blue);
   width: 90%;
-  margin-bottom: 1rem;
   padding: 0.5rem;
   border-radius: 4px;
   background-color: transparent;

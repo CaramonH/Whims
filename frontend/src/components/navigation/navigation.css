@@ -22,15 +22,19 @@
   color: var(--color-ui-white);
 }
 
-.header-left {
+.header-sorting {
   display: flex;
   align-items: center;
+  justify-content: center;
+  justify-items: space-between;
   gap: 10px;
-  margin-left: 55px;
+  margin-left: auto;
 }
 
 .create-card-container {
+  display: flex;
   align-items: flex-end;
+  justify-content: center;
   margin-left: auto;
 }
 

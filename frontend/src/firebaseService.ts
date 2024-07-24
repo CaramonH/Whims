@@ -1,17 +1,21 @@
 // firebaseService.ts
 import { firestore } from './firebaseConfig';
-import { doc, setDoc, getDocs, collection } from 'firebase/firestore';
+import { addDoc, getDocs, collection } from 'firebase/firestore';
 
 // Function to create a whim
-export const createWhim = async (groupId: string, whimId: string, whimData: any) => {
+export const createWhim = async (whimData: any) => {
   try {
-    const whimRef = doc(firestore, `groups/${groupId}/whims/${whimId}`);
-    await setDoc(whimRef, whimData);
-    console.log("Whim created successfully.");
+    const whimRef = await addDoc(collection(firestore, 'whims'), whimData);
+    console.log(`Whim created successfully with ID: ${whimRef.id}`);
   } catch (error) {
     console.error("Error creating whim:", error);
   }
 };
+// I've messed with this^ one, but not getWhims yet
+// it doesn't work though
+// I wonder how addDoc works, how does it know what database to push to?
+// ^a question I'm only writing down to use as a starting point for
+//  when I get back to this later
 
 // Function to get whims for a group
 export const getWhims = async (groupId: string) => {

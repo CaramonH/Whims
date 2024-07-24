@@ -75,3 +75,30 @@
 
 }
 
+/*GROUPS STYLING*/
+/*GROUPS STYLING*/
+/*GROUPS STYLING*/
+.group-code-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.group-code {
+  font-size: 24px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.copy-icon {
+  color: #888;
+}
+
+.copy-success {
+  color: green;
+  margin-top: 10px;
+}

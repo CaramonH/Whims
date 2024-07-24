@@ -14,20 +14,22 @@ const Sorting: React.FC = () => {
   };
 
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+    <div className="filter-div">
       <Button
         icon={faEnvelope}
         onClick={handleUnreadClick}
-        label=" Unread"
+        label="  Unread"
+        className="unread-btn"
         isExpanded={true}
       />
       <Button
         icon={faClock}
         onClick={handleNewestClick}
-        label=" Newest"
+        label="  Newest"
+        className="newest-btn"
         isExpanded={true}
       />
-      <Dropdown className="event" />
+      <Dropdown className="event-sorting" />
     </div>
   );
 };

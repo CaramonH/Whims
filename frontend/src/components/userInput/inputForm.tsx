@@ -38,26 +38,28 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
   return (
     <>
       <h2>Create a Whim</h2>
-      <Input
-        placeholder="Event Name"
-        onChange={handleInputChange("eventName")}
-        className="event-name-input"
-      />
+      <div className="input-form-div">
+        <Input
+          placeholder="Event Name"
+          onChange={handleInputChange("eventName")}
+          className="event-name-input"
+        />
 
-      <Dropdown onChange={handleInputChange("eventType")} className="event" />
-      <Dropdown onChange={handleInputChange("cost")} className="cost" />
-      <Input
-        placeholder="Location"
-        onChange={handleInputChange("location")}
-        className="location-input"
-      />
+        <Dropdown onChange={handleInputChange("eventType")} className="event" />
+        <Dropdown onChange={handleInputChange("cost")} className="cost" />
+        <Input
+          placeholder="Location"
+          onChange={handleInputChange("location")}
+          className="location-input"
+        />
 
-      <Button
-        icon={faCheck}
-        onClick={handleSubmit}
-        className="submit-button"
-        label="Submit"
-      />
+        <Button
+          icon={faCheck}
+          onClick={handleSubmit}
+          className="submit-button"
+          label="Submit"
+        />
+      </div>
     </>
   );
 };

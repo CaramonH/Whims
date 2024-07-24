@@ -1,6 +1,6 @@
 .dashboard {
   position: relative;
-  height: 100vh;
+  z-index: 0;
   /* width: 100vw;
   overflow-x: hidden;
   overflow-y: auto;  these mess with the formatting of the cards on the dashboard*/
@@ -8,7 +8,8 @@
 }
 
 .dashboard-content {
-  margin-left: 60px; /* Width of the collapsed sidebar */
+  margin-top: 120px;
+  margin-left: 120px; /* Width of the collapsed sidebar */
   transition: margin-left 0.3s ease;
 }
 
@@ -19,13 +20,14 @@
 
 .main-content {
   /* padding-top: 40px;*/
-  padding: 20px;
-  /* height: calc(100vh - 60px); adds an additional scrollbar when screen size is limited*/
+  /* padding: 20px; */
+  /* height: calc(100vh - 60px); adds an additional scrollbar when screen size is limited */
   overflow-y: auto;
 }
 
 /* keep cards cleanly displayed */
 .cards-container {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
 }

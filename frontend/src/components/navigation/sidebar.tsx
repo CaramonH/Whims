@@ -39,7 +39,7 @@ const Sidebar: React.FC = () => {
   const handleCreateGroup = () => {
     setGroups((prevGroups) => [...prevGroups, prevGroups.length]);
   };
-
+  /*this creates an index of group icons that populate in the sidebar*/
   const handleGroupClick = (index: number) => {
     console.log(`Group ${index} clicked`);
   };

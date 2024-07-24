@@ -1,27 +1,30 @@
-import { database } from './firebaseConfig';
-import { ref, set, get } from "firebase/database";
+// firebaseService.ts
+import { firestore } from './firebaseConfig';
+import { doc, setDoc, getDocs, collection } from 'firebase/firestore';
 
 // Function to create a whim
-export const createWhim = (groupId: string, whimId: string, whimData: any) => {
-  return set(ref(database, `groups/${groupId}/whims/${whimId}`), whimData)
-    .then(() => {
-      console.log("Whim created successfully.");
-    })
-    .catch((error) => {
-      console.error("Error creating whim:", error);
-    });
+export const createWhim = async (groupId: string, whimId: string, whimData: any) => {
+  try {
+    const whimRef = doc(firestore, `groups/${groupId}/whims/${whimId}`);
+    await setDoc(whimRef, whimData);
+    console.log("Whim created successfully.");
+  } catch (error) {
+    console.error("Error creating whim:", error);
+  }
 };
 
 // Function to get whims for a group
 export const getWhims = async (groupId: string) => {
-  const whimsRef = ref(database, `groups/${groupId}/whims`);
   try {
-    const snapshot = await get(whimsRef);
-    if (snapshot.exists()) {
-      return snapshot.val();
-    } else {
+    const whimsRef = collection(firestore, `groups/${groupId}/whims`);
+    const querySnapshot = await getDocs(whimsRef);
+    
+    if (querySnapshot.empty) {
       console.log("No whims available.");
       return null;
+    } else {
+      const whims = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      return whims;
     }
   } catch (error) {
     console.error("Error reading whims:", error);

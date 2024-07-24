@@ -1,6 +1,6 @@
+// Card.tsx
 import React from "react";
 import LikeDislike from "../functional/likeDislike";
-// import CardText from "./cardText";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -13,6 +13,7 @@ import {
   faQuestionCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import "./card.css";
+import { createWhim } from '../../firebaseService'; // Import the createWhim function
 
 const colorVariables: string[] = [
   "--color-turq",
@@ -25,7 +26,6 @@ const colorVariables: string[] = [
   "--color-purp",
 ];
 
-// Define the function with a return type of string
 const getRandomColor = (): string => {
   const randomIndex: number = Math.floor(Math.random() * colorVariables.length);
   return colorVariables[randomIndex];
@@ -35,9 +35,11 @@ interface CardProps {
   eventName: string;
   eventType: string;
   location: string;
+  groupId: string;  // Added groupId to identify the group where the whim will be created
+  whimId: string;   // Added whimId to uniquely identify the whim
 }
 
-const Card: React.FC<CardProps> = ({ eventName, eventType, location }) => {
+const Card: React.FC<CardProps> = ({ eventName, eventType, location, groupId, whimId }) => {
   const randomColor: string = getRandomColor();
 
   const getEventIcon = (type: string): IconProp => {
@@ -61,6 +63,23 @@ const Card: React.FC<CardProps> = ({ eventName, eventType, location }) => {
 
   const truncatedEventName = eventName.length > 70 ? eventName.slice(0, 70) + "..." : eventName;
 
+  // Function to handle adding the card to Firebase
+  const handleAddWhim = () => {
+    const whimData = {
+      eventName,
+      eventType,
+      location,
+    };
+
+    createWhim(groupId, whimId, whimData)
+      .then(() => {
+        console.log("Whim added successfully!");
+      })
+      .catch((error) => {
+        console.error("Error adding whim:", error);
+      });
+  };
+
   return (
     <div className={`card ${randomColor}`}>
       <h1 className="card-title">{truncatedEventName}</h1>
@@ -73,9 +92,13 @@ const Card: React.FC<CardProps> = ({ eventName, eventType, location }) => {
       <div className="card-text-container">
         {/* <CardText
           text={eventType.charAt(0).toUpperCase() + eventType.slice(1)}
-        />  the Event Icons */ /*This displays the text of the icon and not the text inputted by the user*/}
+        />  */}
       </div>
       <div className="location-container">{location}</div>
+      {/* Button to add the card as a whim */}
+      <button onClick={handleAddWhim} className="add-whim-button">
+        Add to Whims
+      </button>
     </div>
   );
 };

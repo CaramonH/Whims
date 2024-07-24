@@ -2,12 +2,12 @@ import React from "react";
 import Button from "../general/button";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
-interface CreateGroupButtonProps {
+interface GroupOptionsButton {
   isExpanded: boolean;
   onClick: () => void;
 }
 
-const CreateGroup: React.FC<CreateGroupButtonProps> = ({
+const CreateGroupOptions: React.FC<GroupOptionsButton> = ({
   isExpanded,
   onClick,
 }) => {
@@ -16,10 +16,10 @@ const CreateGroup: React.FC<CreateGroupButtonProps> = ({
       icon={faPlusCircle}
       onClick={onClick}
       className="nav-item create-group-button"
-      label="Create Group"
+      label="Create / Join"
       isExpanded={isExpanded}
     />
   );
 };
 
-export default CreateGroup;
+export default CreateGroupOptions;

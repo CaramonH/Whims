@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Button from "../general/button";
-import CreateGroup from "../functional/createGroup";
+import CreateGroup from "../functional/createGroupOptions";
 import GroupButton from "../functional/group";
 import {
   faHome,

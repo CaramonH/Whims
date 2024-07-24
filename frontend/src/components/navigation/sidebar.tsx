@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Button from "../general/button";
+import CreateGroup from "../functional/createGroup";
+import GroupButton from "../functional/group";
 import {
   faHome,
   faCog,
@@ -12,6 +14,7 @@ import "./navigation.css";
 
 const Sidebar: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [groups, setGroups] = useState<number[]>([]);
   const navigate = useNavigate();
   const auth = getAuth();
 
@@ -26,10 +29,19 @@ const Sidebar: React.FC = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigate('/login');
+      navigate("/login");
     } catch (error) {
       console.error("Error logging out", error);
     }
+  };
+
+  /*add code to create codes and joinable groups in the backend*/
+  const handleCreateGroup = () => {
+    setGroups((prevGroups) => [...prevGroups, prevGroups.length]);
+  };
+
+  const handleGroupClick = (index: number) => {
+    console.log(`Group ${index} clicked`);
   };
 
   return (
@@ -49,6 +61,14 @@ const Sidebar: React.FC = () => {
             isExpanded={isExpanded}
           />
         </div>
+        <CreateGroup isExpanded={isExpanded} onClick={handleCreateGroup} />
+        {groups.map((group, index) => (
+          <GroupButton
+            key={index}
+            isExpanded={isExpanded}
+            onClick={() => handleGroupClick(index)}
+          />
+        ))}
         <div className="bottom-buttons">
           <Button
             icon={faCog}

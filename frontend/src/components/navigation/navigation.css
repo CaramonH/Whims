@@ -98,6 +98,14 @@
   flex-shrink: 0;
 }
 
+.create-group-button {
+  margin-bottom: 20px;
+}
+
+.group-button {
+  margin-bottom: 10px;
+}
+
 .home-button {
   margin-bottom: 20px;
 }
@@ -137,3 +145,4 @@
     min-height: 36px;
   }
 }
+

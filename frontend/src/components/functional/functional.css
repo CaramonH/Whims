@@ -14,6 +14,8 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 12em;
 }
 
 .input-form-overlay {
@@ -39,22 +41,37 @@
 
 .close-button {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  bottom: 10px;
+  left: 10px;
   background-color: var(--color-dark-red);
 }
 
-.close-button:hover, .create-button:hover {
+.close-button:hover, .create-button:hover, .unread-btn:hover, .newest-btn:hover {
   opacity: 0.8;
 }
-
 
 .cards-container {
   display: flex;
   flex-wrap: wrap;
 }
 
-/* .like-button .dislike-button {
-  background: none;
-  font-size: 1.5em;
-} removing redundent styling*/
+/* FILTERS */
+.filter-div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  justify-items: center;
+}
+
+.unread-btn {
+  width: 12em;
+  font-size: 0.8em;
+}
+
+.newest-btn {
+  width: 12em;
+  font-size: 0.8em;
+
+}
+

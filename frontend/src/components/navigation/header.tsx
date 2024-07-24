@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ onCreateCard }) => {
 
   return (
     <header className="header">
-      <div className="header-left">
+      <div className="header-sorting">
         <Sorting />
       </div>
       <div className="create-card-container">

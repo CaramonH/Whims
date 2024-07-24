@@ -23,38 +23,42 @@
   --color-purp: #8332AC;
   --color-dark-purp: #3C174F;
   /* max-width: 1280px;  this limits the card space to 3*/
-  /* padding: 2rem; This spawns an unnecessary scroll bar*/
+  padding: 2rem;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+div {
+  margin: auto;
+  /* width: 70vh; */
+  padding: 10px;
+  background-color: var(--color-ui-blue);
+  border-radius: 15px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.inputContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+input {
+  background-color: var(--color-ui-blue);
+  border: 2px solid var(--color-ui-white);
+  border-radius: 5px;
+  padding: 3px;
+  margin: 0px 5px;
+  font-size: 1em;
+}
+input:focus {
+  outline: 1px solid var(--color-ui-white);
+  /* background-color: var(--color-ui-dark-blue); */
 }
 
-.read-the-docs {
-  color: #888;
+button {
+  margin: 0px 5px;
+}
+button:hover {
+  background-color: var(--color-ui-white);
+  color: var(--color-ui-black);
 }

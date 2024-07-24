@@ -24,14 +24,26 @@ h2 {
 }
 
 .input {
-  border: none;
+  border-radius: 8px;
   color: var(--color-ui-black);
-  border-bottom: 2px solid var(--color-ui-blue);
-  width: 87.6%;
-  margin-bottom: 1rem;
+  border: 2px solid var(--color-ui-blue);
+  width: 87%;
+  margin: 1rem;
   padding: 0.5rem;
   background-color: transparent;
   outline: none;
+  z-index: 2;
+}
+
+.input-form-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.event{
+  margin-bottom: 16px;
 }
 
 .dropdown {
@@ -39,9 +51,7 @@ h2 {
   color: var(--color-ui-black);
   border: 2px solid var(--color-ui-blue);
   width: 90%;
-  margin-bottom: 1rem;
   padding: 0.5rem;
-  border-radius: 4px;
   background-color: transparent;
 }
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Button from "../general/button";
-import CreateGroup from "../functional/createGroupOptions";
+import CreateGroupOptions from "../functional/createGroupOptions";
 import GroupButton from "../functional/group";
 import {
   faHome,
@@ -14,7 +14,7 @@ import "./navigation.css";
 
 const Sidebar: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [groups, setGroups] = useState<number[]>([]);
+  const [groups, setGroups] = useState<string[]>([]);
   const navigate = useNavigate();
   const auth = getAuth();
 
@@ -35,13 +35,16 @@ const Sidebar: React.FC = () => {
     }
   };
 
-  /*add code to create codes and joinable groups in the backend*/
-  const handleCreateGroup = () => {
-    setGroups((prevGroups) => [...prevGroups, prevGroups.length]);
+  // managing groups //
+  const handleCreateGroup = (groupCode: string) => {
+    // send it to a server here
+    console.log(`Group created with code: ${groupCode}`);
   };
-  /*this creates an index of group icons that populate in the sidebar*/
-  const handleGroupClick = (index: number) => {
-    console.log(`Group ${index} clicked`);
+  const handleJoinGroup = (groupCode: string) => {
+    setGroups((prevGroups) => [...prevGroups, groupCode]);
+  };
+  const handleGroupClick = (groupCode: string) => {
+    console.log(`Group ${groupCode} clicked`);
   };
 
   return (
@@ -61,12 +64,17 @@ const Sidebar: React.FC = () => {
             isExpanded={isExpanded}
           />
         </div>
-        <CreateGroup isExpanded={isExpanded} onClick={handleCreateGroup} />
-        {groups.map((group, index) => (
+        <CreateGroupOptions
+          isExpanded={isExpanded}
+          onCreateGroup={handleCreateGroup}
+          onJoinGroup={handleJoinGroup}
+        />
+        {groups.map((groupCode) => (
           <GroupButton
-            key={index}
+            key={groupCode}
             isExpanded={isExpanded}
-            onClick={() => handleGroupClick(index)}
+            onClick={() => handleGroupClick(groupCode)}
+            groupCode={groupCode}
           />
         ))}
         <div className="bottom-buttons">

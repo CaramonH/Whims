@@ -13,7 +13,7 @@ import {
   faQuestionCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import "./card.css";
-import { createWhim } from '../../firebaseService'; // Import the createWhim function
+// import { createWhim } from '../../firebaseService'; // Import the createWhim function
 
 const colorVariables: string[] = [
   "--color-turq",
@@ -36,10 +36,9 @@ interface CardProps {
   eventType: string;
   location: string;
   groupId: string;  // Added groupId to identify the group where the whim will be created
-  whimId: string;   // Added whimId to uniquely identify the whim
 }
 
-const Card: React.FC<CardProps> = ({ eventName, eventType, location, groupId, whimId }) => {
+const Card: React.FC<CardProps> = ({ eventName, eventType, location, groupId}) => {
   const randomColor: string = getRandomColor();
 
   const getEventIcon = (type: string): IconProp => {
@@ -64,21 +63,21 @@ const Card: React.FC<CardProps> = ({ eventName, eventType, location, groupId, wh
   const truncatedEventName = eventName.length > 70 ? eventName.slice(0, 70) + "..." : eventName;
 
   // Function to handle adding the card to Firebase
-  const handleAddWhim = () => {
-    const whimData = {
-      eventName,
-      eventType,
-      location,
-    };
+  // const handleAddWhim = () => {
+  //   const whimData = {
+  //     eventName,
+  //     eventType,
+  //     location,
+  //   };
 
-    createWhim(groupId, whimId, whimData)
-      .then(() => {
-        console.log("Whim added successfully!");
-      })
-      .catch((error) => {
-        console.error("Error adding whim:", error);
-      });
-  };
+  //   createWhim(whimData)
+  //     .then(() => {
+  //       console.log("Whim added successfully!");
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error adding whim:", error);
+  //     });
+  // };
 
   return (
     <div className={`card ${randomColor}`}>
@@ -95,10 +94,11 @@ const Card: React.FC<CardProps> = ({ eventName, eventType, location, groupId, wh
         />  */}
       </div>
       <div className="location-container">{location}</div>
-      {/* Button to add the card as a whim */}
+      {/* Button to add the card as a whim
       <button onClick={handleAddWhim} className="add-whim-button">
         Add to Whims
       </button>
+      */}
     </div>
   );
 };

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Sidebar from "../navigation/sidebar";
 import Header from "../navigation/header";
 import Card from "../card/card";
-import { getWhims } from "../../firebaseService";
 import "./dashboard.css";
+import { getWhims } from "../../firebaseService";
 
 interface CardData {
   eventName: string;
@@ -15,27 +15,10 @@ interface CardData {
 const Dashboard: React.FC = () => {
   const [cards, setCards] = useState<CardData[]>([]);
 
-  useEffect(() => {
-    const fetchWhims = async () => {
-      const whimsData = await getWhims();
-      if (whimsData) {
-        // Convert whims data to match CardData structure if needed
-        const formattedWhims = whimsData.map((whim) => ({
-          eventName: whim.eventName,
-          eventType: whim.eventType,
-          cost: whim.cost || "N/A", // Assuming whims have a cost field
-          location: whim.location,
-        }));
-        setCards(formattedWhims);
-      }
-    };
-
-    fetchWhims();
-  }, []);
-
   function handleCreateCard(cardData: CardData) {
     console.log("Creating card:", cardData); // Debug log
-    setCards((prevCards) => [...prevCards, cardData]);
+    // setCards((prevCards) => [...prevCards, cardData]);
+    setCards(getWhims());
   }
 
   console.log("Current cards:", cards); // Debug log

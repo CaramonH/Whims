@@ -11,23 +11,18 @@ export const createWhim = async (whimData: any) => {
     console.error("Error creating whim:", error);
   }
 };
-// I've messed with this^ one, but not getWhims yet
-// it doesn't work though
-// I wonder how addDoc works, how does it know what database to push to?
-// ^a question I'm only writing down to use as a starting point for
-//  when I get back to this later
 
-// Function to get whims for a group
-export const getWhims = async (groupId: string) => {
+// Function to get all whims (would need to be based on user)
+export const getWhims = async () => {
   try {
-    const whimsRef = collection(firestore, `groups/${groupId}/whims`);
-    const querySnapshot = await getDocs(whimsRef);
+    const whimsRef = collection(firestore, 'whims');
+    const whimsSnapshot = await getDocs(whimsRef);
     
-    if (querySnapshot.empty) {
+    if (whimsSnapshot.empty) {
       console.log("No whims available.");
       return null;
     } else {
-      const whims = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const whims = whimsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       return whims;
     }
   } catch (error) {
@@ -35,3 +30,5 @@ export const getWhims = async (groupId: string) => {
     return null;
   }
 };
+
+// Function to get group whims

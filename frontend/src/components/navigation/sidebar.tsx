@@ -55,7 +55,7 @@ const Sidebar: React.FC = () => {
     >
       <h1 className="header-title">{isExpanded ? "Whims" : "W"}</h1>
       <nav className="sidebar-nav">
-        <div>
+        <div id='groups'>
           <Button
             icon={faHome}
             onClick={handleHome}

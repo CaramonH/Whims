@@ -20,7 +20,7 @@ const CreateGroupOptions: React.FC<GroupOptionsButtonProps> = ({
   return (
     <div
       className="create-group-options"
-      onMouseEnter={() => setShowOptions(true)}
+      onClick={() => setShowOptions(true)}
       onMouseLeave={() => setShowOptions(false)}
     >
       <Button

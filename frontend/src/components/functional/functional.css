@@ -2,7 +2,6 @@
 
 .create-card-container {
   position: relative;
-/* z-index: 999;*/
 }
 
 .create-button {
@@ -72,33 +71,43 @@
 .newest-btn {
   width: 12em;
   font-size: 0.8em;
-
 }
 
-/*GROUPS STYLING*/
-/*GROUPS STYLING*/
 /*GROUPS STYLING*/
 .group-code-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f0f0f0;
+  background-color: none;
   padding: 10px;
+  border-color: var(--color-ui-blue);
   border-radius: 5px;
   cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.create-button:hover + .group-code-container {
+  display: flex;
+  position: absolute;
 }
 
 .group-code {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   margin-right: 10px;
 }
 
+.popup {
+  background-color: var(--color-ui-blue);
+  z-index: 1;
+}
+
 .copy-icon {
-  color: #888;
+  color: var(--color-ui-white);
+  font-size: 1em;
 }
 
 .copy-success {
-  color: green;
+  color: var(--color-ui-white);
   margin-top: 10px;
 }

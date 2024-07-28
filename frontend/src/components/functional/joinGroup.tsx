@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 import Button from "../general/button";
 import Input from "../general/input";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
@@ -11,11 +12,19 @@ const JoinGroup: React.FC<JoinGroupProps> = ({ onJoinGroup }) => {
   const [showInput, setShowInput] = useState(false);
   const [groupCode, setGroupCode] = useState("");
 
-  const handleJoinGroup = () => {
+  const firestore = getFirestore();
+
+  const handleJoinGroup = async () => {
     if (groupCode.length === 7) {
-      onJoinGroup(groupCode);
-      setGroupCode("");
-      setShowInput(false);
+      const q = query(collection(firestore, "groups"), where("groupCode", "==", groupCode));
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        onJoinGroup(groupCode);
+        setGroupCode("");
+        setShowInput(false);
+      } else {
+        alert("Group not found.");
+      }
     }
   };
 
@@ -51,3 +60,4 @@ const JoinGroup: React.FC<JoinGroupProps> = ({ onJoinGroup }) => {
 };
 
 export default JoinGroup;
+

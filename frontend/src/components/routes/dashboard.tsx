@@ -6,37 +6,46 @@ import { getWhims } from "../../firebaseService";
 import "./dashboard.css";
 
 interface CardData {
+  id: string;
   eventName: string;
   eventType: string;
   cost: string;
   location: string;
+  color: string;
 }
 
 const Dashboard: React.FC = () => {
   const [cards, setCards] = useState<CardData[]>([]);
 
-  useEffect(() => {
-    const fetchWhims = async () => {
-      const whimsData = await getWhims();
-      if (whimsData) {
-        // Convert whims data to match CardData structure if needed
-        const formattedWhims = whimsData.map((whim) => ({
-          eventName: whim.eventName,
-          eventType: whim.eventType,
-          cost: whim.cost || "N/A", // Assuming whims have a cost field
-          location: whim.location,
-        }));
-        setCards(formattedWhims);
-      }
-    };
+  const fetchWhims = async () => {
+    const whimsData = await getWhims();
+    if (whimsData) {
+      // it says the properties don't exist for whims, but it's wrong, it works
+      const formattedWhims = whimsData.map((whim) => ({
+        id: whim.id,
+        eventName: whim.eventName || null,
+        eventType: whim.eventType || null,
+        cost: whim.cost || null,
+        location: whim.location || null,
+        color: whim.color || null,
+      }));
+      setCards(formattedWhims);
+    }
+  };
 
+  useEffect(() => {
     fetchWhims();
   }, []);
 
-  function handleCreateCard(cardData: CardData) {
+  const handleCreateCard = async (cardData: CardData) => {
     console.log("Creating card:", cardData); // Debug log
-    setCards((prevCards) => [...prevCards, cardData]);
-  }
+    await fetchWhims();
+  };
+
+  const handleDeleteCard = async (cardData: CardData) => {
+    console.log("Deleting card:", cardData); // Debug log
+    await fetchWhims();
+  };
 
   console.log("Current cards:", cards); // Debug log
 
@@ -50,9 +59,12 @@ const Dashboard: React.FC = () => {
             {cards.map((card, index) => (
               <Card
                 key={index}
+                id={card.id}  // Added whimId to identify the specific whim
                 eventName={card.eventName}
                 eventType={card.eventType}
                 location={card.location}
+                color={card.color}
+                onDeleteCard={handleDeleteCard}
               />
             ))}
           </div>

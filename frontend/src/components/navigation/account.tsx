@@ -1,13 +1,13 @@
 import React, { useRef, useEffect } from "react";
-import Button from "./button";
+import Button from "../general/button";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import "../navigation/navigation.css";
 
-interface PopWindowProps {
+interface AccountProps {
   onClose: () => void;
 }
 
-const PopWindow: React.FC<PopWindowProps> = ({ onClose }) => {
+const Account: React.FC<AccountProps> = ({ onClose }) => {
   const windowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -37,7 +37,10 @@ const PopWindow: React.FC<PopWindowProps> = ({ onClose }) => {
         />
         <div className="pop-window-content">
           <div className="pop-window-header">
-            <h2>NAME OF SECTION</h2>
+            <h2>Account</h2>
+            <p>Account Data 1</p>
+            <p>Account Data 2</p>
+            <p>Account Data 3</p>
           </div>
         </div>
       </div>
@@ -45,4 +48,4 @@ const PopWindow: React.FC<PopWindowProps> = ({ onClose }) => {
   );
 };
 
-export default PopWindow;
+export default Account;

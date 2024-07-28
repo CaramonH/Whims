@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Button from "../general/button";
 import CreateGroupOptions from "../functional/createGroupOptions";
 import GroupButton from "../functional/group";
-import PopWindow from "../general/popWindow";
+import Settings from "./settings";
+import Account from "./account";
 import {
   faHome,
   faCog,
@@ -17,6 +18,7 @@ const Sidebar: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [groups, setGroups] = useState<string[]>([]);
   const [showSettings, setShowSettings] = useState(false);
+  const [showAccount, setShowAccount] = useState(false);
   const navigate = useNavigate();
   const auth = getAuth();
 
@@ -25,10 +27,12 @@ const Sidebar: React.FC = () => {
     document.body.classList.toggle("sidebar-expanded", expanded);
   };
 
+  //sidebar button handlers
   const handleHome = () => console.log("Home clicked");
   const handleSettings = () => setShowSettings(true);
   const handleCloseSettings = () => setShowSettings(false);
-  const handleAccount = () => console.log("Account clicked");
+  const handleAccount = () => setShowAccount(true);
+  const handleCloseAccount = () => setShowAccount(false);
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -106,7 +110,8 @@ const Sidebar: React.FC = () => {
           </div>
         </nav>
       </div>
-      {showSettings && <PopWindow onClose={handleCloseSettings} />}
+      {showSettings && <Settings onClose={handleCloseSettings} />}
+      {showAccount && <Account onClose={handleCloseAccount} />}
     </>
   );
 };

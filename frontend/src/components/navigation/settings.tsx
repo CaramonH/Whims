@@ -1,13 +1,14 @@
 import React, { useRef, useEffect } from "react";
-import Button from "./button";
+import Dropdown from "../general/dropdown";
+import Button from "../general/button";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import "../navigation/navigation.css";
 
-interface PopWindowProps {
+interface SettingsProps {
   onClose: () => void;
 }
 
-const PopWindow: React.FC<PopWindowProps> = ({ onClose }) => {
+const Settings: React.FC<SettingsProps> = ({ onClose }) => {
   const windowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -37,12 +38,15 @@ const PopWindow: React.FC<PopWindowProps> = ({ onClose }) => {
         />
         <div className="pop-window-content">
           <div className="pop-window-header">
-            <h2>NAME OF SECTION</h2>
+            <h2>Settings</h2>
           </div>
+          <Dropdown />
+          <Dropdown />
+          <Dropdown />
         </div>
       </div>
     </div>
   );
 };
 
-export default PopWindow;
+export default Settings;

@@ -1,29 +1,29 @@
 // firebaseService.ts
 import { firestore } from './firebaseConfig';
-import { doc, setDoc, getDocs, collection } from 'firebase/firestore';
+import { doc, addDoc, getDocs, deleteDoc, collection } from 'firebase/firestore';
 
 // Function to create a whim
-export const createWhim = async (groupId: string, whimId: string, whimData: any) => {
+export const createWhim = async (whimData: any) => {
   try {
-    const whimRef = doc(firestore, `groups/${groupId}/whims/${whimId}`);
-    await setDoc(whimRef, whimData);
-    console.log("Whim created successfully.");
+    const whimRef = await addDoc(collection(firestore, 'whims'), whimData);
+    console.log(`Whim created successfully with ID: ${whimRef.id}`);
   } catch (error) {
     console.error("Error creating whim:", error);
   }
 };
 
-// Function to get whims for a group
-export const getWhims = async (groupId: string) => {
+// Function to get all whims (would need to be based on user)
+export const getWhims = async () => {
   try {
-    const whimsRef = collection(firestore, `groups/${groupId}/whims`);
-    const querySnapshot = await getDocs(whimsRef);
+    const whimsRef = collection(firestore, 'whims');
+    const whimsSnapshot = await getDocs(whimsRef);
     
-    if (querySnapshot.empty) {
+    if (whimsSnapshot.empty) {
       console.log("No whims available.");
       return null;
     } else {
-      const whims = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const whims = whimsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      console.log(whims);
       return whims;
     }
   } catch (error) {
@@ -31,3 +31,16 @@ export const getWhims = async (groupId: string) => {
     return null;
   }
 };
+
+// Function to delete a whim by its ID
+export const deleteWhim = async (whimId: string) => {
+  try {
+    const whimRef = doc(firestore, 'whims', whimId);
+    await deleteDoc(whimRef);
+    console.log('Whim deleted with ID:', whimId);
+  } catch (error) {
+    console.error('Error deleting whim:', error);
+  }
+};
+
+// Function to get group whims

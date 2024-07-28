@@ -59,6 +59,16 @@
   font-size: 1.2em;
 }
 
+.delete-button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 1.2em;
+  background: none;
+  padding: 6px;
+  color: var(--color-ui-black);
+}
+
 /* Additional styles */
 
 .card-text {

@@ -11,9 +11,11 @@ import {
   faPlaneDeparture,
   faPalette,
   faQuestionCircle,
+  faTrash
 } from "@fortawesome/free-solid-svg-icons";
 import "./card.css";
-import { createWhim } from '../../firebaseService'; // Import the createWhim function
+import Button from "../general/button";
+import { deleteWhim } from "../../firebaseService";
 
 const colorVariables: string[] = [
   "--color-turq",
@@ -31,15 +33,26 @@ const getRandomColor = (): string => {
   return colorVariables[randomIndex];
 };
 
+interface CardData {
+  id: string;
+  eventName: string;
+  eventType: string;
+  cost: string;
+  location: string;
+  color: string;
+}
+
 interface CardProps {
+  id: string;
   eventName: string;
   eventType: string;
   location: string;
-  groupId: string;  // Added groupId to identify the group where the whim will be created
-  whimId: string;   // Added whimId to uniquely identify the whim
+  color: string;
+  // groupId: string;  // Added groupId to identify the group where the whim will be created
+  onDeleteCard: (cardData: CardData) => void;
 }
 
-const Card: React.FC<CardProps> = ({ eventName, eventType, location, groupId, whimId }) => {
+const Card: React.FC<CardProps> = ({ id, eventName, eventType, location, color, onDeleteCard}) => {
   const randomColor: string = getRandomColor();
 
   const getEventIcon = (type: string): IconProp => {
@@ -63,28 +76,32 @@ const Card: React.FC<CardProps> = ({ eventName, eventType, location, groupId, wh
 
   const truncatedEventName = eventName.length > 70 ? eventName.slice(0, 70) + "..." : eventName;
 
-  // Function to handle adding the card to Firebase
-  const handleAddWhim = () => {
-    const whimData = {
-      eventName,
-      eventType,
-      location,
-    };
-
-    createWhim(groupId, whimId, whimData)
-      .then(() => {
-        console.log("Whim added successfully!");
+  const handleDeleteWhim = (cardData: CardData) => {
+    deleteWhim(id)
+     .then(() => {
+        console.log("Whim deleted successfully!");
       })
-      .catch((error) => {
-        console.error("Error adding whim:", error);
+     .catch((error) => {
+        console.error("Error deleting whim:", error);
       });
+    onDeleteCard(cardData);
   };
 
   return (
-    <div className={`card ${randomColor}`}>
+    <div className={`card ${color || randomColor}`}>
       <h1 className="card-title">{truncatedEventName}</h1>
       <div className="event-type-icon">
         <FontAwesomeIcon icon={getEventIcon(eventType)} />
+      </div>
+      <div>
+        {/* ( createdBy == currentUser.id || group.createdBy == currentUser.id )
+        && <Button> */}
+        <Button
+          icon={faTrash}
+          onClick={handleDeleteWhim}
+          className="delete-button"
+          label="Delete"
+        />
       </div>
       <div className="like-dislike-container">
         <LikeDislike />
@@ -95,10 +112,11 @@ const Card: React.FC<CardProps> = ({ eventName, eventType, location, groupId, wh
         />  */}
       </div>
       <div className="location-container">{location}</div>
-      {/* Button to add the card as a whim */}
+      {/* Button to add the card as a whim
       <button onClick={handleAddWhim} className="add-whim-button">
         Add to Whims
       </button>
+      */}
     </div>
   );
 };

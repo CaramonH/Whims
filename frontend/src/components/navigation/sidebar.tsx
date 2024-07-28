@@ -4,34 +4,42 @@ import CreateGroupOptions from "../functional/createGroupOptions";
 import GroupButton from "../functional/group";
 import { faHome, faCog, faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { getAuth, signOut } from "firebase/auth";
-import { getFirestore, collection, query, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import "./navigation.css";
+import { getUserGroups } from "../../firebaseService";
+
+interface groupData {
+  id: string;
+  createdAt: string;
+  groupName: string;
+  inviteCode: string;
+};
 
 const Sidebar: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [groups, setGroups] = useState<string[]>([]);
+  const [groups, setGroups] = useState<groupData[]>([]);
   const navigate = useNavigate();
   const auth = getAuth();
-  const firestore = getFirestore();
+
+  const fetchGroups = async () => {
+    if (auth.currentUser) {
+      const userId = auth.currentUser.uid;
+      const groupsData = await getUserGroups(userId);
+      if (groupsData) {
+        const formattedGroupsData = groupsData.map((group) => ({
+          id: group.id,
+          createdAt: group.createdAt,
+          groupName: group.groupName || null,
+          inviteCode: group.inviteCode,
+        }));
+        setGroups(formattedGroupsData);
+      }
+    }
+  };
 
   useEffect(() => {
-    const fetchGroups = async () => {
-      if (auth.currentUser) {
-        const userId = auth.currentUser.uid;
-        const q = query(collection(firestore, `users/${userId}/groups`));
-        const querySnapshot = await getDocs(q);
-
-        const userGroups: string[] = [];
-        querySnapshot.forEach((doc) => {
-          userGroups.push(doc.data().groupCode);
-        });
-        setGroups(userGroups);
-      }
-    };
-
     fetchGroups();
-  }, [auth.currentUser, firestore]);
+  }, [auth.currentUser]);
 
   const handleExpand = (expanded: boolean) => {
     setIsExpanded(expanded);
@@ -46,21 +54,23 @@ const Sidebar: React.FC = () => {
       await signOut(auth);
       navigate("/login");
     } catch (error) {
-      console.error("Error logging out", error);
+      console.error("Error logging out", error); // Debug log
     }
   };
 
-  const handleCreateGroup = (groupCode: string) => {
-    console.log(`Group created with code: ${groupCode}`);
-    setGroups((prevGroups) => [...prevGroups, groupCode]);
+  const handleCreateGroup = async (inviteCode: string) => {
+    console.log(`Group created with code: ${inviteCode}`); // Debug log
+    await fetchGroups();
   };
 
-  const handleJoinGroup = (groupCode: string) => {
-    setGroups((prevGroups) => [...prevGroups, groupCode]);
+  const handleJoinGroup = async (inviteCode: string) => {
+    console.log(`Group ${inviteCode} joined`); // Debug log
+    await fetchGroups();
   };
 
-  const handleGroupClick = (groupCode: string) => {
-    console.log(`Group ${groupCode} clicked`);
+  const handleGroupClick = (inviteCode: string) => {
+    console.log(`Group ${inviteCode} clicked`); // Debug log
+    // this is where I'm gonna have to call the group whims
   };
 
   return (
@@ -85,12 +95,12 @@ const Sidebar: React.FC = () => {
           onCreateGroup={handleCreateGroup}
           onJoinGroup={handleJoinGroup}
         />
-        {groups.map((groupCode) => (
+        {groups.map((group, index) => (
           <GroupButton
-            key={groupCode}
+            key={index}
             isExpanded={isExpanded}
-            onClick={() => handleGroupClick(groupCode)}
-            groupCode={groupCode}
+            onClick={() => handleGroupClick(group.id)}
+            inviteCode={group.inviteCode}
           />
         ))}
         <div className="bottom-buttons">

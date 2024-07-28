@@ -1,6 +1,11 @@
 // firebaseService.ts
 import { firestore } from './firebaseConfig';
-import { doc, addDoc, getDocs, deleteDoc, collection } from 'firebase/firestore';
+import {
+  addDoc, getDoc, getDocs, setDoc, deleteDoc, updateDoc,
+  doc, collection,
+  query, where, arrayUnion,
+} from 'firebase/firestore';
+
 
 // Function to create a whim
 export const createWhim = async (whimData: any) => {
@@ -12,6 +17,7 @@ export const createWhim = async (whimData: any) => {
   }
 };
 
+
 // Function to get all whims (would need to be based on user)
 export const getWhims = async () => {
   try {
@@ -20,7 +26,7 @@ export const getWhims = async () => {
     
     if (whimsSnapshot.empty) {
       console.log("No whims available.");
-      return null;
+      return [];
     } else {
       const whims = whimsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       console.log(whims);
@@ -28,9 +34,10 @@ export const getWhims = async () => {
     }
   } catch (error) {
     console.error("Error reading whims:", error);
-    return null;
+    return [];
   }
 };
+
 
 // Function to delete a whim by its ID
 export const deleteWhim = async (whimId: string) => {
@@ -43,4 +50,135 @@ export const deleteWhim = async (whimId: string) => {
   }
 };
 
-// Function to get group whims
+
+// Function to create a group
+export const createGroup = async (userId: string, groupData: any) => {
+  try {
+    groupData.createdBy = userId;
+
+    // Create group
+    const groupRef = await addDoc(collection(firestore, 'groups'), groupData);
+    console.log(`Group created successfully with ID: ${groupRef.id}`);
+
+    // Add group to user's groupIds
+    const userRef = doc(firestore, 'users', userId);
+    await updateDoc(userRef, { groupIds: arrayUnion(groupRef.id) });
+    console.log('Group added to user with ID:', userId);
+
+  } catch (error) {
+    console.error('Error creating group:', error);
+  }
+};
+
+
+// Function to verify that the randomly generated inviteCode is unique
+export const checkInviteCodeUnique = async (inviteCode: string) => {
+  try {
+    const groupsRef = collection(firestore, 'groups');
+    const q = query(groupsRef, where('inviteCode', '==', inviteCode));
+    const groupSnapshot = await getDocs(q);
+
+    if (groupSnapshot.empty) {
+      console.log('Invite code is unique.');
+      return true;
+    } else {
+      console.log('Invite code is not unique.');
+      return false;
+    }
+
+  } catch (error) {
+    console.error('Error checking invite code uniqueness:', error);
+  }
+};
+
+
+// Function to join a group
+export const joinGroup = async (userId: string, inviteCode: string) => {
+  try {
+    // Find group using inviteCode
+    const groupsRef = collection(firestore, 'groups');
+    const q = query(groupsRef, where('inviteCode', '==', inviteCode));
+    const groupSnapshot = await getDocs(q);
+
+    if (groupSnapshot.empty) {
+      console.log('No group found with the given group code.');
+      return;
+    }
+    if (groupSnapshot.size > 1) {
+      // after I create and implement the function to check code uniqueness,
+      // this shouldn't be needed, but it might be good to keep it just in case
+      console.log('Multiple groups found with the same group code.');
+      return;
+    }
+
+    const groupDoc = groupSnapshot.docs[0];
+    const groupId = groupDoc.id;
+    const groupData = groupDoc.data();
+
+    // const groupRef = doc(firestore, 'groups', groupId);
+    // const userRef = doc(firestore, 'users', userId);
+
+
+    // Update the group's memberIds unless already added
+    if (groupData.memberIds.includes(userId)) {
+      console.log('Group already has this member.');
+    } else {
+      const groupRef = doc(firestore, 'groups', groupId);
+      await updateDoc(groupRef, {
+        memberIds: arrayUnion(userId)
+      });
+    }
+
+    // Update the user's groupIds unless already added
+    const userRef = doc(firestore, 'users', userId);
+    const userDoc = await getDoc(userRef);
+    const userData = userDoc.data();
+
+    if (userData && userData.groupIds.includes(groupId)) {
+      console.log('User is already a member of this group.');
+    } else {
+      await updateDoc(userRef, {
+        groupIds: arrayUnion(groupId)
+      });
+    }
+
+    console.log(`User ${userId} successfully joined group ${groupId}`);
+  } catch (error) {
+    console.error('Error joining group:', error);
+  }
+};
+
+
+// Function to get groups of a user
+export const getUserGroups = async (userId: string) => {
+  try {
+    // Fetch the user document to get groupIds
+    const userRef = doc(firestore, 'users', userId);
+    const userDoc = await getDoc(userRef);
+    
+    if (!userDoc.exists()) {
+      console.log("No such user!");
+      return [];
+    }
+
+    const userData = userDoc.data();
+    const groupIds = userData.groupIds || [];
+
+    if (groupIds.length === 0) {
+      console.log('No groups found for this user.');
+      return [];
+    }
+
+    // Fetch the group documents using groupIds
+    const groupsRef = collection(firestore, 'groups');
+    const q = query(groupsRef, where('__name__', 'in', groupIds));
+    const groupsSnapshot = await getDocs(q);
+
+    const groups = groupsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return groups;
+
+  } catch (error) {
+    console.error('Error fetching groups:', error);
+    return [];
+  }
+};

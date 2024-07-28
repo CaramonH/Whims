@@ -1,14 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../general/button";
 import CreateGroupOptions from "../functional/createGroupOptions";
 import GroupButton from "../functional/group";
-import {
-  faHome,
-  faCog,
-  faUser,
-  faSignOutAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHome, faCog, faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { getAuth, signOut } from "firebase/auth";
+import { getFirestore, collection, query, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import "./navigation.css";
 
@@ -17,6 +13,25 @@ const Sidebar: React.FC = () => {
   const [groups, setGroups] = useState<string[]>([]);
   const navigate = useNavigate();
   const auth = getAuth();
+  const firestore = getFirestore();
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      if (auth.currentUser) {
+        const userId = auth.currentUser.uid;
+        const q = query(collection(firestore, `users/${userId}/groups`));
+        const querySnapshot = await getDocs(q);
+
+        const userGroups: string[] = [];
+        querySnapshot.forEach((doc) => {
+          userGroups.push(doc.data().groupCode);
+        });
+        setGroups(userGroups);
+      }
+    };
+
+    fetchGroups();
+  }, [auth.currentUser, firestore]);
 
   const handleExpand = (expanded: boolean) => {
     setIsExpanded(expanded);
@@ -35,14 +50,15 @@ const Sidebar: React.FC = () => {
     }
   };
 
-  // managing groups //
   const handleCreateGroup = (groupCode: string) => {
-    // send it to a server here
     console.log(`Group created with code: ${groupCode}`);
+    setGroups((prevGroups) => [...prevGroups, groupCode]);
   };
+
   const handleJoinGroup = (groupCode: string) => {
     setGroups((prevGroups) => [...prevGroups, groupCode]);
   };
+
   const handleGroupClick = (groupCode: string) => {
     console.log(`Group ${groupCode} clicked`);
   };

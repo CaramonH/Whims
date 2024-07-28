@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import './Login.css';
 
 const Login: React.FC = () => {
@@ -43,6 +43,18 @@ const Login: React.FC = () => {
     setIsRegistering(!isRegistering);
   };
 
+  const handleGoogleLogin = async () => {
+    setErrorMessage(null);
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      navigate('/dashboard'); // Navigate to the dashboard
+    } catch (error) {
+      console.error("Error logging in with Google", error);
+      setErrorMessage("Failed to log in with Google.");
+    }
+  };
+
   return (
     <div className='login-div'>
       <h1>{isRegistering ? 'Register' : 'Login'}</h1>
@@ -62,10 +74,13 @@ const Login: React.FC = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <div className="login-button-container">
         <button className='login-button' onClick={isRegistering ? handleRegister : handleLogin}>
           {isRegistering ? 'Register' : 'Login'}
+        </button>
+        <button className='login-button google-login' onClick={handleGoogleLogin}>
+          Sign in with Google
         </button>
         <button className='login-button' onClick={toggleRegistering}>
           {isRegistering ? 'Already have an account? Login' : 'Create an account'}

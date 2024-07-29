@@ -10,6 +10,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [isRegistering, setIsRegistering] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [nameError, setNameError] = useState<string | null>(null); // State for name error
   const navigate = useNavigate();
 
   const auth = getAuth();
@@ -28,6 +29,13 @@ const Login: React.FC = () => {
 
   const handleRegister = async () => {
     setErrorMessage(null); // Clear previous errors
+    setNameError(null); // Clear name error
+
+    if (!name) {
+      setNameError("Name is a required field");
+      return;
+    }
+
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
@@ -51,6 +59,7 @@ const Login: React.FC = () => {
 
   const toggleRegistering = () => {
     setErrorMessage(null); // Clear error messages when toggling
+    setNameError(null); // Clear name error when toggling
     setIsRegistering(!isRegistering);
   };
 
@@ -83,13 +92,16 @@ const Login: React.FC = () => {
       <h1>{isRegistering ? 'Register' : 'Login'}</h1>
       <div className="login-input-container">
         {isRegistering && (
-          <input
-            className='login-input'
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+          <div>
+            <input
+              className='login-input'
+              type="text"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            {nameError && <p style={{ color: 'red' }}>{nameError}</p>}
+          </div>
         )}
         <input
           className='login-input'
@@ -123,3 +135,4 @@ const Login: React.FC = () => {
 };
 
 export default Login;
+

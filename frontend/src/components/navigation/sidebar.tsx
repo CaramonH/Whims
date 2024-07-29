@@ -71,6 +71,11 @@ const Sidebar: React.FC = () => {
     // ^hopefully better than running fetchGroups(), I'm hoping it'll lower the number of reads
   };
 
+  const handleLeaveGroup = async (groupData: GroupData) => {
+    console.log(`Group ${groupData.groupCode} left`); // Debug log
+    await fetchGroups();
+  };
+
   const handleGroupClick = (groupCode: string) => {
     console.log(`Group ${groupCode} clicked`); // Debug log
     // this is where I'm gonna have to call the group whims
@@ -104,7 +109,8 @@ const Sidebar: React.FC = () => {
             key={index}
             isExpanded={isExpanded}
             onClick={() => handleGroupClick(group.id)}
-            groupCode={group.groupCode}
+            groupData={group}
+            onLeave={() => handleLeaveGroup(group)}
           />
         ))}
         <div className="bottom-buttons">

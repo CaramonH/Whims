@@ -3,7 +3,7 @@ import { firestore } from './firebaseConfig';
 import {
   addDoc, getDoc, getDocs, setDoc, deleteDoc, updateDoc,
   doc, collection,
-  query, where, arrayUnion,
+  query, where, arrayUnion, arrayRemove
 } from 'firebase/firestore';
 
 
@@ -152,6 +152,41 @@ export const joinGroup = async (userId: string, groupCode: string) => {
 
   } catch (error) {
     console.error('Error joining group:', error);
+  }
+};
+
+
+// Function to leave a group, based on its id
+export const leaveGroup = async (userId: string, groupId: string) => {
+  try {
+    const groupRef = doc(firestore, 'groups', groupId);
+    const groupDoc = await getDoc(groupRef);
+    const groupData = groupDoc.data();
+    const userRef = doc(firestore, 'users', userId);
+    const userDoc = await getDoc(userRef);
+    const userData = userDoc.data();
+
+    // remove user from groups members (or delete the group)
+    if (!groupData) {
+      console.log('groupData not found');
+    } else if (groupData.createdBy === userRef) {
+      await deleteDoc(groupRef);
+      console.log(`${userId} deleted ${groupId} when leaving`); // Debug log
+    } else {
+      await updateDoc(groupRef, {
+        memberIds: arrayRemove(userId)
+      });
+      console.log(`${userId} was removed as a member from group ${groupId}`);
+    }
+
+    // remove group from users groups
+    await updateDoc(userRef, {
+      groupIds: arrayRemove(groupId)
+    });
+
+    console.log(`${userId} left group with ID: ${groupId}`);
+  } catch (error) {
+    console.error('Error leaving group:', error);
   }
 };
 

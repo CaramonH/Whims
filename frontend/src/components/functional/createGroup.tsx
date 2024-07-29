@@ -44,7 +44,7 @@ const CreateGroup: React.FC<CreateGroupProps> = ({ onCreateGroup }) => {
       const userId = auth.currentUser.uid;
       try {
         // Add to global groups collection
-        const newGroup = createGroup(userId, {
+        const newGroup = await createGroup(userId, {
           groupCode: newGroupCode,
           createdAt: new Date(),
           // Other group details

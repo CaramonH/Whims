@@ -29,7 +29,7 @@ const JoinGroup: React.FC<JoinGroupProps> = ({ onJoinGroup }) => {
       if (auth.currentUser) {
         const userId = auth.currentUser.uid;
         try {
-          const joinedGroup = joinGroup(userId, groupCode);
+          const joinedGroup = await joinGroup(userId, groupCode);
           if (joinedGroup) {
             onJoinGroup(joinedGroup);
           }

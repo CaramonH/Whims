@@ -1,33 +1,51 @@
 import React, { useState } from "react";
+import { getFirestore, doc, collection, addDoc, setDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import Button from "../general/button";
 import { faPlus, faCopy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-interface CreateGroupProps {
-  onCreateGroup: (groupCode: string) => void;
-}
-
-const CreateGroup: React.FC<CreateGroupProps> = ({ onCreateGroup }) => {
+const CreateGroup: React.FC = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [groupCode, setGroupCode] = useState("");
   const [copySuccess, setCopySuccess] = useState(false);
+  const firestore = getFirestore();
+  const auth = getAuth();
 
   const generateGroupCode = () => {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let result = "";
     for (let i = 0; i < 7; i++) {
-      result += characters.charAt(
-        Math.floor(Math.random() * characters.length)
-      );
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     return result;
   };
 
-  const handleCreateGroup = () => {
+  const handleCreateGroup = async () => {
     const newGroupCode = generateGroupCode();
-    setGroupCode(newGroupCode);
-    setShowPopup(true);
-    onCreateGroup(newGroupCode);
+    if (auth.currentUser) {
+      const userId = auth.currentUser.uid;
+      try {
+        // Add to global groups collection
+        const groupDocRef = await addDoc(collection(firestore, "groups"), {
+          groupCode: newGroupCode,
+          createdAt: new Date(),
+          // Other group details
+        });
+
+        // Add group to user's groups subcollection
+        await setDoc(doc(firestore, `users/${userId}/groups/${groupDocRef.id}`), {
+          groupCode: newGroupCode,
+          joinedAt: new Date(),
+          // Other group data
+        });
+
+        setGroupCode(newGroupCode);
+        setShowPopup(true);
+      } catch (e) {
+        console.error("Error creating group: ", e);
+      }
+    }
   };
 
   const handleCopyCode = () => {

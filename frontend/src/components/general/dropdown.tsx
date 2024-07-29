@@ -3,9 +3,14 @@ import React, { useState, ChangeEvent } from "react";
 interface DropdownProps {
   onChange?: (selectedValue: string) => void;
   className?: string;
+  customOptions?: string[];
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ onChange, className = "" }) => {
+const Dropdown: React.FC<DropdownProps> = ({
+  onChange,
+  className = "",
+  customOptions,
+}) => {
   const [selectedValue, setSelectedValue] = useState("");
 
   const eventOptions = [
@@ -19,7 +24,8 @@ const Dropdown: React.FC<DropdownProps> = ({ onChange, className = "" }) => {
   ];
   const costOptions = ["$", "$$", "$$$"];
 
-  const options = className === "cost" ? costOptions : eventOptions;
+  const options =
+    customOptions || (className === "cost" ? costOptions : eventOptions);
 
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;

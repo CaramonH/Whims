@@ -1,41 +1,30 @@
 import React, { useState } from "react";
-import { getAuth } from "firebase/auth";
-// import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
+import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 import Button from "../general/button";
 import Input from "../general/input";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
-import { joinGroup } from "../../firebaseService";
 
 interface JoinGroupProps {
-  onJoinGroup: (inviteCode: string) => void;
+  onJoinGroup: (groupCode: string) => void;
 }
 
 const JoinGroup: React.FC<JoinGroupProps> = ({ onJoinGroup }) => {
   const [showInput, setShowInput] = useState(false);
-  const [inviteCode, setInviteCode] = useState("");
-  const auth = getAuth();
+  const [groupCode, setGroupCode] = useState("");
 
-  // const firestore = getFirestore();
+  const firestore = getFirestore();
 
   const handleJoinGroup = async () => {
-    if (inviteCode.length === 7) {
-      if (auth.currentUser) {
-        const userId = auth.currentUser.uid;
-        try {
-          joinGroup(userId, inviteCode);
-          // if (!querySnapshot.empty) {
-          //   onJoinGroup(inviteCode);
-          //   setInviteCode("");
-          //   setShowInput(false);
-          // } else {
-          //   alert("Group not found.");
-          // }
-        } catch (e) {
-          console.error("Error joining group: ", e);
-        }
+    if (groupCode.length === 7) {
+      const q = query(collection(firestore, "groups"), where("groupCode", "==", groupCode));
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        onJoinGroup(groupCode);
+        setGroupCode("");
+        setShowInput(false);
+      } else {
+        alert("Group not found.");
       }
-    } else {
-      alert("Please enter a 7-digit code.");
     }
   };
 
@@ -53,7 +42,7 @@ const JoinGroup: React.FC<JoinGroupProps> = ({ onJoinGroup }) => {
         <>
           <Input
             placeholder="Enter 7-digit code"
-            onChange={(value) => setInviteCode(value.toUpperCase())}
+            onChange={(value) => setGroupCode(value.toUpperCase())}
             className="join-group-input"
           />
           <Button
@@ -62,7 +51,7 @@ const JoinGroup: React.FC<JoinGroupProps> = ({ onJoinGroup }) => {
             className="nav-item join-group-button"
             label="Join"
             isExpanded={true}
-            disabled={inviteCode.length !== 7}
+            disabled={groupCode.length !== 7}
           />
         </>
       )}
@@ -71,4 +60,3 @@ const JoinGroup: React.FC<JoinGroupProps> = ({ onJoinGroup }) => {
 };
 
 export default JoinGroup;
-

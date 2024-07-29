@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getFirestore, doc, setDoc } from 'firebase/firestore'; // Import Firestore
 import './Login.css';
 
 const Login: React.FC = () => {
+  const [name, setName] = useState<string>(''); // State for storing the name
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isRegistering, setIsRegistering] = useState<boolean>(false);
@@ -11,6 +13,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   const auth = getAuth();
+  const db = getFirestore(); // Initialize Firestore
 
   const handleLogin = async () => {
     setErrorMessage(null); // Clear previous errors
@@ -26,7 +29,15 @@ const Login: React.FC = () => {
   const handleRegister = async () => {
     setErrorMessage(null); // Clear previous errors
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Store the user's name in Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        name: name,
+        email: email
+      });
+
       navigate('/dashboard'); // Navigate to the dashboard
     } catch (error: any) {
       console.error("Error registering", error);
@@ -47,7 +58,19 @@ const Login: React.FC = () => {
     setErrorMessage(null);
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // Extract the user's display name and email
+      const name = user.displayName || '';
+      const email = user.email || '';
+
+      // Store the user's name and email in Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        name: name,
+        email: email
+      });
+
       navigate('/dashboard'); // Navigate to the dashboard
     } catch (error) {
       console.error("Error logging in with Google", error);
@@ -59,6 +82,15 @@ const Login: React.FC = () => {
     <div className='login-div'>
       <h1>{isRegistering ? 'Register' : 'Login'}</h1>
       <div className="login-input-container">
+        {isRegistering && (
+          <input
+            className='login-input'
+            type="text"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        )}
         <input
           className='login-input'
           type="email"

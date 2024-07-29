@@ -4,6 +4,7 @@ import { getAuth } from "firebase/auth";
 import Button from "../general/button";
 import { faPlus, faCopy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./functional.css";
 import { createGroup, checkGroupCodeUnique } from "../../firebaseService";
 
 interface GroupData {
@@ -86,8 +87,8 @@ const CreateGroup: React.FC<CreateGroupProps> = ({ onCreateGroup }) => {
       {showPopup && (
         <div className="popup">
           <div className="popup-content">
-            <h2>Group Created!</h2>
-            <p>Your group code is:</p>
+            <h3>Group Created!</h3>
+            <p className="yourCode">Your group code is:</p>
             <div className="group-code-container" onClick={handleCopyCode}>
               <span className="group-code">{groupCode}</span>
               <FontAwesomeIcon icon={faCopy} className="copy-icon" />

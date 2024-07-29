@@ -47,7 +47,7 @@
   flex-wrap: wrap;
 }
 
-.close-create-card {
+.close-create {
   position: absolute !important;
   top: 20px;
   left: 20px;

@@ -92,39 +92,39 @@ const Sidebar: React.FC = () => {
               label="Home"
               isExpanded={isExpanded}
             />
+              {groups.map((groupCode) => (
+              <GroupButton
+                key={groupCode}
+                isExpanded={isExpanded}
+                onClick={() => handleGroupClick(groupCode)}
+                groupCode={groupCode}
+              />
+            ))}
           </div>
           <CreateGroupOptions
             isExpanded={isExpanded}
             onCreateGroup={handleCreateGroup}
             onJoinGroup={handleJoinGroup}
           />
-          {groups.map((groupCode) => (
-            <GroupButton
-              key={groupCode}
-              isExpanded={isExpanded}
-              onClick={() => handleGroupClick(groupCode)}
-              groupCode={groupCode}
-            />
-          ))}
           <div className="bottom-buttons">
             <Button
               icon={faCog}
               onClick={handleSettings}
-              className="nav-item"
+              className="nav-item bottom-button"
               label="Settings"
               isExpanded={isExpanded}
             />
             <Button
               icon={faUser}
               onClick={handleAccount}
-              className="nav-item"
+              className="nav-item bottom-button"
               label="Account"
               isExpanded={isExpanded}
             />
             <Button
               icon={faSignOutAlt}
               onClick={handleLogout}
-              className="nav-item"
+              className="nav-item bottom-button"
               label="Logout"
               isExpanded={isExpanded}
             />
@@ -133,6 +133,7 @@ const Sidebar: React.FC = () => {
       </div>
       {showSettings && <Settings onClose={handleCloseSettings} />}
       {showAccount && <Account onClose={handleCloseAccount} />}
+      {}
     </>
   );
 };

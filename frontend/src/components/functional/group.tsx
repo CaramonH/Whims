@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
@@ -13,11 +13,15 @@ const GroupButton: React.FC<GroupButtonProps> = ({
   onClick,
   groupCode,
 }) => {
+  const divRef = useRef<HTMLDivElement>(null);
+
   return (
-    <button onClick={onClick} className="nav-item group-button">
-      <FontAwesomeIcon icon={faUser} />
-      {isExpanded && <span className="label">{groupCode}</span>}
-    </button>
+    <div ref={divRef}>
+      <button onClick={onClick} className="nav-item group-button">
+        <FontAwesomeIcon icon={faUser} />
+        {isExpanded && <span className="label">{groupCode}</span>}
+      </button>
+    </div>
   );
 };
 

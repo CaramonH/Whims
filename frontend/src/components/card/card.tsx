@@ -1,4 +1,3 @@
-// Card.tsx
 import React from "react";
 import LikeDislike from "../functional/likeDislike";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -48,7 +47,6 @@ interface CardProps {
   eventType: string;
   location: string;
   color: string;
-  // groupId: string;  // Added groupId to identify the group where the whim will be created
   onDeleteCard: (cardData: CardData) => void;
 }
 
@@ -76,15 +74,17 @@ const Card: React.FC<CardProps> = ({ id, eventName, eventType, location, color, 
 
   const truncatedEventName = eventName.length > 70 ? eventName.slice(0, 70) + "..." : eventName;
 
-  const handleDeleteWhim = (cardData: CardData) => {
+  const handleDeleteWhim = () => {
+    const cardData: CardData = { id, eventName, eventType, cost: '', location, color };
+
     deleteWhim(id)
-     .then(() => {
+      .then(() => {
         console.log("Whim deleted successfully!");
+        onDeleteCard(cardData);
       })
-     .catch((error) => {
+      .catch((error) => {
         console.error("Error deleting whim:", error);
       });
-    onDeleteCard(cardData);
   };
 
   return (
@@ -94,8 +94,6 @@ const Card: React.FC<CardProps> = ({ id, eventName, eventType, location, color, 
         <FontAwesomeIcon icon={getEventIcon(eventType)} />
       </div>
       <div>
-        {/* ( createdBy == currentUser.id || group.createdBy == currentUser.id )
-        && <Button> */}
         <Button
           icon={faTrash}
           onClick={handleDeleteWhim}

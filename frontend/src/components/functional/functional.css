@@ -38,13 +38,6 @@
   position: relative;
 }
 
-.close-button {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  background-color: var(--color-dark-red);
-}
-
 .close-button:hover, .create-button:hover, .unread-btn:hover, .newest-btn:hover {
   opacity: 0.8;
 }
@@ -52,6 +45,12 @@
 .cards-container {
   display: flex;
   flex-wrap: wrap;
+}
+
+.close-create-card {
+  position: absolute !important;
+  top: 20px;
+  left: 20px;
 }
 
 /* FILTERS */
@@ -132,18 +131,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 999;
 }
 
 .pop-window-content {
-  background-color: grey;
+  background-color: var(--color-ui-white);
   padding: 20px;
   border-radius: 5px;
   position: relative;
-}
-
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
 }

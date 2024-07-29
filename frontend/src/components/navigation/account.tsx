@@ -29,13 +29,13 @@ const Account: React.FC<AccountProps> = ({ onClose }) => {
   return (
     <div className="pop-window-overlay">
       <div className="pop-window" ref={windowRef}>
+        <div className="pop-window-content">
         <Button
           icon={faTimes}
           onClick={onClose}
-          className="close-button"
+          className="close-button pop-up-close"
           label=""
         />
-        <div className="pop-window-content">
           <div className="pop-window-header">
             <h2>Account</h2>
             <p>Account Data 1</p>

@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import Button from "../general/button";
-import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faPlusCircle, faTimes } from "@fortawesome/free-solid-svg-icons";
 import CreateGroup from "./createGroup";
 import JoinGroup from "./joinGroup";
 
@@ -9,15 +8,14 @@ interface GroupOptionsButtonProps {
   isExpanded: boolean;
   onCreateGroup: (groupCode: string) => void;
   onJoinGroup: (groupCode: string) => void;
-  onClose: () => void;
 }
 
 const CreateGroupOptions: React.FC<GroupOptionsButtonProps> = ({
   isExpanded,
   onCreateGroup,
   onJoinGroup,
-  onClose,
 }) => {
+  const [showOptions, setShowOptions] = useState(false);
   const windowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -27,7 +25,6 @@ const CreateGroupOptions: React.FC<GroupOptionsButtonProps> = ({
         !windowRef.current.contains(event.target as Node)
       ) {
         setShowOptions(false);
-        onClose();
       }
     };
 
@@ -35,11 +32,13 @@ const CreateGroupOptions: React.FC<GroupOptionsButtonProps> = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [onClose]);
+  }, []);
 
-  const [showOptions, setShowOptions] = useState(false);
+  const handleOpenOptions = () => {
+    setShowOptions(true);
+  };
 
-  const handleClose = () => {
+  const handleCloseOptions = () => {
     setShowOptions(false);
   };
 
@@ -47,7 +46,7 @@ const CreateGroupOptions: React.FC<GroupOptionsButtonProps> = ({
     <div className="create-group-options">
       <Button
         icon={faPlusCircle}
-        onClick={() => setShowOptions(true)}
+        onClick={handleOpenOptions}
         className="nav-item create-group-button"
         label="Create / Join"
         isExpanded={isExpanded}
@@ -57,7 +56,7 @@ const CreateGroupOptions: React.FC<GroupOptionsButtonProps> = ({
           <div className="pop-window" ref={windowRef}>
             <Button
               icon={faTimes}
-              onClick={handleClose}
+              onClick={handleCloseOptions}
               className="close-button"
               label=""
             />

@@ -4,12 +4,7 @@ import CreateGroupOptions from "../functional/createGroupOptions";
 import GroupButton from "../functional/group";
 import Settings from "./settings";
 import Account from "./account";
-import {
-  faHome,
-  faCog,
-  faUser,
-  faSignOutAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHome, faCog, faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { getAuth, signOut } from "firebase/auth";
 import { getFirestore, collection, query, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
@@ -47,7 +42,6 @@ const Sidebar: React.FC = () => {
     document.body.classList.toggle("sidebar-expanded", expanded);
   };
 
-  //sidebar button handlers
   const handleHome = () => console.log("Home clicked");
   const handleSettings = () => setShowSettings(true);
   const handleCloseSettings = () => setShowSettings(false);
@@ -92,7 +86,7 @@ const Sidebar: React.FC = () => {
               label="Home"
               isExpanded={isExpanded}
             />
-              {groups.map((groupCode) => (
+            {groups.map((groupCode) => (
               <GroupButton
                 key={groupCode}
                 isExpanded={isExpanded}
@@ -133,7 +127,6 @@ const Sidebar: React.FC = () => {
       </div>
       {showSettings && <Settings onClose={handleCloseSettings} />}
       {showAccount && <Account onClose={handleCloseAccount} />}
-      {}
     </>
   );
 };

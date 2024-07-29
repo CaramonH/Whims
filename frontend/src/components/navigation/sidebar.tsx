@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Button from "../general/button";
 import CreateGroupOptions from "../functional/createGroupOptions";
 import GroupButton from "../functional/group";
+import Settings from "./settings";
+import Account from "./account";
 import { faHome, faCog, faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -45,6 +47,7 @@ const Sidebar: React.FC = () => {
     setIsExpanded(expanded);
     document.body.classList.toggle("sidebar-expanded", expanded);
   };
+  
   const handleHome = () => console.log("Home clicked");
   const handleSettings = () => console.log("Settings clicked");
   const handleAccount = () => console.log("Account clicked");
@@ -78,7 +81,64 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <div
+    <>
+      <div
+        className={`sidebar ${isExpanded ? "expanded" : ""}`}
+        onMouseEnter={() => handleExpand(true)}
+        onMouseLeave={() => handleExpand(false)}
+      >
+        <h1 className="header-title">{isExpanded ? "Whims" : "W"}</h1>
+        <nav className="sidebar-nav">
+          <div id='groups'>
+            <Button
+              icon={faHome}
+              onClick={handleHome}
+              className="nav-item home-button"
+              label="Home"
+              isExpanded={isExpanded}
+            />
+            {groups.map((groupCode) => (
+              <GroupButton
+                key={groupCode}
+                isExpanded={isExpanded}
+                onClick={() => handleGroupClick(groupCode)}
+                groupCode={groupCode}
+              />
+            ))}
+          </div>
+          <CreateGroupOptions
+
+            isExpanded={isExpanded}
+          />
+          <div className="bottom-buttons">
+            <Button
+              icon={faCog}
+              onClick={handleSettings}
+              className="nav-item bottom-button"
+              label="Settings"
+              isExpanded={isExpanded}
+            />
+            <Button
+              icon={faUser}
+              onClick={handleAccount}
+              className="nav-item bottom-button"
+              label="Account"
+              isExpanded={isExpanded}
+            />
+            <Button
+              icon={faSignOutAlt}
+              onClick={handleLogout}
+              className="nav-item bottom-button"
+              label="Logout"
+              isExpanded={isExpanded}
+            />
+          </div>
+        </nav>
+      </div>
+      {showSettings && <Settings onClose={handleCloseSettings} />}
+      {showAccount && <Account onClose={handleCloseAccount} />}
+    </>
+<!--<div
       className={`sidebar ${isExpanded ? "expanded" : ""}`}
       onMouseEnter={() => handleExpand(true)}
       onMouseLeave={() => handleExpand(false)}
@@ -127,11 +187,13 @@ const Sidebar: React.FC = () => {
             onClick={handleLogout}
             className="nav-item"
             label="Logout"
+
             isExpanded={isExpanded}
           />
         </div>
       </nav>
-    </div>
+    </div> -->
+
   );
 };
 

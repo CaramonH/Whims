@@ -169,7 +169,7 @@ export const leaveGroup = async (userId: string, groupId: string) => {
     // remove user from groups members (or delete the group)
     if (!groupData) {
       console.log('groupData not found');
-    } else if (groupData.createdBy === userRef) {
+    } else if (groupData.createdBy === userId) {
       await deleteDoc(groupRef);
       console.log(`${userId} deleted ${groupId} when leaving`); // Debug log
     } else {

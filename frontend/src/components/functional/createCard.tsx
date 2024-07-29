@@ -2,7 +2,7 @@
 import Button from "../general/button";
 import InputForm from "../userInput/inputForm";
 import "./functional.css";
-import { faCancel } from "@fortawesome/free-solid-svg-icons/faCancel";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { createWhim } from "../../firebaseService"; // Import the createWhim function
 
 const colorVariables: string[] = [
@@ -62,7 +62,7 @@ export function CreateCard({ onCreateCard, onCloseForm }: CreateCardProps) {
       <div className="input-form-wrapper">
         <InputForm onSubmit={handleSubmit} />
         <Button
-          icon={faCancel}
+          icon={faTimes}
           onClick={onCloseForm}
           className="close-button close-create"
           label="Close"

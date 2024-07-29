@@ -65,11 +65,48 @@ const Sidebar: React.FC = () => {
     setGroups((prevGroups) => [...prevGroups, groupCode]);
   };
 
+  const handleLeaveGroup = async (groupData: GroupData) => {
+    console.log(`Group ${groupData.groupCode} left`); // Debug log
+    await fetchGroups();
+  };
+
   const handleGroupClick = (groupCode: string) => {
     console.log(`Group ${groupCode} clicked`);
   };
 
   return (
+   <>
+    <div
+      className={`sidebar ${isExpanded ? "expanded" : ""}`}
+      onMouseEnter={() => handleExpand(true)}
+      onMouseLeave={() => handleExpand(false)}
+    >
+      <h1 className="header-title">{isExpanded ? "Whims" : "W"}</h1>
+      <nav className="sidebar-nav">
+        <div id='groups'>
+          <Button
+            icon={faHome}
+            onClick={handleHome}
+            className="nav-item home-button"
+            label="Home"
+            isExpanded={isExpanded}
+          />
+          {groups.map((group, index) => (
+            <GroupButton
+              key={index}
+              isExpanded={isExpanded}
+              onClick={() => handleGroupClick(group.id)}
+              groupData={group}
+              onLeave={() => handleLeaveGroup(group)}
+            />
+          ))}
+        </div>
+        <CreateGroupOptions
+          isExpanded={isExpanded}
+          onCreateGroup={handleCreateGroup}
+          onJoinGroup={handleJoinGroup}
+        />
+        {/*
     <>
       <div
         className={`sidebar ${isExpanded ? "expanded" : ""}`}
@@ -94,12 +131,7 @@ const Sidebar: React.FC = () => {
                 groupCode={groupCode}
               />
             ))}
-          </div>
-          <CreateGroupOptions
-            isExpanded={isExpanded}
-            onCreateGroup={handleCreateGroup}
-            onJoinGroup={handleJoinGroup}
-          />
+          </div> */}
           <div className="bottom-buttons">
             <Button
               icon={faCog}

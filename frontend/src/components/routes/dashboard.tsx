@@ -40,11 +40,15 @@ const Dashboard: React.FC = () => {
   const handleCreateCard = async (cardData: CardData) => {
     console.log("Creating card:", cardData); // Debug log
     await fetchWhims();
+    // setCards((prevCards) => [...prevCards, cardData]);
+    // ^might be better than running fetchWhims(), to lower the number of reads
   };
 
   const handleDeleteCard = async (cardData: CardData) => {
     console.log("Deleting card:", cardData); // Debug log
     await fetchWhims();
+    // setCards((prevCards) => prevCards.filter(card => card.id !== cardData.id));
+    // ^might be better than running fetchWhims(), to lower the number of reads
   };
 
   console.log("Current cards:", cards); // Debug log

@@ -4,10 +4,17 @@ import { faPlusCircle, faTimes } from "@fortawesome/free-solid-svg-icons";
 import CreateGroup from "./createGroup";
 import JoinGroup from "./joinGroup";
 
+interface GroupData {
+  id: string;
+  createdAt: string;
+  groupName: string;
+  groupCode: string;
+}
+
 interface GroupOptionsButtonProps {
   isExpanded: boolean;
-  onCreateGroup: (groupCode: string) => void;
-  onJoinGroup: (groupCode: string) => void;
+  onCreateGroup: (groupData: GroupData) => void;
+  onJoinGroup: (groupData: GroupData) => void;
 }
 
 const CreateGroupOptions: React.FC<GroupOptionsButtonProps> = ({

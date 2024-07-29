@@ -66,7 +66,6 @@
   font-size: 1.2em;
   background: none;
   padding: 6px;
-  color: var(--color-ui-black);
 }
 
 /* Additional styles */
@@ -82,45 +81,53 @@
   background-color: var(--color-turq);
   color: var(--color-dark-turq);
 }
+.card.--color-turq .delete-button { color: var(--color-dark-turq); }
  
 .card.--color-mant {
   background-color: var(--color-mant);
   color: var(--color-dark-mant);
 
 }
+.card.--color-mant .delete-button { color: var(--color-dark-mant); }
 
 .card.--color-apg {
   background-color: var(--color-apg);
   color: var(--color-dark-apg);
 
 }
+.card.--color-apg .delete-button { color: var(--color-dark-apg); }
 
 .card.--color-yell {
   background-color: var(--color-yell);
   color: var(--color-dark-yell);
 
 }
+.card.--color-yell .delete-button { color: var(--color-dark-yell); }
 
 .card.--color-org {
   background-color: var(--color-org);
   color: var(--color-dark-org);
 
 }
+.card.--color-org .delete-button { color: var(--color-dark-org); }
 
 .card.--color-red {
   background-color: var(--color-red);
   color: var(--color-dark-red);
 
 }
+.card.--color-red .delete-button { color: var(--color-dark-red); }
 
 .card.--color-ind {
   background-color: var(--color-ind);
   color: var(--color-dark-ind);
 
 }
+.card.--color-ind .delete-button { color: var(--color-dark-ind); }
 
 .card.--color-purp {
   background-color: var(--color-purp);
   color: var(--color-dark-purp);
 
 }
+.card.--color-purp .delete-button { color: var(--color-dark-purp); }

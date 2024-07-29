@@ -1,15 +1,28 @@
 import React, { useState } from "react";
-import { getFirestore, doc, collection, addDoc, setDoc } from "firebase/firestore";
+// import { getFirestore, doc, collection, addDoc, setDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import Button from "../general/button";
 import { faPlus, faCopy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./functional.css";
-const CreateGroup: React.FC = () => {
+import { createGroup, checkGroupCodeUnique } from "../../firebaseService";
+
+interface GroupData {
+  id: string;
+  createdAt: string;
+  groupName: string;
+  groupCode: string;
+};
+
+interface CreateGroupProps {
+  onCreateGroup: (groupData: GroupData) => void;
+}
+
+const CreateGroup: React.FC<CreateGroupProps> = ({ onCreateGroup }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [groupCode, setGroupCode] = useState("");
   const [copySuccess, setCopySuccess] = useState(false);
-  const firestore = getFirestore();
+  // const firestore = getFirestore();
   const auth = getAuth();
 
   const generateGroupCode = () => {
@@ -18,6 +31,11 @@ const CreateGroup: React.FC = () => {
     for (let i = 0; i < 7; i++) {
       result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
+    // if (!checkGroupCodeUnique(result)) {
+    //   console.log("Group code already being used");
+    //   return `Group code ${result} is already being used. Which should be extremely unlikely so congrats I guess. I hope you enjoy your unjoinable group as a reward.`;
+    //   // return generateGroupCode(); // this is a potentially dangerous line of code...
+    // }
     return result;
   };
 
@@ -27,21 +45,18 @@ const CreateGroup: React.FC = () => {
       const userId = auth.currentUser.uid;
       try {
         // Add to global groups collection
-        const groupDocRef = await addDoc(collection(firestore, "groups"), {
+        const newGroup = createGroup(userId, {
           groupCode: newGroupCode,
           createdAt: new Date(),
           // Other group details
         });
 
-        // Add group to user's groups subcollection
-        await setDoc(doc(firestore, `users/${userId}/groups/${groupDocRef.id}`), {
-          groupCode: newGroupCode,
-          joinedAt: new Date(),
-          // Other group data
-        });
-
         setGroupCode(newGroupCode);
         setShowPopup(true);
+
+        if (newGroup) {
+          onCreateGroup(newGroup); // I really hope this works...
+        }
       } catch (e) {
         console.error("Error creating group: ", e);
       }

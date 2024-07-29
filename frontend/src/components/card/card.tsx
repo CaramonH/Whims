@@ -74,7 +74,7 @@ const Card: React.FC<CardProps> = ({ id, eventName, eventType, location, color, 
     }
   };
 
-  const truncatedEventName = eventName.length > 70 ? eventName.slice(0, 70) + "..." : eventName;
+  // const truncatedEventName = eventName.length > 70 ? eventName.slice(0, 70) + "..." : eventName;
 
   const handleDeleteWhim = (cardData: CardData) => {
     deleteWhim(id)
@@ -82,14 +82,14 @@ const Card: React.FC<CardProps> = ({ id, eventName, eventType, location, color, 
         console.log("Whim deleted successfully!");
       })
      .catch((error) => {
-        console.error("Error deleting whim:", error);
+        console.error("Error deleting whim handleDeleteWhim:", error);
       });
     onDeleteCard(cardData);
   };
 
   return (
     <div className={`card ${color || randomColor}`}>
-      <h1 className="card-title">{truncatedEventName}</h1>
+      <h1 className="card-title">{eventName}</h1>
       <div className="event-type-icon">
         <FontAwesomeIcon icon={getEventIcon(eventType)} />
       </div>

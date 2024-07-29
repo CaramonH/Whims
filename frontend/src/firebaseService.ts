@@ -46,7 +46,7 @@ export const deleteWhim = async (whimId: string) => {
     await deleteDoc(whimRef);
     console.log('Whim deleted with ID:', whimId);
   } catch (error) {
-    console.error('Error deleting whim:', error);
+    console.error('Error deleting whim deleteWhim:', error);
   }
 };
 
@@ -55,6 +55,7 @@ export const deleteWhim = async (whimId: string) => {
 export const createGroup = async (userId: string, groupData: any) => {
   try {
     groupData.createdBy = userId;
+    groupData.memberIds = [ userId ];
 
     // Create group
     const groupRef = await addDoc(collection(firestore, 'groups'), groupData);
@@ -62,8 +63,11 @@ export const createGroup = async (userId: string, groupData: any) => {
 
     // Add group to user's groupIds
     const userRef = doc(firestore, 'users', userId);
-    await updateDoc(userRef, { groupIds: arrayUnion(groupRef.id) });
+    await setDoc(userRef, { groupIds: arrayUnion(groupRef.id) }, { merge: true });
     console.log('Group added to user with ID:', userId);
+
+    // Returns created group
+    return (groupRef);
 
   } catch (error) {
     console.error('Error creating group:', error);
@@ -71,33 +75,33 @@ export const createGroup = async (userId: string, groupData: any) => {
 };
 
 
-// Function to verify that the randomly generated inviteCode is unique
-export const checkInviteCodeUnique = async (inviteCode: string) => {
+// Function to verify that the randomly generated groupCode is unique
+export const checkGroupCodeUnique = async (groupCode: string) => {
   try {
     const groupsRef = collection(firestore, 'groups');
-    const q = query(groupsRef, where('inviteCode', '==', inviteCode));
+    const q = query(groupsRef, where('groupCode', '==', groupCode));
     const groupSnapshot = await getDocs(q);
 
     if (groupSnapshot.empty) {
-      console.log('Invite code is unique.');
+      console.log('Group code is unique.');
       return true;
     } else {
-      console.log('Invite code is not unique.');
+      console.log('Group code is not unique.');
       return false;
     }
 
   } catch (error) {
-    console.error('Error checking invite code uniqueness:', error);
+    console.error('Error checking group code uniqueness:', error);
   }
 };
 
 
 // Function to join a group
-export const joinGroup = async (userId: string, inviteCode: string) => {
+export const joinGroup = async (userId: string, groupCode: string) => {
   try {
-    // Find group using inviteCode
+    // Find group using groupCode
     const groupsRef = collection(firestore, 'groups');
-    const q = query(groupsRef, where('inviteCode', '==', inviteCode));
+    const q = query(groupsRef, where('groupCode', '==', groupCode));
     const groupSnapshot = await getDocs(q);
 
     if (groupSnapshot.empty) {
@@ -120,13 +124,13 @@ export const joinGroup = async (userId: string, inviteCode: string) => {
 
 
     // Update the group's memberIds unless already added
-    if (groupData.memberIds.includes(userId)) {
+    if (groupData.memberIds && groupData.memberIds.includes(userId)) {
       console.log('Group already has this member.');
     } else {
       const groupRef = doc(firestore, 'groups', groupId);
-      await updateDoc(groupRef, {
+      await setDoc(groupRef, {
         memberIds: arrayUnion(userId)
-      });
+      }, { merge: true });
     }
 
     // Update the user's groupIds unless already added
@@ -134,15 +138,18 @@ export const joinGroup = async (userId: string, inviteCode: string) => {
     const userDoc = await getDoc(userRef);
     const userData = userDoc.data();
 
-    if (userData && userData.groupIds.includes(groupId)) {
+    if (userData && userData.groupIds && userData.groupIds.includes(groupId)) {
       console.log('User is already a member of this group.');
     } else {
-      await updateDoc(userRef, {
+      await setDoc(userRef, {
         groupIds: arrayUnion(groupId)
-      });
+      }, { merge: true });
     }
 
+    // Returns joined group
     console.log(`User ${userId} successfully joined group ${groupId}`);
+    return (groupData);
+
   } catch (error) {
     console.error('Error joining group:', error);
   }

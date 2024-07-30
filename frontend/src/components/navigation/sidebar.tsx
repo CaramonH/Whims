@@ -6,7 +6,6 @@ import Settings from "./settings";
 import Account from "./account";
 import { faHome, faCog, faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { getAuth, signOut } from "firebase/auth";
-import { getFirestore, collection, query, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import "./navigation.css";
 import { getUserGroups } from "../../firebaseService";
@@ -18,19 +17,18 @@ interface GroupData {
   groupCode: string;
 };
 
-// interface SidebarProps {
-//   onSelectGroup: (groupData: GroupData) => void;
-// };
+interface SidebarProps {
+  onSelectGroup: (groupData: GroupData) => void;
+};
 
-// const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
-const Sidebar: React.FC = () => {
+const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
+// const Sidebar: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [groups, setGroups] = useState<GroupData[]>([]);
   const [showSettings, setShowSettings] = useState(false);
   const [showAccount, setShowAccount] = useState(false);
   const navigate = useNavigate();
   const auth = getAuth();
-  const firestore = getFirestore();
 
   const fetchGroups = async () => {
     if (auth.currentUser) {

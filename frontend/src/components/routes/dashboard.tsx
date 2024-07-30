@@ -4,6 +4,7 @@ import Header from "../navigation/header";
 import Card from "../card/card";
 import { getWhims } from "../../firebaseService";
 import "./dashboard.css";
+import { getAuth } from "firebase/auth";
 
 interface CardData {
   id: string;
@@ -14,22 +15,36 @@ interface CardData {
   color: string;
 }
 
+interface GroupData {
+  id: string;
+  createdAt: string;
+  groupName: string;
+  groupCode: string;
+};
+
 const Dashboard: React.FC = () => {
   const [cards, setCards] = useState<CardData[]>([]);
+  // const [currentGroup, setCurrentGroup] = useState<GroupData>();
+  const auth = getAuth();
 
   const fetchWhims = async () => {
-    const whimsData = await getWhims();
-    if (whimsData) {
-      // it says the properties don't exist for whims, but it's wrong, it works
-      const formattedWhims = whimsData.map((whim) => ({
-        id: whim.id,
-        eventName: whim.eventName || null,
-        eventType: whim.eventType || null,
-        date: whim.date || null,
-        location: whim.location || null,
-        color: whim.color || null,
-      }));
-      setCards(formattedWhims);
+    if (auth.currentUser) {
+      // const userId = auth.currentUser.uid;
+      // const whimsData = await getWhims(userId, currentGroup);
+      const whimsData = await getWhims();
+
+      if (whimsData) {
+        // it says the properties don't exist for whims, but it's wrong, it works
+        const formattedWhims = whimsData.map((whim) => ({
+          id: whim.id,
+          eventName: whim.eventName || null,
+          eventType: whim.eventType || null,
+          date: whim.date || null,
+          location: whim.location || null,
+          color: whim.color || null,
+        }));
+        setCards(formattedWhims);
+      }
     }
   };
 
@@ -40,22 +55,25 @@ const Dashboard: React.FC = () => {
   const handleCreateCard = async (cardData: CardData) => {
     console.log("Creating card:", cardData); // Debug log
     await fetchWhims();
-    // setCards((prevCards) => [...prevCards, cardData]);
-    // ^might be better than running fetchWhims(), to lower the number of reads
   };
 
   const handleDeleteCard = async (cardData: CardData) => {
     console.log("Deleting card:", cardData); // Debug log
     await fetchWhims();
-    // setCards((prevCards) => prevCards.filter(card => card.id !== cardData.id));
-    // ^might be better than running fetchWhims(), to lower the number of reads
+  };
+
+  const handleSelectGroup = async (groupData: GroupData) => {
+    console.log(`Group ${groupData.groupCode} button clicked`);
+    // console.log("Pulling whims for group:", groupData.groupCode); // Debug log
+    // setCurrentGroup(groupData);
+    // await fetchWhims();
   };
 
   console.log("Current cards:", cards); // Debug log
 
   return (
     <div className="dashboard">
-      <Sidebar />
+      <Sidebar onSelectGroup={handleSelectGroup} />
       <div className="dashboard-content">
         <Header onCreateCard={handleCreateCard} />
         <main className="main-content">
@@ -63,7 +81,7 @@ const Dashboard: React.FC = () => {
             {cards.map((card, index) => (
               <Card
                 key={index}
-                id={card.id} // Added whimId to identify the specific whim
+                id={card.id}
                 eventName={card.eventName}
                 eventType={card.eventType}
                 location={card.location}

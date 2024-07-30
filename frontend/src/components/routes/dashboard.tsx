@@ -10,7 +10,7 @@ interface CardData {
   id: string;
   eventName: string;
   eventType: string;
-  date: string;
+  date?: string;
   location: string;
   color: string;
 }

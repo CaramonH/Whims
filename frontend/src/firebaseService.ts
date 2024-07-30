@@ -186,31 +186,41 @@ export const leaveGroup = async (userId: string, groupId: string) => {
     const groupRef = doc(firestore, 'groups', groupId);
     const groupDoc = await getDoc(groupRef);
     const groupData = groupDoc.data();
-    const userRef = doc(firestore, 'users', userId);
-    const userDoc = await getDoc(userRef);
-    const userData = userDoc.data();
 
-    // remove user from groups members (or delete the group)
     if (!groupData) {
       console.log('groupData not found');
-    } else if (groupData.createdBy === userId) {
+      return;
+    }
+
+    if (groupData.createdBy === userId) {
+      // Remove the groupId from each user's groupIds
+      for (const memberId of groupData.memberIds) {
+        const memberRef = doc(firestore, 'users', memberId);
+        await updateDoc(memberRef, {
+          groupIds: arrayRemove(groupId)
+        });
+        console.log(`Removed group ${groupId} from user ${memberId}'s groupIds`); // Debug log
+      }
+
+      // Delete the group
       await deleteDoc(groupRef);
-      console.log(`${userId} deleted ${groupId} when leaving`); // Debug log
+      console.log(`${userId} deleted ${groupId} when leaving`);
     } else {
+      // Remove the user from the group's memberIds
       await updateDoc(groupRef, {
         memberIds: arrayRemove(userId)
       });
-      console.log(`${userId} was removed as a member from group ${groupId}`);
+      console.log(`${userId} was removed as a member from group ${groupId}`); // Debug log
+
+      // Remove group from the user's groupIds
+      const userRef = doc(firestore, 'users', userId);
+      await updateDoc(userRef, {
+        groupIds: arrayRemove(groupId)
+      });
     }
-
-    // remove group from users groups
-    await updateDoc(userRef, {
-      groupIds: arrayRemove(groupId)
-    });
-
-    console.log(`${userId} left group with ID: ${groupId}`);
+    console.log(`${userId} left group with ID: ${groupId}`); // Debug log
   } catch (error) {
-    console.error('Error leaving group:', error);
+    console.error('Error leaving group:', error); // Debug log
   }
 };
 

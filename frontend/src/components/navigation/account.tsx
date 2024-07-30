@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, deleteUser } from "firebase/auth";
+import { getFirestore, doc, getDoc, deleteDoc } from "firebase/firestore";
 import Button from "../general/button";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faCircle } from "@fortawesome/free-solid-svg-icons"; // Importing a dummy icon
 import "../navigation/navigation.css";
 
 interface AccountProps {
@@ -10,6 +11,7 @@ interface AccountProps {
 
 const Account: React.FC<AccountProps> = ({ onClose }) => {
   const [email, setEmail] = useState<string | null>(null);
+  const [name, setName] = useState<string | null>(null);
   const windowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -30,16 +32,51 @@ const Account: React.FC<AccountProps> = ({ onClose }) => {
 
   useEffect(() => {
     const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const db = getFirestore();
+    
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setEmail(user.email);
+        try {
+          const userDocRef = doc(db, "users", user.uid); // Adjust the collection path as needed
+          const userDoc = await getDoc(userDocRef);
+          if (userDoc.exists()) {
+            setName(userDoc.data().name); // Adjust the field name as per your Firestore schema
+          } else {
+            console.log("No such document!");
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
       } else {
         setEmail(null);
+        setName(null);
       }
     });
 
     return () => unsubscribe();
   }, []);
+
+  const handleDeleteAccount = async () => {
+    if (window.confirm("Are you sure you want to permanently delete your account? This action cannot be undone.")) {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      const db = getFirestore();
+
+      if (user) {
+        try {
+          await deleteDoc(doc(db, "users", user.uid)); // Adjust the collection path as needed
+          await deleteUser(user);
+
+          alert("Your account has been deleted.");
+          onClose();
+        } catch (error) {
+          console.error("Error deleting account:", error);
+          alert("Failed to delete your account. Please try again later.");
+        }
+      }
+    }
+  };
 
   return (
     <div className="pop-window-overlay">
@@ -54,13 +91,19 @@ const Account: React.FC<AccountProps> = ({ onClose }) => {
           <div className="pop-window-header account-info">
             <h2>Account</h2>
             {email ? (
-              <p>Email: {email}</p>
+              <>
+                <p>Name: {name || "Loading..."}</p>
+                <p>Email: {email}</p>
+              </>
             ) : (
               <p>Loading...</p>
             )}
-            <p>Account Data 1</p>
-            <p>Account Data 2</p>
-            <p>Account Data 3</p>
+            <Button
+              icon={faCircle} // Providing a dummy icon to satisfy the type requirement
+              onClick={handleDeleteAccount}
+              label="Delete Account"
+              className="delete-account-button"
+            />
           </div>
         </div>
       </div>

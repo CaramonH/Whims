@@ -211,3 +211,20 @@
 .account-info {
   color: var(--color-ui-dark-blue);
 }
+
+.delete-account-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.delete-account-button:hover {
+  background-color: darkred;
+}

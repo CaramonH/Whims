@@ -15,7 +15,11 @@ interface GroupData {
   groupCode: string;
 };
 
-const Sidebar: React.FC = () => {
+interface SidebarProps {
+  onSelectGroup: (groupData: GroupData) => void;
+};
+
+const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [groups, setGroups] = useState<GroupData[]>([]);
   const navigate = useNavigate();
@@ -60,15 +64,11 @@ const Sidebar: React.FC = () => {
   const handleCreateGroup = async (groupData: GroupData) => {
     console.log(`Group created with code: ${groupData.groupCode}`); // Debug log
     await fetchGroups();
-    // setGroups((prevGroups) => [...prevGroups, groupData]);
-    // ^hopefully better than running fetchGroups(), I'm hoping it'll lower the number of reads
   };
 
   const handleJoinGroup = async (groupData: GroupData) => {
     console.log(`Group ${groupData.groupCode} joined`); // Debug log
     await fetchGroups();
-    // setGroups((prevGroups) => [...prevGroups, groupData]);
-    // ^hopefully better than running fetchGroups(), I'm hoping it'll lower the number of reads
   };
 
   const handleLeaveGroup = async (groupData: GroupData) => {
@@ -76,10 +76,9 @@ const Sidebar: React.FC = () => {
     await fetchGroups();
   };
 
-  const handleGroupClick = (groupCode: string) => {
-    console.log(`Group ${groupCode} clicked`); // Debug log
-    // this is where I'm gonna have to call the group whims
-    // gonna have to send this groupId to dashboard where it gets the whims
+  const handleGroupClick = (groupData: GroupData) => {
+    console.log(`Group ${groupData.groupCode} selected`); // Debug log
+    onSelectGroup(groupData);
   };
 
   return (
@@ -108,7 +107,7 @@ const Sidebar: React.FC = () => {
           <GroupButton
             key={index}
             isExpanded={isExpanded}
-            onClick={() => handleGroupClick(group.id)}
+            onClick={() => handleGroupClick(group)}
             groupData={group}
             onLeave={() => handleLeaveGroup(group)}
           />

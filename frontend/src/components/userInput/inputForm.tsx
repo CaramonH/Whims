@@ -40,17 +40,18 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
     <>
       <h2>Create a Whim</h2>
       <div className="input-form-div">
+        <p>ENTER EVENT NAME:</p>
         <Input
           placeholder="Event Name"
           value={formData.eventName}
           onChange={handleInputChange("eventName")}
           className="event-name-input"
         />
-
+        <p>ENTER EVENT TYPE:</p>
         <Dropdown onChange={handleInputChange("eventType")} className="event" />
-
+        <p>ENTER THE DATE OF EVENT:</p>
         <DateInput onChange={handleInputChange("date")} />
-
+        <p>ENTER LOCATION OF EVENT:</p>
         <Input
           placeholder="Location"
           value={formData.location}

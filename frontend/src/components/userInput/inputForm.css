@@ -19,16 +19,23 @@
 
 h2 {
   margin-bottom: 1.5rem;
+  margin: 2rem;
   text-align: center;
-  color: var(--color-ui-black);
+  color: var(--color-ui-dark-blue);
+  border-bottom: 3px solid var(--color-ui-dark-blue);
 }
 
+p {
+  margin: 3px;
+  color: var(--color-ui-dark-blue);
+  border-top: 1px solid var(--color-ui-dark-blue);
+}
 .input {
   border-radius: 8px;
   color: var(--color-ui-black);
   border: 2px solid var(--color-ui-blue);
   width: 87%;
-  margin: 1rem;
+  margin-bottom: 1rem;
   padding: 0.5rem;
   background-color: transparent;
   outline: none;
@@ -38,12 +45,13 @@ h2 {
 .input-form-div {
   display: flex;
   flex-direction: column;
+  text-align: left;
   justify-content: space-between;
   align-items: center;
 }
 
 .event{
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
 .dropdown {
@@ -60,7 +68,7 @@ h2 {
   color: var(--color-ui-black);
   border: 2px solid var(--color-ui-blue);
   width: 87%;
-  margin: 1rem;
+  margin-bottom: 1rem;
   padding: 0.5rem;
   background-color: transparent;
   outline: none;

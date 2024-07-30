@@ -10,7 +10,7 @@ interface CardData {
   id: string;
   eventName: string;
   eventType: string;
-  cost: string;
+  date: string;
   location: string;
   color: string;
 }
@@ -39,7 +39,7 @@ const Dashboard: React.FC = () => {
           id: whim.id,
           eventName: whim.eventName || null,
           eventType: whim.eventType || null,
-          cost: whim.cost || null,
+          date: whim.date || null,
           location: whim.location || null,
           color: whim.color || null,
         }));
@@ -85,6 +85,7 @@ const Dashboard: React.FC = () => {
                 eventName={card.eventName}
                 eventType={card.eventType}
                 location={card.location}
+                date={card.date}
                 color={card.color}
                 onDeleteCard={handleDeleteCard}
               />

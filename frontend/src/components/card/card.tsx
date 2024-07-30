@@ -10,7 +10,7 @@ import {
   faPlaneDeparture,
   faPalette,
   faQuestionCircle,
-  faTrash
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import "./card.css";
 import Button from "../general/button";
@@ -36,8 +36,8 @@ interface CardData {
   id: string;
   eventName: string;
   eventType: string;
-  cost: string;
   location: string;
+  date: string;
   color: string;
 }
 
@@ -46,11 +46,20 @@ interface CardProps {
   eventName: string;
   eventType: string;
   location: string;
+  date: string;
   color: string;
   onDeleteCard: (cardData: CardData) => void;
 }
 
-const Card: React.FC<CardProps> = ({ id, eventName, eventType, location, color, onDeleteCard}) => {
+const Card: React.FC<CardProps> = ({
+  id,
+  eventName,
+  eventType,
+  location,
+  date,
+  color,
+  onDeleteCard,
+}) => {
   const randomColor: string = getRandomColor();
 
   const getEventIcon = (type: string): IconProp => {
@@ -75,20 +84,28 @@ const Card: React.FC<CardProps> = ({ id, eventName, eventType, location, color, 
   // const truncatedEventName = eventName.length > 70 ? eventName.slice(0, 70) + "..." : eventName;
 
   const handleDeleteWhim = () => {
-    const cardData: CardData = { id, eventName, eventType, cost: '', location, color };
+    const cardData: CardData = {
+      id,
+      eventName,
+      eventType,
+      location,
+      date,
+      color,
+    };
 
     deleteWhim(id)
       .then(() => {
         console.log("Whim deleted successfully!");
         onDeleteCard(cardData);
       })
-     .catch((error) => {
+      .catch((error) => {
         console.error("Error deleting whim handleDeleteWhim:", error);
       });
   };
 
   return (
     <div className={`card ${color || randomColor}`}>
+      <div className="card-date">{date}</div>
       <h1 className="card-title">{eventName}</h1>
       <div className="event-type-icon">
         <FontAwesomeIcon icon={getEventIcon(eventType)} />

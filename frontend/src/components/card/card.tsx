@@ -46,7 +46,7 @@ interface CardProps {
   eventName: string;
   eventType: string;
   location: string;
-  date: string;
+  date?: string;
   color: string;
   onDeleteCard: (cardData: CardData) => void;
 }

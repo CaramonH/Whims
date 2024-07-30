@@ -25,7 +25,7 @@ interface CardData {
   eventName: string;
   eventType: string;
   location: string;
-  date: string;
+  date?: string;
   color?: string; // Make color optional
 }
 

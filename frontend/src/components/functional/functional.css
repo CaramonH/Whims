@@ -2,7 +2,6 @@
 
 .create-card-container {
   position: relative;
-/* z-index: 999;*/
 }
 
 .create-button {
@@ -39,13 +38,6 @@
   position: relative;
 }
 
-.close-button {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  background-color: var(--color-dark-red);
-}
-
 .close-button:hover, .create-button:hover, .unread-btn:hover, .newest-btn:hover {
   opacity: 0.8;
 }
@@ -53,6 +45,12 @@
 .cards-container {
   display: flex;
   flex-wrap: wrap;
+}
+
+.close-create {
+  position: absolute !important;
+  top: 20px;
+  left: 20px;
 }
 
 /* FILTERS */
@@ -74,38 +72,49 @@
 .newest-btn {
   width: 12em;
   font-size: 0.8em;
-
 }
 
-/*GROUPS STYLING*/
-/*GROUPS STYLING*/
 /*GROUPS STYLING*/
 .group-code-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f0f0f0;
+  background-color: none;
   padding: 10px;
+  border-color: var(--color-ui-blue);
   border-radius: 5px;
   cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.create-button:hover + .group-code-container {
+  display: flex;
+  position: absolute;
 }
 
 .group-code {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   margin-right: 10px;
 }
 
-.join-group-input {
-  color: white;
+.popup {
+  background-color: var(--color-ui-blue);
+  z-index: 1;
+}
+
+.yourCode {
+  padding: 0px;
+  margin: auto;
 }
 
 .copy-icon {
-  color: #888;
+  color: var(--color-ui-white);
+  font-size: 1em;
 }
 
 .copy-success {
-  color: green;
+  color: var(--color-ui-white);
   margin-top: 10px;
 }
 
@@ -122,18 +131,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 999;
 }
 
 .pop-window-content {
-  background-color: grey;
+  background-color: var(--color-ui-white);
   padding: 20px;
   border-radius: 5px;
   position: relative;
-}
-
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
 }

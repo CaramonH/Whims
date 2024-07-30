@@ -55,6 +55,9 @@
   display: flex;
   flex-direction: column;
   z-index: 999;
+  /* height: 90vh; */
+  -ms-overflow-style: none;  /* Scroll remover for Internet Explorer 10+ */
+  scrollbar-width: none;  /* Scroll remover for  Firefox */
   box-shadow: 2px 0 4px rgba(0,88,182,0.8);
 }
 
@@ -72,6 +75,7 @@
   height: 100%;
   padding: 20px 0;
   min-height: min-content;
+  flex: 1;
 }
 
 .nav-item {
@@ -99,7 +103,7 @@
 }
 
 .create-group-button {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .group-button {
@@ -113,6 +117,19 @@
 .bottom-buttons {
   margin-top: auto;
   padding-top: 20px;
+  padding-bottom: 6px;
+  position: absolute;
+  top: 83vh;
+  width: 100%;
+  z-index: 4;
+  background-color: var(--color-ui-dark-blue);
+}
+
+.bottom-button:hover {
+  background-color: var(--color-ui-blue);
+}
+.sidebar::-webkit-scrollbar { 
+  display: none;  /* Scroll remover for Safari and Chrome */
 }
 
 .sidebar:not(.expanded) .nav-item {
@@ -125,6 +142,10 @@
 
 .sidebar:not(.expanded) .nav-item span {
   display: none;
+}
+
+.createGroupOptions.expanded {
+  background-color: var(--color-ui-dark-blue);
 }
 
 @media (max-height: 600px) {
@@ -146,8 +167,6 @@
   }
 }
 
-
-
 .pop-window-overlay {
   position: fixed;
   top: 0;
@@ -158,19 +177,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 999;
 }
 
 .pop-window {
   position: relative;
-  background-color: white;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .pop-window-content {
   width: 300px; /* Adjust as needed */
+  height: 40vh;
 }
 
 .pop-window-header {
@@ -178,28 +197,17 @@
 }
 
 .close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: #ff0000;
-  color: white;
-  border: none;
-  width: 30px;
-  height: 30px;
-  border-radius: 4px;
+  position: relative;
+  z-index: 1000;
+  background-color: var(--color-dark-red);
+  color: var(--color-ui-white);
+  padding: 0.6em 1.2em;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  font-size: 16px;
-  padding: 0;
 }
 
-.close-button:hover {
-  background-color: #cc0000;
-}
-
-.close-button svg {
-  width: 16px;
-  height: 16px;
+.account-info {
+  color: var(--color-ui-dark-blue);
 }

@@ -29,7 +29,7 @@ const Dashboard: React.FC = () => {
 
   const fetchWhims = async () => {
     if (auth.currentUser) {
-      const userId = auth.currentUser.uid;
+      // const userId = auth.currentUser.uid;
       // const whimsData = await getWhims(userId, currentGroup);
       const whimsData = await getWhims();
 

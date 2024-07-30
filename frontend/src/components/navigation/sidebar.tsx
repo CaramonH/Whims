@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import Button from "../general/button";
 import CreateGroupOptions from "../functional/createGroupOptions";
 import GroupButton from "../functional/group";
+import Settings from "./settings";
+import Account from "./account";
 import { faHome, faCog, faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { getAuth, signOut } from "firebase/auth";
+import { getFirestore, collection, query, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import "./navigation.css";
-import { getUserGroups } from "../../firebaseService";
 
 interface GroupData {
   id: string;
@@ -15,49 +17,54 @@ interface GroupData {
   groupCode: string;
 };
 
-interface SidebarProps {
-  onSelectGroup: (groupData: GroupData) => void;
-};
+// interface SidebarProps {
+//   onSelectGroup: (groupData: GroupData) => void;
+// };
 
-const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
+// const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
+const Sidebar: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [groups, setGroups] = useState<GroupData[]>([]);
+  const [showSettings, setShowSettings] = useState(false);
+  const [showAccount, setShowAccount] = useState(false);
   const navigate = useNavigate();
   const auth = getAuth();
+  const firestore = getFirestore();
 
   const fetchGroups = async () => {
     if (auth.currentUser) {
       const userId = auth.currentUser.uid;
-      const groupsData = await getUserGroups(userId);
-      if (groupsData) {
-        const formattedGroupsData = groupsData.map((group) => ({
-          id: group.id,
-          createdAt: group.createdAt,
-          groupName: group.groupName || null,
-          groupCode: group.groupCode,
-        }));
-        setGroups(formattedGroupsData);
-      }
+      const q = query(collection(firestore, `users/${userId}/groups`));
+      const querySnapshot = await getDocs(q);
+
+      const userGroups: string[] = [];
+      querySnapshot.forEach((doc) => {
+        userGroups.push(doc.data().groupCode);
+      });
+      setGroups(userGroups);
     }
   };
 
   useEffect(() => {
-    fetchGroups(); // this alone does not overload the database with read requests
-  }, [auth.currentUser]);
+    fetchGroups();
+  }, [auth.currentUser, firestore]);
 
   const handleExpand = (expanded: boolean) => {
     setIsExpanded(expanded);
     document.body.classList.toggle("sidebar-expanded", expanded);
   };
+
   const handleHome = () => console.log("Home clicked");
-  const handleSettings = () => console.log("Settings clicked");
-  const handleAccount = () => console.log("Account clicked");
+  const handleSettings = () => setShowSettings(true);
+  const handleCloseSettings = () => setShowSettings(false);
+  const handleAccount = () => setShowAccount(true);
+  const handleCloseAccount = () => setShowAccount(false);
   const handleLogout = async () => {
     try {
       await signOut(auth);
       navigate("/login");
     } catch (error) {
-      console.error("Error logging out", error); // Debug log
+      console.error("Error logging out", error);
     }
   };
 
@@ -77,66 +84,76 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
   };
 
   const handleGroupClick = (groupData: GroupData) => {
-    console.log(`Group ${groupData.groupCode} selected`); // Debug log
-    onSelectGroup(groupData);
+    console.log(`Group ${groupData.groupCode} button clicked`); // Debug log
+    // console.log(`Group ${groupData.groupCode} selected`); // Debug log
+    // onSelectGroup(groupData);
+    // this is where I tell dashboard to get whims by group
+    // this should actually be a filter, not an API thing
+    // but maybe I should make it so that if a group is selected,
+    // it only refreshes the cards of the group rather than all user whims
+    // when whims are created/deleted/etc
   };
 
   return (
-    <div
-      className={`sidebar ${isExpanded ? "expanded" : ""}`}
-      onMouseEnter={() => handleExpand(true)}
-      onMouseLeave={() => handleExpand(false)}
-    >
-      <h1 className="header-title">{isExpanded ? "Whims" : "W"}</h1>
-      <nav className="sidebar-nav">
-        <div>
-          <Button
-            icon={faHome}
-            onClick={handleHome}
-            className="nav-item home-button"
-            label="Home"
+    <>
+      <div
+        className={`sidebar ${isExpanded ? "expanded" : ""}`}
+        onMouseEnter={() => handleExpand(true)}
+        onMouseLeave={() => handleExpand(false)}
+      >
+        <h1 className="header-title">{isExpanded ? "Whims" : "W"}</h1>
+        <nav className="sidebar-nav">
+          <div id='groups'>
+            <Button
+              icon={faHome}
+              onClick={handleHome}
+              className="nav-item home-button"
+              label="Home"
+              isExpanded={isExpanded}
+            />
+            {groups.map((group, index) => (
+              <GroupButton
+                key={index}
+                isExpanded={isExpanded}
+                onClick={() => handleGroupClick(group)}
+                groupData={group}
+                onLeave={() => handleLeaveGroup(group)}
+              />
+            ))}
+          </div>
+          <CreateGroupOptions
             isExpanded={isExpanded}
+            onCreateGroup={handleCreateGroup}
+            onJoinGroup={handleJoinGroup}
           />
-        </div>
-        <CreateGroupOptions
-          isExpanded={isExpanded}
-          onCreateGroup={handleCreateGroup}
-          onJoinGroup={handleJoinGroup}
-        />
-        {groups.map((group, index) => (
-          <GroupButton
-            key={index}
-            isExpanded={isExpanded}
-            onClick={() => handleGroupClick(group)}
-            groupData={group}
-            onLeave={() => handleLeaveGroup(group)}
-          />
-        ))}
-        <div className="bottom-buttons">
-          <Button
-            icon={faCog}
-            onClick={handleSettings}
-            className="nav-item"
-            label="Settings"
-            isExpanded={isExpanded}
-          />
-          <Button
-            icon={faUser}
-            onClick={handleAccount}
-            className="nav-item"
-            label="Account"
-            isExpanded={isExpanded}
-          />
-          <Button
-            icon={faSignOutAlt}
-            onClick={handleLogout}
-            className="nav-item"
-            label="Logout"
-            isExpanded={isExpanded}
-          />
-        </div>
-      </nav>
-    </div>
+          <div className="bottom-buttons">
+            <Button
+              icon={faCog}
+              onClick={handleSettings}
+              className="nav-item bottom-button"
+              label="Settings"
+              isExpanded={isExpanded}
+            />
+            <Button
+              icon={faUser}
+              onClick={handleAccount}
+              className="nav-item bottom-button"
+              label="Account"
+              isExpanded={isExpanded}
+            />
+            <Button
+              icon={faSignOutAlt}
+              onClick={handleLogout}
+              className="nav-item bottom-button"
+              label="Logout"
+              isExpanded={isExpanded}
+            />
+          </div>
+        </nav>
+      </div>
+      {showSettings && <Settings onClose={handleCloseSettings} />}
+      {showAccount && <Account onClose={handleCloseAccount} />}
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { leaveGroup } from '../../firebaseService';
@@ -40,8 +40,10 @@ const GroupButton: React.FC<GroupButtonProps> = ({
     }
   };
 
+  const divRef = useRef<HTMLDivElement>(null);
+
   return (
-    <>
+    <div ref={divRef}>
       <button onClick={onClick} className="nav-item group-button">
         <FontAwesomeIcon icon={faUser} />
         {isExpanded && <span className="label">{groupData.groupCode}</span>}
@@ -49,7 +51,7 @@ const GroupButton: React.FC<GroupButtonProps> = ({
       <button onClick={handleOnLeave}>
         <FontAwesomeIcon icon={faSignOutAlt} />
       </button>
-    </>
+    </div>
   );
 };
 

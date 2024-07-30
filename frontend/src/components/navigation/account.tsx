@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged, deleteUser } from "firebase/auth";
+import { getAuth, onAuthStateChanged, deleteUser, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
 import { getFirestore, doc, getDoc, deleteDoc } from "firebase/firestore";
 import Button from "../general/button";
-import { faTimes, faCircle } from "@fortawesome/free-solid-svg-icons"; // Importing a dummy icon
+import { faTimes, faCircle } from "@fortawesome/free-solid-svg-icons"; // Importing icons
 import "../navigation/navigation.css";
 
 interface AccountProps {
@@ -12,6 +12,7 @@ interface AccountProps {
 const Account: React.FC<AccountProps> = ({ onClose }) => {
   const [email, setEmail] = useState<string | null>(null);
   const [name, setName] = useState<string | null>(null);
+  const [password, setPassword] = useState<string | null>(null); // State for password prompt
   const windowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -58,13 +59,22 @@ const Account: React.FC<AccountProps> = ({ onClose }) => {
   }, []);
 
   const handleDeleteAccount = async () => {
-    if (window.confirm("Are you sure you want to permanently delete your account? This action cannot be undone.")) {
-      const auth = getAuth();
-      const user = auth.currentUser;
-      const db = getFirestore();
+    const auth = getAuth();
+    const user = auth.currentUser;
 
-      if (user) {
+    if (user) {
+      // Prompt user to confirm password
+      const password = prompt("Please enter your password to confirm:");
+
+      if (password) {
+        const credential = EmailAuthProvider.credential(user.email || "", password);
+
         try {
+          // Reauthenticate user
+          await reauthenticateWithCredential(user, credential);
+          
+          // Proceed with account deletion
+          const db = getFirestore();
           await deleteDoc(doc(db, "users", user.uid)); // Adjust the collection path as needed
           await deleteUser(user);
 
@@ -72,8 +82,10 @@ const Account: React.FC<AccountProps> = ({ onClose }) => {
           onClose();
         } catch (error) {
           console.error("Error deleting account:", error);
-          alert("Failed to delete your account. Please try again later.");
+          alert("Failed to delete your account. Please check your password and try again.");
         }
+      } else {
+        alert("Password is required to delete the account.");
       }
     }
   };

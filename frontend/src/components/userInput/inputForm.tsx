@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Input from "../general/input";
 import Dropdown from "../general/dropdown";
 import Button from "../general/button";
-import "./inputForm.css"
+import DateInput from "../functional/dateInput";
+import "./inputForm.css";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 interface InputFormProps {
@@ -12,16 +13,16 @@ interface InputFormProps {
 interface CardData {
   eventName: string;
   eventType: string;
-  cost: string;
   location: string;
+  date: string;
 }
 
 const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
   const [formData, setFormData] = useState<CardData>({
     eventName: "",
     eventType: "",
-    cost: "",
     location: "",
+    date: "",
   });
 
   const handleInputChange = (field: keyof CardData) => (value: string) => {
@@ -29,7 +30,7 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
   };
 
   const handleSubmit = () => {
-    console.log("Form submitted with data:", formData); // Debug log
+    console.log("Form submitted with data:", formData);
     if (onSubmit) {
       onSubmit(formData);
     }
@@ -41,14 +42,18 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
       <div className="input-form-div">
         <Input
           placeholder="Event Name"
+          value={formData.eventName}
           onChange={handleInputChange("eventName")}
           className="event-name-input"
         />
 
         <Dropdown onChange={handleInputChange("eventType")} className="event" />
-        <Dropdown onChange={handleInputChange("cost")} className="cost" />
+
+        <DateInput onChange={handleInputChange("date")} />
+
         <Input
           placeholder="Location"
+          value={formData.location}
           onChange={handleInputChange("location")}
           className="location-input"
         />

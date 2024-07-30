@@ -24,8 +24,8 @@ const getRandomColor = (): string => {
 interface CardData {
   eventName: string;
   eventType: string;
-  cost: string;
   location: string;
+  date: string;
   color?: string; // Make color optional
 }
 

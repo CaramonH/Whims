@@ -17,6 +17,18 @@
   overflow-wrap: break-word;
 }
 
+.card-date {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1em;
+  color: var(--color-ui-black);
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 4px 40px;
+  border-radius: 4px;
+}
+
 .event-type-icon {
   position: absolute;
   top: 16px;

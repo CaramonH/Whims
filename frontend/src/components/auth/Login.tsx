@@ -14,7 +14,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   const auth = getAuth();
-  const db = getFirestore(); // Initialize Firestore
+  const firestore = getFirestore(); // Initialize Firestore
 
   const handleLogin = async () => {
     setErrorMessage(null); // Clear previous errors
@@ -41,7 +41,7 @@ const Login: React.FC = () => {
       const user = userCredential.user;
 
       // Store the user's name in Firestore
-      await setDoc(doc(db, "users", user.uid), {
+      await setDoc(doc(firestore, "users", user.uid), {
         name: name,
         email: email
       });
@@ -75,7 +75,7 @@ const Login: React.FC = () => {
       const email = user.email || '';
 
       // Store the user's name and email in Firestore
-      await setDoc(doc(db, "users", user.uid), {
+      await setDoc(doc(firestore, "users", user.uid), {
         name: name,
         email: email
       });

@@ -9,6 +9,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { getFirestore, collection, query, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import "./navigation.css";
+import { getUserGroups } from "../../firebaseService";
 
 interface GroupData {
   id: string;
@@ -34,20 +35,22 @@ const Sidebar: React.FC = () => {
   const fetchGroups = async () => {
     if (auth.currentUser) {
       const userId = auth.currentUser.uid;
-      const q = query(collection(firestore, `users/${userId}/groups`));
-      const querySnapshot = await getDocs(q);
-
-      const userGroups: string[] = [];
-      querySnapshot.forEach((doc) => {
-        userGroups.push(doc.data().groupCode);
-      });
-      setGroups(userGroups);
+      const groupsData = await getUserGroups(userId);
+      if (groupsData) {
+        const formattedGroupsData: GroupData[] = groupsData.map((group) => ({
+          id: group.id,
+          createdAt: group.createdAt,
+          groupName: group.groupName || null,
+          groupCode: group.groupCode,
+        }));
+        setGroups(formattedGroupsData);
+      }
     }
   };
 
   useEffect(() => {
     fetchGroups();
-  }, [auth.currentUser, firestore]);
+  }, [auth.currentUser]);
 
   const handleExpand = (expanded: boolean) => {
     setIsExpanded(expanded);

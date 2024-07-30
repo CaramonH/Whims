@@ -55,6 +55,18 @@ h2 {
   background-color: transparent;
 }
 
+.date-input {
+  border-radius: 8px;
+  color: var(--color-ui-black);
+  border: 2px solid var(--color-ui-blue);
+  width: 87%;
+  margin: 1rem;
+  padding: 0.5rem;
+  background-color: transparent;
+  outline: none;
+  z-index: 2;
+}
+
 .submit-button {
   position: absolute;
   background-color: var(--color-ui-green);

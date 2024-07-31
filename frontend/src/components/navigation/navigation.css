@@ -195,7 +195,10 @@
 }
 
 .pop-window-header {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  margin: 2rem;
+  color: var(--color-ui-white);
+  border-bottom: 3px solid var(--color-ui-white);
 }
 
 .close-button {
@@ -203,8 +206,6 @@
   z-index: 1000;
   background-color: var(--color-dark-red);
   color: var(--color-ui-white);
-  padding: 0.6em 1.2em;
-  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -212,14 +213,14 @@
 
 /* ACOUNT WINDOW */
 .account-info {
-  color: var(--color-ui-dark-blue);
+  color: var(--color-ui-white);
   font-size: large;
 }
 
 .delete-account {
   display: flex;
   margin: auto;
-  margin-top: 5em;
+  justify-content: center;
 }
 
 .delete-account-button {
@@ -239,6 +240,16 @@
 .account-title {
   margin-bottom: 2rem;
   padding-bottom: 10px;
-  color: var(--color-ui-dark-blue);
-  border-bottom: 3px solid var(--color-ui-dark-blue);
+  color: var(--color-ui-white);
+  border-bottom: 3px solid var(--color-ui-white);
+}
+
+/* SETTINGS WINDOW */
+
+.settings-dropdown1 {
+  color: var(--color-ui-white) !important;
+}
+
+.settings-dropdown option {
+  background-color: var(--color-ui-dark-blue) !important;
 }

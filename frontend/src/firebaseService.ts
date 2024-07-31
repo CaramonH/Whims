@@ -8,26 +8,48 @@ import {
 // Function to create a whim
 export const createWhim = async (whimData: any) => {
   try {
-    const whimRef = await addDoc(collection(firestore, 'whims'), whimData);
+    const whimRef = await addDoc(collection(firestore, 'groups', whimData.groupId, 'whims'), whimData);
     console.log(`Whim created successfully with ID: ${whimRef.id}`);
   } catch (error) {
     console.error("Error creating whim:", error);
   }
 };
 
-// Function to get whims
-export const getWhims = async () => {
-  try {
-    const whimsRef = collection(firestore, 'whims');
-    const whimsSnapshot = await getDocs(whimsRef);
 
-    if (whimsSnapshot.empty) {
-      console.log("No whims available.");
-      return [];
+// Function to get whims - gets all, outdated function for Karis' code
+// export const getWhims = async () => {
+//   try {
+//     const whimsRef = collection(firestore, 'whims');
+//     const whimsSnapshot = await getDocs(whimsRef);
+
+//     if (whimsSnapshot.empty) {
+//       console.log("No whims available.");
+//       return [];
+
+// Function to get all whims of a user
+export const getWhims = async (userId: string) => {
+  try {
+    const userRef = doc(firestore, 'users', userId);
+    const userDoc = await getDoc(userRef);
+    const userData = userDoc.data();
+    if (userData) {
+      if (!userData.groupIds) {
+        console.log("No whims available.");
+        return [];
+      }
+      let allUserWhims = [];
+      for (const groupId of userData.groupIds) {
+        const whimsRef = collection(firestore, 'groups', groupId, 'whims');
+        const whimsSnapshot = await getDocs(whimsRef);
+        const groupWhims = whimsSnapshot.docs.map(whim => ({ id: whim.id, ...whim.data() }));
+        allUserWhims.push(...groupWhims);
+        console.log('groupWhims:', groupWhims); // Debug log
+      }
+      console.log("getWhims - all user whims:", allUserWhims); // Debug log
+      return allUserWhims;
     } else {
-      const whims = whimsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      console.log(whims);
-      return whims;
+      console.log("No such user!");
+      return [];
     }
   } catch (error) {
     console.error("Error reading whims:", error);
@@ -36,11 +58,11 @@ export const getWhims = async () => {
 };
 
 // Function to delete a whim by its ID
-export const deleteWhim = async (whimId: string) => {
+export const deleteWhim = async (whimData: any) => {
   try {
-    const whimRef = doc(firestore, 'whims', whimId);
+    const whimRef = doc(firestore, 'groups', whimData.groupId, 'whims', whimData.id);
     await deleteDoc(whimRef);
-    console.log('Whim deleted with ID:', whimId);
+    console.log('Whim deleted with ID:', whimData.id);
   } catch (error) {
     console.error('Error deleting whim deleteWhim:', error);
   }

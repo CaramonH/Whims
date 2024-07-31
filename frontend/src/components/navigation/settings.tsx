@@ -40,9 +40,11 @@ const Settings: React.FC<SettingsProps> = ({ onClose }) => {
           <div className="pop-window-header">
             <h2>Settings</h2>
           </div>
-          <Dropdown />
-          <Dropdown />
-          <Dropdown />
+          <div className="settings-dropdown">
+            <Dropdown className="settings-dropdown1"/>
+            <Dropdown className="settings-dropdown1"/>
+            <Dropdown className="settings-dropdown1"/>
+          </div>
         </div>
       </div>
     </div>

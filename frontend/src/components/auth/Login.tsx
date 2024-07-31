@@ -100,7 +100,7 @@ const Login: React.FC = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-            {nameError && <p style={{ color: 'red' }}>{nameError}</p>}
+            {nameError && <p className="login-error">{nameError}</p>}
           </div>
         )}
         <input
@@ -118,7 +118,7 @@ const Login: React.FC = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+      {errorMessage && <p className="login-error">{errorMessage}</p>}
       <div className="login-button-container">
         <button className='login-button' onClick={isRegistering ? handleRegister : handleLogin}>
           {isRegistering ? 'Register' : 'Login'}

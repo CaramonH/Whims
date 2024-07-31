@@ -43,10 +43,10 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
 
   return (
     <>
-      <h2>Create a Whim</h2>
+      <h2 className="create-title">Create a Whim</h2>
       <div className="input-form-div">
         <div className="row">
-          <p>ENTER EVENT NAME:</p>
+          <p className="enter-tag">ENTER EVENT NAME:</p>
         </div>
         <Input
           placeholder="Event Name"
@@ -56,21 +56,21 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
         />
 
         <div className="row">
-          <p>ENTER EVENT TYPE:</p>
+          <p className="enter-tag">ENTER EVENT TYPE:</p>
         </div>
         <Dropdown
           onChange={handleInputChange("eventType")}
-          className="event"
+          className="event-dropdown"
         />
 
         <div className="row">
-          <p>ENTER THE DATE OF EVENT: </p>
+          <p className="enter-tag">ENTER THE DATE OF EVENT: </p>
           <p className="optional-p"> *Optional Field</p>
         </div>
         <DateInput onChange={handleInputChange("date")} />
 
         <div className="row">
-          <p>ENTER LOCATION OF EVENT: </p>
+          <p className="enter-tag">ENTER LOCATION OF EVENT: </p>
           <p className="optional-p"> *Optional Field</p>
         </div>
         <Input

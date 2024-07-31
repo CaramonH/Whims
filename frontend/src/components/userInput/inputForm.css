@@ -17,7 +17,7 @@
   max-width: 400px;
 }
 
-h2 {
+.create-title {
   margin-bottom: 1.5rem;
   margin: 2rem;
   text-align: center;
@@ -25,7 +25,7 @@ h2 {
   border-bottom: 3px solid var(--color-ui-dark-blue);
 }
 
-p {
+.enter-tag {
   margin: 3px;
   color: var(--color-ui-dark-blue);
   position: relative;
@@ -51,8 +51,9 @@ p {
   align-items: center;
 }
 
-.event{
+.event-dropdown{
   margin-bottom: 1rem;
+  color: var(--color-ui-black) !important;
 }
 
 .dropdown {
@@ -79,6 +80,7 @@ p {
 .optional-p {
   font-size: medium;
   color: var(--color-dark-red);
+  margin: auto; /*This margin is needed to override the default margin*/
   margin-left: 20px;
 }
 

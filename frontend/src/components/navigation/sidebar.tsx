@@ -23,7 +23,7 @@ interface GroupData {
 }
 
 interface SidebarProps {
-  onSelectGroup: (groupData: GroupData) => void;
+  onSelectGroup: (groupData?: GroupData) => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
@@ -60,7 +60,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
     document.body.classList.toggle("sidebar-expanded", expanded);
   };
 
-  const handleHome = () => console.log("Home clicked");
+//   const handleHome = () => console.log("Home clicked");
   const handleSettings = () => setShowSettings(true);
   const handleCloseSettings = () => setShowSettings(false);
   const handleAccount = () => setShowAccount(true);
@@ -89,6 +89,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
     await fetchGroups();
   };
 
+// evanBranch
   const handleGroupClick = (groupData: GroupData) => {
     console.log(`Group ${groupData.groupCode} button clicked`);
     onSelectGroup(groupData.id);
@@ -96,8 +97,24 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
 
   const handleHomeClick = () => {
     console.log("Home clicked");
-    onSelectGroup(null); // Passing null to show all groups
+    onSelectGroup(undefined); // Passing null to show all groups
   };
+
+// karisBranch
+//   const handleGroupClick = (groupData?: GroupData) => {
+//     if (groupData) {
+//       console.log(`Group ${groupData.groupCode} selected`); // Debug log
+//       onSelectGroup(groupData);
+//     } else {
+//       handleHome();
+//       onSelectGroup(undefined);
+//     }
+//   };
+    // this is where I tell dashboard to get whims by group
+    // this should actually be a filter, not an API thing
+    // but maybe I should make it so that if a group is selected,
+    // it only refreshes the cards of the group rather than all user whims
+    // when whims are created/deleted/etc
 
   return (
     <>
@@ -111,7 +128,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
           <div id="groups">
             <Button
               icon={faHome}
-              onClick={handleHomeClick}
+              onClick={() => handleHomeClick(undefined)}
               className="nav-item home-button"
               label="Home"
               isExpanded={isExpanded}

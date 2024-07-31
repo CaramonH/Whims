@@ -8,10 +8,12 @@ import { getAuth } from "firebase/auth";
 
 interface WhimData {
   id: string;
+  groupId: string;
+  createdBy: string;
   eventName: string;
   eventType: string;
   date?: string;
-  location: string;
+  location?: string;
   color: string;
   groupId: string; // Add groupId
 }
@@ -21,15 +23,51 @@ interface GroupedWhims {
 }
 
 const Dashboard: React.FC = () => {
-  const [allWhims, setAllWhims] = useState<WhimData[]>([]);
-  const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
+// evanBranch
+//  const [allWhims, setAllWhims] = useState<WhimData[]>([]);
+//  const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
+  const [allUserCards, setAllUserCards] = useState<CardData[]>([]);
+  // const [cards, setCards] = useState<CardData[]>([]);
+  const [currentGroup, setCurrentGroup] = useState<GroupData>();
   const auth = getAuth();
+
+  let cards;
+  // const filterGroupWhims = () => {
+  if (currentGroup) {
+    console.log('currentGroup:', currentGroup);
+    console.log('allUserCards:', allUserCards);
+    const filteredWhimsByGroup = allUserCards.filter((card) => card.groupId === currentGroup.id);
+    console.log('filteredWhimsByGroup: ', filteredWhimsByGroup);
+    cards = filteredWhimsByGroup;
+  } else {
+    console.log('no currentGroup - allUserCards:', allUserCards);
+    cards = allUserCards;
+  }
+  // };
 
   const fetchWhims = async () => {
     if (auth.currentUser) {
-      const whimsData = await getWhims();
-      if (whimsData) {
-        setAllWhims(whimsData);
+// evanBranch
+//       const whimsData = await getWhims();
+//       if (whimsData) {
+//         setAllWhims(whimsData);
+      const userId = auth.currentUser.uid;
+      const allWhimsData = await getWhims(userId);
+
+      if (allWhimsData) {
+        // it says the properties don't exist for whims, but it's wrong, it works
+        const formattedWhims = allWhimsData.map((whim) => ({
+          id: whim.id,
+          groupId: whim.groupId,
+          createdBy: whim.createdBy,
+          eventName: whim.eventName || null,
+          eventType: whim.eventType || null,
+          date: whim.date || null,
+          location: whim.location || null,
+          color: whim.color || null,
+        }));
+        console.log(`formattedWhims:`, formattedWhims);
+        setAllUserCards(formattedWhims);
       }
     }
   };
@@ -48,13 +86,29 @@ const Dashboard: React.FC = () => {
     await fetchWhims();
   };
 
-  const handleSelectGroup = (groupId: string | null) => {
-    setSelectedGroupId(groupId);
+// evanBranch
+//   const handleSelectGroup = (groupId: string | null) => {
+//    setSelectedGroupId(groupId);
+//   };
+
+  const handleSelectGroup = (groupData?: GroupData) => {
+    // console.log(`Group ${groupData.groupCode} button clicked`);
+    if (groupData == currentGroup) {
+      console.log("Already on this group page"); // Debug log
+      return;
+    }
+    if (groupData) {
+      console.log("Pulling whims for group:", groupData.groupCode); // Debug log
+      setCurrentGroup(groupData);
+    } else {
+      console.log("Pulling all whims for home page"); // Debug log
+      setCurrentGroup(undefined);
+    }
   };
 
-  const filteredWhims = selectedGroupId
-    ? allWhims.filter((whim) => whim.groupId === selectedGroupId)
-    : allWhims;
+  const filteredWhims = currentGroup.id
+    ? allUserCards.filter((whim) => whim.groupId === currentGroup.id)
+    : allUserCards;
 
   const groupedWhims: GroupedWhims = filteredWhims.reduce((acc, whim) => {
     if (!acc[whim.groupId]) {
@@ -64,7 +118,7 @@ const Dashboard: React.FC = () => {
     return acc;
   }, {} as GroupedWhims);
 
-  const isHomeView = selectedGroupId === null;
+  const isHomeView = currentGroup.id === null;
 
   return (
     <div className="dashboard">
@@ -72,14 +126,31 @@ const Dashboard: React.FC = () => {
       <div className="dashboard-content">
         <Header
           onCreateCard={handleCreateCard}
-          currentGroupId={selectedGroupId}
+          groupData={currentGroup}
         />
         <main className="main-content">
+{/* evanBranch */}
           <Tray
             groupedWhims={groupedWhims}
             onDeleteCard={handleDeleteCard}
             isHomeView={isHomeView}
           />
+{/* karisBranch
+         <div className="cards-container">
+            {cards.map((card, index) => (
+              <Card
+                key={index}
+                groupId={card.groupId}
+                id={card.id}
+                eventName={card.eventName}
+                eventType={card.eventType}
+                location={card.location}
+                date={card.date}
+                color={card.color}
+                onDeleteCard={handleDeleteCard}
+              />
+            ))}
+          </div> */}
         </main>
       </div>
     </div>

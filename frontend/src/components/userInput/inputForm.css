@@ -29,6 +29,7 @@ p {
   margin: 3px;
   color: var(--color-ui-dark-blue);
   border-top: 1px solid var(--color-ui-dark-blue);
+  position: relative;
 }
 .input {
   border-radius: 8px;
@@ -45,7 +46,6 @@ p {
 .input-form-div {
   display: flex;
   flex-direction: column;
-  text-align: left;
   justify-content: space-between;
   align-items: center;
 }

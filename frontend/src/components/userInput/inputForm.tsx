@@ -30,6 +30,11 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
   };
 
   const handleSubmit = () => {
+    if (!formData.eventName || !formData.eventType) {
+      alert("Event Name and Event Type are required fields.");
+      return;
+    }
+
     console.log("Form submitted with data:", formData);
     if (onSubmit) {
       onSubmit(formData);
@@ -48,7 +53,10 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
           className="event-name-input"
         />
         <p>ENTER EVENT TYPE:</p>
-        <Dropdown onChange={handleInputChange("eventType")} className="event" />
+        <Dropdown
+          onChange={handleInputChange("eventType")}
+          className="event"
+        />
         <p>ENTER THE DATE OF EVENT:</p>
         <DateInput onChange={handleInputChange("date")} />
         <p>ENTER LOCATION OF EVENT:</p>

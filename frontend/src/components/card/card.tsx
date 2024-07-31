@@ -81,8 +81,6 @@ const Card: React.FC<CardProps> = ({
     }
   };
 
-  // const truncatedEventName = eventName.length > 70 ? eventName.slice(0, 70) + "..." : eventName;
-
   const handleDeleteWhim = () => {
     const cardData: CardData = {
       id,
@@ -105,7 +103,9 @@ const Card: React.FC<CardProps> = ({
 
   return (
     <div className={`card ${color || randomColor}`}>
-      <div className="card-date">{date}</div>
+      {date && (
+        <div className="card-date">{date}</div>
+      )}
       <h1 className="card-title">{eventName}</h1>
       <div className="event-type-icon">
         <FontAwesomeIcon icon={getEventIcon(eventType)} />

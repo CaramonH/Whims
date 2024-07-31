@@ -4,7 +4,12 @@ import CreateGroupOptions from "../functional/createGroupOptions";
 import GroupButton from "../functional/group";
 import Settings from "./settings";
 import Account from "./account";
-import { faHome, faCog, faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHome,
+  faCog,
+  faUser,
+  faSignOutAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import "./navigation.css";
@@ -15,14 +20,14 @@ interface GroupData {
   createdAt: string;
   groupName: string;
   groupCode: string;
-};
+}
 
 interface SidebarProps {
   onSelectGroup: (groupData?: GroupData) => void;
-};
+}
 
 const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
-// const Sidebar: React.FC = () => {
+  // const Sidebar: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [groups, setGroups] = useState<GroupData[]>([]);
   const [showSettings, setShowSettings] = useState(false);
@@ -55,7 +60,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
     document.body.classList.toggle("sidebar-expanded", expanded);
   };
 
-  const handleHome = () => console.log("Home clicked");
+//   const handleHome = () => console.log("Home clicked");
   const handleSettings = () => setShowSettings(true);
   const handleCloseSettings = () => setShowSettings(false);
   const handleAccount = () => setShowAccount(true);
@@ -84,20 +89,32 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
     await fetchGroups();
   };
 
-  const handleGroupClick = (groupData?: GroupData) => {
-    if (groupData) {
-      console.log(`Group ${groupData.groupCode} selected`); // Debug log
-      onSelectGroup(groupData);
-    } else {
-      handleHome();
-      onSelectGroup(undefined);
-    }
+// evanBranch
+  const handleGroupClick = (groupData: GroupData) => {
+    console.log(`Group ${groupData.groupCode} button clicked`);
+    onSelectGroup(groupData.id);
+  };
+
+  const handleHomeClick = () => {
+    console.log("Home clicked");
+    onSelectGroup(undefined); // Passing null to show all groups
+  };
+
+// karisBranch
+//   const handleGroupClick = (groupData?: GroupData) => {
+//     if (groupData) {
+//       console.log(`Group ${groupData.groupCode} selected`); // Debug log
+//       onSelectGroup(groupData);
+//     } else {
+//       handleHome();
+//       onSelectGroup(undefined);
+//     }
+//   };
     // this is where I tell dashboard to get whims by group
     // this should actually be a filter, not an API thing
     // but maybe I should make it so that if a group is selected,
     // it only refreshes the cards of the group rather than all user whims
     // when whims are created/deleted/etc
-  };
 
   return (
     <>
@@ -108,10 +125,10 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
       >
         <h1 className="header-title">{isExpanded ? "Whims" : "W"}</h1>
         <nav className="sidebar-nav">
-          <div id='groups'>
+          <div id="groups">
             <Button
               icon={faHome}
-              onClick={() => handleGroupClick(undefined)}
+              onClick={() => handleHomeClick(undefined)}
               className="nav-item home-button"
               label="Home"
               isExpanded={isExpanded}

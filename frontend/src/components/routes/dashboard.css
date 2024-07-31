@@ -1,6 +1,7 @@
 .dashboard {
   position: relative;
   z-index: 0;
+  height: 100vh;
   /* width: 100vw;
   overflow-x: hidden;
   overflow-y: auto;  these mess with the formatting of the cards on the dashboard*/
@@ -8,6 +9,8 @@
 }
 
 .dashboard-content {
+  flex-grow: 1;
+  overflow-y: auto;
   margin-top: 50px;
   margin-left: 60px; /* Width of the collapsed sidebar */
   transition: margin-left 0.3s ease;
@@ -23,6 +26,7 @@
   /* padding: 20px; */
   /* height: calc(100vh - 60px); adds an additional scrollbar when screen size is limited */
   overflow-y: auto;
+  padding: 20px;
 }
 
 /* keep cards cleanly displayed */

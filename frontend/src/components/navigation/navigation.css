@@ -34,6 +34,7 @@
 
 .create-card-container {
   display: flex;
+  box-shadow: 2px 0 4px rgba(0,88,182,0.8);
   align-items: flex-end;
   justify-content: center;
   margin-left: auto;
@@ -117,9 +118,9 @@
 .bottom-buttons {
   margin-top: auto;
   padding-top: 20px;
-  padding-bottom: 6px;
-  position: absolute;
-  bottom: 0%;
+  padding-bottom: 20px;
+  position: relative;
+  bottom: -3%;
   width: 100%;
   z-index: 4;
   background-color: var(--color-ui-dark-blue);

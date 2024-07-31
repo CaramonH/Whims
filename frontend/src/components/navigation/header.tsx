@@ -42,6 +42,7 @@ const Header: React.FC<HeaderProps> = ({ onCreateCard }) => {
           />
         ) : (
           <CreateCard
+            className="create-card"
             onCreateCard={onCreateCard}
             onCloseForm={handleCloseForm}
           />

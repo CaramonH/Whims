@@ -2,7 +2,7 @@ import React, { useState } from "react";
 // import { getFirestore, doc, collection, addDoc, setDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import Button from "../general/button";
-import { faPlus, faCopy } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faCopy, faTimes} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./functional.css";
 import { createGroup } from "../../firebaseService";
@@ -95,7 +95,7 @@ const CreateGroup: React.FC<CreateGroupProps> = ({ onCreateGroup }) => {
             {copySuccess && (
               <p className="copy-success">Copied to clipboard!</p>
             )}
-            <button onClick={() => setShowPopup(false)}>Close</button>
+            <Button icon={faTimes} label="" onClick={() => setShowPopup(false)}></Button>
         </div>
       )}
     </>

@@ -27,7 +27,18 @@ const colorVariables: string[] = [
   "--color-purp",
 ];
 
-const getRandomColor = (): string => {
+const getRandomColor = (previousColor: string): string => {
+  let randomColor: string = getRandomColorHelper();
+
+  // Ensure the random color is different from the previous color
+  while (randomColor === previousColor) {
+    randomColor = getRandomColorHelper();
+  }
+
+  return randomColor;
+};
+
+const getRandomColorHelper = (): string => {
   const randomIndex: number = Math.floor(Math.random() * colorVariables.length);
   return colorVariables[randomIndex];
 };
@@ -66,7 +77,7 @@ const Card: React.FC<CardProps> = ({
   color,
   onDeleteCard,
 }) => {
-  const randomColor: string = getRandomColor();
+  const randomColor: string = getRandomColor(color);
 
   const getEventIcon = (type: string): IconProp => {
     switch (type) {
@@ -86,8 +97,6 @@ const Card: React.FC<CardProps> = ({
         return faQuestionCircle;
     }
   };
-
-  // const truncatedEventName = eventName.length > 70 ? eventName.slice(0, 70) + "..." : eventName;
 
   const handleDeleteWhim = () => {
     const cardData: CardData = {
@@ -113,7 +122,9 @@ const Card: React.FC<CardProps> = ({
 
   return (
     <div className={`card ${color || randomColor}`}>
-      <div className="card-date">{date}</div>
+      {date && (
+        <div className="card-date">{date}</div>
+      )}
       <h1 className="card-title">{eventName}</h1>
       <div className="event-type-icon">
         <FontAwesomeIcon icon={getEventIcon(eventType)} />

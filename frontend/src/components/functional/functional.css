@@ -137,6 +137,6 @@
 .pop-window-content {
   background-color: var(--color-ui-white);
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 8px;
   position: relative;
 }

@@ -1,4 +1,4 @@
-// import React from "react";
+import { useState } from "react";
 import Button from "../general/button";
 import InputForm from "../userInput/inputForm";
 import "./functional.css";
@@ -17,7 +17,18 @@ const colorVariables: string[] = [
   "--color-purp",
 ];
 
-const getRandomColor = (): string => {
+const getRandomColor = (previousColor: string): string => {
+  let randomColor: string = getRandomColorHelper();
+
+  // Ensure the random color is different from the previous color
+  while (randomColor === previousColor) {
+    randomColor = getRandomColorHelper();
+  }
+
+  return randomColor;
+};
+
+const getRandomColorHelper = (): string => {
   const randomIndex: number = Math.floor(Math.random() * colorVariables.length);
   return colorVariables[randomIndex];
 };
@@ -48,10 +59,13 @@ interface CreateCardProps {
 
 export function CreateCard({ onCreateCard, onCloseForm, groupData }: CreateCardProps) {
   const auth = getAuth();
+  const [previousColor, setPreviousColor] = useState<string>("");
 
   const handleAddWhim = (whimData: CardData) => {
     if (!whimData.color) {
-      whimData.color = getRandomColor();
+      const newColor: string = getRandomColor(previousColor);
+      whimData.color = newColor;
+      setPreviousColor(newColor);
     }
     if (groupData && groupData.id && auth.currentUser) {
       const userId = auth.currentUser.uid;

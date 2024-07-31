@@ -29,14 +29,15 @@ export const getWhims = async (userId: string) => {
         console.log("No whims available.");
         return [];
       }
-      const allUserWhims = [];
+      let allUserWhims = [];
       for (const groupId of userData.groupIds) {
         const whimsRef = collection(firestore, 'groups', groupId, 'whims');
         const whimsSnapshot = await getDocs(whimsRef);
         const groupWhims = whimsSnapshot.docs.map(whim => ({ id: whim.id, ...whim.data() }));
         allUserWhims.push(...groupWhims);
-        console.log(groupWhims); // Debug log
+        console.log('groupWhims:', groupWhims); // Debug log
       }
+      console.log("getWhims - all user whims:", allUserWhims); // Debug log
       return allUserWhims;
     } else {
       console.log("No such user!");

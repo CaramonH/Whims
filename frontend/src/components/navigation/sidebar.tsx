@@ -18,7 +18,7 @@ interface GroupData {
 };
 
 interface SidebarProps {
-  onSelectGroup: (groupData: GroupData) => void;
+  onSelectGroup: (groupData?: GroupData) => void;
 };
 
 const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
@@ -84,9 +84,14 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
     await fetchGroups();
   };
 
-  const handleGroupClick = (groupData: GroupData) => {
-    console.log(`Group ${groupData.groupCode} selected`); // Debug log
-    onSelectGroup(groupData);
+  const handleGroupClick = (groupData?: GroupData) => {
+    if (groupData) {
+      console.log(`Group ${groupData.groupCode} selected`); // Debug log
+      onSelectGroup(groupData);
+    } else {
+      handleHome();
+      onSelectGroup(undefined);
+    }
     // this is where I tell dashboard to get whims by group
     // this should actually be a filter, not an API thing
     // but maybe I should make it so that if a group is selected,
@@ -106,7 +111,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
           <div id='groups'>
             <Button
               icon={faHome}
-              onClick={handleHome}
+              onClick={() => handleGroupClick(undefined)}
               className="nav-item home-button"
               label="Home"
               isExpanded={isExpanded}

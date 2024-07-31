@@ -26,18 +26,23 @@ interface GroupData {
 
 const Dashboard: React.FC = () => {
   const [allUserCards, setAllUserCards] = useState<CardData[]>([]);
-  const [cards, setCards] = useState<CardData[]>([]);
+  // const [cards, setCards] = useState<CardData[]>([]);
   const [currentGroup, setCurrentGroup] = useState<GroupData>();
   const auth = getAuth();
 
-  const filterGroupWhims = () => {
-    if (currentGroup) {
-      const groupWhims = allUserCards.filter((card) => {card.groupId === currentGroup.id});
-      setCards(groupWhims);
-    } else {
-      setCards(allUserCards);
-    }
-  };
+  let cards;
+  // const filterGroupWhims = () => {
+  if (currentGroup) {
+    console.log('currentGroup:', currentGroup);
+    console.log('allUserCards:', allUserCards);
+    const filteredWhimsByGroup = allUserCards.filter((card) => card.groupId == currentGroup.id);
+    console.log('filteredWhimsByGroup: ', filteredWhimsByGroup);
+    cards = filteredWhimsByGroup;
+  } else {
+    console.log('no currentGroup - allUserCards:', allUserCards);
+    cards = allUserCards;
+  }
+  // };
 
   const fetchWhims = async () => {
     if (auth.currentUser) {
@@ -56,8 +61,8 @@ const Dashboard: React.FC = () => {
           location: whim.location || null,
           color: whim.color || null,
         }));
+        console.log(`formattedWhims:`, formattedWhims);
         setAllUserCards(formattedWhims);
-        filterGroupWhims();
       }
     }
   };
@@ -76,11 +81,19 @@ const Dashboard: React.FC = () => {
     await fetchWhims();
   };
 
-  const handleSelectGroup = (groupData: GroupData) => {
+  const handleSelectGroup = (groupData?: GroupData) => {
     // console.log(`Group ${groupData.groupCode} button clicked`);
-    console.log("Pulling whims for group:", groupData.groupCode); // Debug log
-    setCurrentGroup(groupData);
-    filterGroupWhims();
+    if (groupData == currentGroup) {
+      console.log("Already on this group page"); // Debug log
+      return;
+    }
+    if (groupData) {
+      console.log("Pulling whims for group:", groupData.groupCode); // Debug log
+      setCurrentGroup(groupData);
+    } else {
+      console.log("Pulling all whims for home page"); // Debug log
+      setCurrentGroup(undefined);
+    }
   };
 
   console.log("Current cards:", cards); // Debug log

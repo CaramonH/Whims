@@ -1,4 +1,3 @@
-// firebaseService.ts
 import { firestore } from './firebaseConfig';
 import {
   addDoc, getDoc, getDocs, setDoc, deleteDoc, updateDoc,
@@ -6,9 +5,8 @@ import {
   query, where, arrayUnion, arrayRemove
 } from 'firebase/firestore';
 
-
 // Function to create a whim
-export const createWhim = async (/*groupId: string, */whimData: any) => {
+export const createWhim = async (whimData: any) => {
   try {
     const whimRef = await addDoc(collection(firestore, 'whims'), whimData);
     console.log(`Whim created successfully with ID: ${whimRef.id}`);
@@ -17,34 +15,9 @@ export const createWhim = async (/*groupId: string, */whimData: any) => {
   }
 };
 
-
-// Function to get whims of a user based on group (if selected)
-// userId: string, groupData: any
+// Function to get whims
 export const getWhims = async () => {
   try {
-    // if (groupData) {
-    //   const whimsRef = collection(firestore, 'groups', groupData.id, 'whims');
-    //   const whimsSnapshot = await getDocs(whimsRef);
-
-    //   if (whimsSnapshot.empty) {
-    //     console.log("No whims available.");
-    //     return [];
-    //   } else {
-    //     const whims = whimsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    //     console.log(whims);
-    //     return whims;
-    //   }
-    // } else {
-    //   const allUserGroups = getUserGroups(userId);
-    //   const groupsRef = collection(firestore, 'groups');
-    //   const q = query(groupsRef, where('__name__', 'in', allUserGroups));
-    //   const groupsSnapshot = await getDocs(q);
-
-    //   const allWhims = groupsSnapshot.docs.map(doc => ([ ...doc.whims ]));
-    //   // ^this code isn't quite right I dont, think. Specifically ^this part
-    //   return allWhims;
-    // }
-
     const whimsRef = collection(firestore, 'whims');
     const whimsSnapshot = await getDocs(whimsRef);
 
@@ -61,7 +34,6 @@ export const getWhims = async () => {
     return [];
   }
 };
-
 
 // Function to delete a whim by its ID
 export const deleteWhim = async (whimId: string) => {

@@ -3,7 +3,7 @@ import Button from "../general/button";
 import InputForm from "../userInput/inputForm";
 import "./functional.css";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { createWhim } from "../../firebaseService"; // Import the createWhim function
+import { createWhim } from "../../firebaseService";
 
 const colorVariables: string[] = [
   "--color-turq",
@@ -37,15 +37,21 @@ interface CardData {
   eventType: string;
   location: string;
   date?: string;
-  color?: string; // Make color optional
+  color?: string;
+  groupId: string; // Add groupId
 }
 
 interface CreateCardProps {
   onCreateCard: (cardData: CardData) => void;
   onCloseForm: () => void;
+  currentGroupId: string; // Add this prop
 }
 
-export function CreateCard({ onCreateCard, onCloseForm }: CreateCardProps) {
+export function CreateCard({
+  onCreateCard,
+  onCloseForm,
+  currentGroupId,
+}: CreateCardProps) {
   const [previousColor, setPreviousColor] = useState<string>("");
 
   const handleAddWhim = (whimData: CardData) => {
@@ -54,6 +60,7 @@ export function CreateCard({ onCreateCard, onCloseForm }: CreateCardProps) {
       whimData.color = newColor;
       setPreviousColor(newColor);
     }
+    whimData.groupId = currentGroupId; // Add the groupId to the whim data
     createWhim(whimData)
       .then(() => {
         console.log("Whim added successfully!");

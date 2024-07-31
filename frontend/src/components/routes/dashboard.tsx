@@ -1,49 +1,35 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../navigation/sidebar";
 import Header from "../navigation/header";
-import Card from "../card/card";
+import Tray from "../navigation/tray";
 import { getWhims } from "../../firebaseService";
 import "./dashboard.css";
 import { getAuth } from "firebase/auth";
 
-interface CardData {
+interface WhimData {
   id: string;
   eventName: string;
   eventType: string;
   date?: string;
   location: string;
   color: string;
+  groupId: string; // Add groupId
 }
 
-interface GroupData {
-  id: string;
-  createdAt: string;
-  groupName: string;
-  groupCode: string;
-};
+interface GroupedWhims {
+  [groupId: string]: WhimData[];
+}
 
 const Dashboard: React.FC = () => {
-  const [cards, setCards] = useState<CardData[]>([]);
-  // const [currentGroup, setCurrentGroup] = useState<GroupData>();
+  const [allWhims, setAllWhims] = useState<WhimData[]>([]);
+  const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
   const auth = getAuth();
 
   const fetchWhims = async () => {
     if (auth.currentUser) {
-      // const userId = auth.currentUser.uid;
-      // const whimsData = await getWhims(userId, currentGroup);
       const whimsData = await getWhims();
-
       if (whimsData) {
-        // it says the properties don't exist for whims, but it's wrong, it works
-        const formattedWhims = whimsData.map((whim) => ({
-          id: whim.id,
-          eventName: whim.eventName || null,
-          eventType: whim.eventType || null,
-          date: whim.date || null,
-          location: whim.location || null,
-          color: whim.color || null,
-        }));
-        setCards(formattedWhims);
+        setAllWhims(whimsData);
       }
     }
   };
@@ -52,45 +38,42 @@ const Dashboard: React.FC = () => {
     fetchWhims();
   }, []);
 
-  const handleCreateCard = async (cardData: CardData) => {
-    console.log("Creating card:", cardData); // Debug log
+  const handleCreateCard = async (cardData: WhimData) => {
+    console.log("Creating card:", cardData);
     await fetchWhims();
   };
 
-  const handleDeleteCard = async (cardData: CardData) => {
-    console.log("Deleting card:", cardData); // Debug log
+  const handleDeleteCard = async (cardData: WhimData) => {
+    console.log("Deleting card:", cardData);
     await fetchWhims();
   };
 
-  const handleSelectGroup = async (groupData: GroupData) => {
-    console.log(`Group ${groupData.groupCode} button clicked`);
-    // console.log("Pulling whims for group:", groupData.groupCode); // Debug log
-    // setCurrentGroup(groupData);
-    // await fetchWhims();
+  const handleSelectGroup = (groupId: string | null) => {
+    setSelectedGroupId(groupId);
   };
 
-  console.log("Current cards:", cards); // Debug log
+  const filteredWhims = selectedGroupId
+    ? allWhims.filter((whim) => whim.groupId === selectedGroupId)
+    : allWhims;
+
+  const groupedWhims: GroupedWhims = filteredWhims.reduce((acc, whim) => {
+    if (!acc[whim.groupId]) {
+      acc[whim.groupId] = [];
+    }
+    acc[whim.groupId].push(whim);
+    return acc;
+  }, {} as GroupedWhims);
 
   return (
     <div className="dashboard">
       <Sidebar onSelectGroup={handleSelectGroup} />
       <div className="dashboard-content">
-        <Header onCreateCard={handleCreateCard} />
+        <Header
+          onCreateCard={handleCreateCard}
+          currentGroupId={selectedGroupId}
+        />
         <main className="main-content">
-          <div className="cards-container">
-            {cards.map((card, index) => (
-              <Card
-                key={index}
-                id={card.id}
-                eventName={card.eventName}
-                eventType={card.eventType}
-                location={card.location}
-                date={card.date}
-                color={card.color}
-                onDeleteCard={handleDeleteCard}
-              />
-            ))}
-          </div>
+          <Tray groupedWhims={groupedWhims} onDeleteCard={handleDeleteCard} />
         </main>
       </div>
     </div>

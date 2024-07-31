@@ -14,9 +14,10 @@ interface CardData {
 
 interface HeaderProps {
   onCreateCard: (cardData: CardData) => void;
+  currentGroupId: string | null;
 }
 
-const Header: React.FC<HeaderProps> = ({ onCreateCard }) => {
+const Header: React.FC<HeaderProps> = ({ onCreateCard, currentGroupId }) => {
   const [showInputForm, setShowInputForm] = useState(false);
 
   const handleCreateClick = () => {
@@ -39,11 +40,13 @@ const Header: React.FC<HeaderProps> = ({ onCreateCard }) => {
             onClick={handleCreateClick}
             className="create-button"
             label="Create New Event"
+            disabled={!currentGroupId} // Disable button when no group is selected
           />
         ) : (
           <CreateCard
             onCreateCard={onCreateCard}
             onCloseForm={handleCloseForm}
+            currentGroupId={currentGroupId}
           />
         )}
       </div>

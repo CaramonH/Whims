@@ -50,6 +50,7 @@ interface CardData {
   location: string;
   date: string;
   color: string;
+  groupId: string;
 }
 
 interface CardProps {
@@ -59,6 +60,7 @@ interface CardProps {
   location: string;
   date?: string;
   color: string;
+  groupId: string;
   onDeleteCard: (cardData: CardData) => void;
 }
 
@@ -69,6 +71,7 @@ const Card: React.FC<CardProps> = ({
   location,
   date,
   color,
+  groupId,
   onDeleteCard,
 }) => {
   const randomColor: string = getRandomColor(color);
@@ -100,6 +103,7 @@ const Card: React.FC<CardProps> = ({
       location,
       date,
       color,
+      groupId,
     };
 
     deleteWhim(id)
@@ -114,9 +118,7 @@ const Card: React.FC<CardProps> = ({
 
   return (
     <div className={`card ${color || randomColor}`}>
-      {date && (
-        <div className="card-date">{date}</div>
-      )}
+      {date && <div className="card-date">{date}</div>}
       <h1 className="card-title">{eventName}</h1>
       <div className="event-type-icon">
         <FontAwesomeIcon icon={getEventIcon(eventType)} />
@@ -138,11 +140,6 @@ const Card: React.FC<CardProps> = ({
         />  */}
       </div>
       <div className="location-container">{location}</div>
-      {/* Button to add the card as a whim
-      <button onClick={handleAddWhim} className="add-whim-button">
-        Add to Whims
-      </button>
-      */}
     </div>
   );
 };

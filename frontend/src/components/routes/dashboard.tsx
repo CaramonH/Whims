@@ -64,6 +64,8 @@ const Dashboard: React.FC = () => {
     return acc;
   }, {} as GroupedWhims);
 
+  const isHomeView = selectedGroupId === null;
+
   return (
     <div className="dashboard">
       <Sidebar onSelectGroup={handleSelectGroup} />
@@ -73,7 +75,11 @@ const Dashboard: React.FC = () => {
           currentGroupId={selectedGroupId}
         />
         <main className="main-content">
-          <Tray groupedWhims={groupedWhims} onDeleteCard={handleDeleteCard} />
+          <Tray
+            groupedWhims={groupedWhims}
+            onDeleteCard={handleDeleteCard}
+            isHomeView={isHomeView}
+          />
         </main>
       </div>
     </div>

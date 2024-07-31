@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "../card/card";
+import "./navigation.css";
 
 interface WhimData {
   id: string;
@@ -18,11 +19,16 @@ interface GroupedWhims {
 interface TrayProps {
   groupedWhims: GroupedWhims;
   onDeleteCard: (cardData: WhimData) => void;
+  isHomeView: boolean;
 }
 
-const Tray: React.FC<TrayProps> = ({ groupedWhims, onDeleteCard }) => {
+const Tray: React.FC<TrayProps> = ({
+  groupedWhims,
+  onDeleteCard,
+  isHomeView,
+}) => {
   return (
-    <div className="tray">
+    <div className={`tray-container ${isHomeView ? "home-view" : ""}`}>
       {Object.entries(groupedWhims).map(([groupId, whims]) => (
         <div key={groupId} className="group-section">
           <h2>Group: {groupId}</h2>

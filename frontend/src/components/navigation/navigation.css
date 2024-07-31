@@ -242,3 +242,45 @@
   color: var(--color-ui-dark-blue);
   border-bottom: 3px solid var(--color-ui-dark-blue);
 }
+
+/*TRAY STYLING*/
+/*TRAY STYLING*/
+/*TRAY STYLING*/
+.tray-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.tray-container.home-view {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.group-section {
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.home-view .group-section {
+  flex: 0 1 calc(33.333% - 20px); /* Adjust the percentage based on how many columns you want */
+  min-width: 250px; /* Set a minimum width for the tray */
+  max-width: 400px; /* Set a maximum width for the tray */
+}
+
+.whims-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.group-section h2 {
+  margin-bottom: 10px;
+  font-size: 1.2em;
+  color: #333;
+}

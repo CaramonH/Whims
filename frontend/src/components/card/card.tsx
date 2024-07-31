@@ -15,6 +15,8 @@ import {
 import "./card.css";
 import Button from "../general/button";
 import { deleteWhim } from "../../firebaseService";
+import { getAuth } from "firebase/auth";
+
 
 const colorVariables: string[] = [
   "--color-turq",
@@ -77,6 +79,7 @@ const Card: React.FC<CardProps> = ({
   color,
   onDeleteCard,
 }) => {
+  const auth = getAuth();
   const randomColor: string = getRandomColor(color);
 
   const getEventIcon = (type: string): IconProp => {
@@ -120,6 +123,16 @@ const Card: React.FC<CardProps> = ({
       });
   };
 
+  const canDelete = () => {
+    if (auth.currentUser) {
+      const userId = auth.currentUser.uid;
+      if (userId == createdBy) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   return (
     <div className={`card ${color || randomColor}`}>
       {date && (
@@ -130,12 +143,14 @@ const Card: React.FC<CardProps> = ({
         <FontAwesomeIcon icon={getEventIcon(eventType)} />
       </div>
       <div>
-        <Button
-          icon={faTrash}
-          onClick={handleDeleteWhim}
-          className="delete-button"
-          label="Delete"
-        />
+        { canDelete() &&
+          <Button
+            icon={faTrash}
+            onClick={handleDeleteWhim}
+            className="delete-button"
+            label="Delete"
+          />
+        }
       </div>
       <div className="like-dislike-container">
         <LikeDislike />

@@ -52,14 +52,24 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
           onChange={handleInputChange("eventName")}
           className="event-name-input"
         />
+        
         <p>ENTER EVENT TYPE:</p>
         <Dropdown
           onChange={handleInputChange("eventType")}
           className="event"
         />
-        <p>ENTER THE DATE OF EVENT:</p>
+
+        <div className="row">
+          <p>ENTER THE DATE OF EVENT: </p>
+          <p className="optional-p"> *Optional Field</p>
+        </div>
         <DateInput onChange={handleInputChange("date")} />
-        <p>ENTER LOCATION OF EVENT:</p>
+
+        <div className="row">
+          <p>ENTER LOCATION OF EVENT: </p>
+          <p className="optional-p"> *Optional Field</p>
+        </div>
+
         <Input
           placeholder="Location"
           value={formData.location}

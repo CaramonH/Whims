@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import { getFirestore, doc, collection, addDoc, setDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import Button from "../general/button";
 import { faPlus, faCopy } from "@fortawesome/free-solid-svg-icons";
@@ -22,7 +21,6 @@ const CreateGroup: React.FC<CreateGroupProps> = ({ onCreateGroup }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [groupCode, setGroupCode] = useState("");
   const [copySuccess, setCopySuccess] = useState(false);
-  // const firestore = getFirestore();
   const auth = getAuth();
 
   const generateGroupCode = () => {

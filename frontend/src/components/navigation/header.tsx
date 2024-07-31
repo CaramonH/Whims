@@ -6,17 +6,29 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import "./navigation.css";
 
 interface CardData {
+  id: string;
+  groupId: string;
+  createdBy: string;
   eventName: string;
   eventType: string;
-  cost: string;
-  location: string;
+  location?: string;
+  date?: string;
+  color: string;
 }
+
+interface GroupData {
+  id: string;
+  createdAt: string;
+  groupName: string;
+  groupCode: string;
+};
 
 interface HeaderProps {
   onCreateCard: (cardData: CardData) => void;
+  groupData?: GroupData;
 }
 
-const Header: React.FC<HeaderProps> = ({ onCreateCard }) => {
+const Header: React.FC<HeaderProps> = ({ onCreateCard, groupData }) => {
   const [showInputForm, setShowInputForm] = useState(false);
 
   const handleCreateClick = () => {
@@ -44,6 +56,7 @@ const Header: React.FC<HeaderProps> = ({ onCreateCard }) => {
           <CreateCard
             onCreateCard={onCreateCard}
             onCloseForm={handleCloseForm}
+            groupData={groupData}
           />
         )}
       </div>

@@ -85,9 +85,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
   };
 
   const handleGroupClick = (groupData: GroupData) => {
-    console.log(`Group ${groupData.groupCode} button clicked`); // Debug log
-    // console.log(`Group ${groupData.groupCode} selected`); // Debug log
-    // onSelectGroup(groupData);
+    console.log(`Group ${groupData.groupCode} selected`); // Debug log
+    onSelectGroup(groupData);
     // this is where I tell dashboard to get whims by group
     // this should actually be a filter, not an API thing
     // but maybe I should make it so that if a group is selected,

@@ -45,16 +45,26 @@ const getRandomColorHelper = (): string => {
   return colorVariables[randomIndex];
 };
 
+// interface CardData {
+//   id: string;
+//   groupId: string;
+//   createdBy?: string;
+//   eventName: string;
+//   eventType: string;
+//   location?: string;
+//   date?: string;
+//   color: string;
+// }
+
 interface CardData {
   id: string;
   groupId: string;
-  createdBy?: string;
+  createdBy: string;
   eventName: string;
   eventType: string;
-  location?: string;
   date?: string;
+  location?: string;
   color: string;
-  groupId: string;
 }
 
 interface CardProps {
@@ -66,7 +76,6 @@ interface CardProps {
   location?: string;
   date?: string;
   color: string;
-  groupId: string;
   onDeleteCard: (cardData: CardData) => void;
 }
 
@@ -79,7 +88,6 @@ const Card: React.FC<CardProps> = ({
   location,
   date,
   color,
-  groupId,
   onDeleteCard,
 }) => {
   const auth = getAuth();
@@ -114,7 +122,6 @@ const Card: React.FC<CardProps> = ({
       location,
       date,
       color,
-      groupId,
     };
 
     deleteWhim(cardData)
@@ -145,14 +152,20 @@ const Card: React.FC<CardProps> = ({
         <FontAwesomeIcon icon={getEventIcon(eventType)} />
       </div>
       <div>
-        { canDelete() &&
+      <Button
+        icon={faTrash}
+        onClick={handleDeleteWhim}
+        className="delete-button"
+        label="Delete"
+      />
+        {/* canDelete() &&
           <Button
             icon={faTrash}
             onClick={handleDeleteWhim}
             className="delete-button"
             label="Delete"
           />
-        }
+        */}
       </div>
       <div className="like-dislike-container">
         <LikeDislike />

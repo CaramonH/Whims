@@ -30,6 +30,11 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
   };
 
   const handleSubmit = () => {
+    if (!formData.eventName || !formData.eventType) {
+      alert("Event Name and Event Type are required fields.");
+      return;
+    }
+
     console.log("Form submitted with data:", formData);
     if (onSubmit) {
       onSubmit(formData);
@@ -40,6 +45,9 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
     <>
       <h2>Create a Whim</h2>
       <div className="input-form-div">
+        <div className="row">
+          <p>ENTER EVENT NAME:</p>
+        </div>
         <Input
           placeholder="Event Name"
           value={formData.eventName}
@@ -47,10 +55,24 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
           className="event-name-input"
         />
 
-        <Dropdown onChange={handleInputChange("eventType")} className="event" />
+        <div className="row">
+          <p>ENTER EVENT TYPE:</p>
+        </div>
+        <Dropdown
+          onChange={handleInputChange("eventType")}
+          className="event"
+        />
 
+        <div className="row">
+          <p>ENTER THE DATE OF EVENT: </p>
+          <p className="optional-p"> *Optional Field</p>
+        </div>
         <DateInput onChange={handleInputChange("date")} />
 
+        <div className="row">
+          <p>ENTER LOCATION OF EVENT: </p>
+          <p className="optional-p"> *Optional Field</p>
+        </div>
         <Input
           placeholder="Location"
           value={formData.location}

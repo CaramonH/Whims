@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged, deleteUser, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
 import { getFirestore, doc, getDoc, deleteDoc } from "firebase/firestore";
 import Button from "../general/button";
-import { faTimes, faCircle } from "@fortawesome/free-solid-svg-icons"; // Importing icons
+import { faTimes, faUserMinus } from "@fortawesome/free-solid-svg-icons"; // Importing icons
 import "../navigation/navigation.css";
 
 interface AccountProps {
@@ -101,7 +101,7 @@ const Account: React.FC<AccountProps> = ({ onClose }) => {
             label=""
           />
           <div className="pop-window-header account-info">
-            <h2>Account</h2>
+            <h2 className="account-title">Account</h2>
             {email ? (
               <>
                 <p>Name: {name || "Loading..."}</p>
@@ -110,12 +110,15 @@ const Account: React.FC<AccountProps> = ({ onClose }) => {
             ) : (
               <p>Loading...</p>
             )}
+          </div>
+          <div className="delete-account">
+            <p className="delete-text">Delete Account?</p>
             <Button
-              icon={faCircle} // Providing a dummy icon to satisfy the type requirement
-              onClick={handleDeleteAccount}
-              label="Delete Account"
-              className="delete-account-button"
-            />
+                icon={faUserMinus}
+                onClick={handleDeleteAccount}
+                label="Delete Account"
+                className="delete-account-button "
+              />
           </div>
         </div>
       </div>

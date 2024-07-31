@@ -50,6 +50,24 @@ Once the application is running, you can:
 3. **Add Whims**: Create Whim cards to share your ideas and interests.
 4. **Explore and Filter**: Use the filtering options to find specific ideas or activities.
 
+## Authors
+
+**[Cason Bobo](https://github.com/casonbobo)**  
+*GitHub: [YourGitHubUsername](https://github.com/casonbobo)*  
+*LinkedIn: [YourLinkedInProfile](https://www.linkedin.com/in/cason-bobo)*
+
+**[Caramon Hofstetter](https://github.com/CaramonH)**  
+*GitHub: [ContributorGitHubUsername](https://github.com/CaramonH)*  
+*LinkedIn: [ContributorLinkedInProfile](https://www.linkedin.com/in/caramonhofstetter)*
+
+**[Evan Newman-Chock](https://github.com/gumquat)**  
+*GitHub: [YourGitHubUsername](https://github.com/gumquat)*  
+*LinkedIn: [YourLinkedInProfile](https://www.linkedin.com/in/evan-newman-chock)*
+
+**[Karis Richardson](https://github.com/krisCrossApplesauce)**  
+*GitHub: [ContributorGitHubUsername](https://github.com/krisCrossApplesauce)*  
+*LinkedIn: [ContributorLinkedInProfile](https://www.linkedin.com/in/karisrichardson)*
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

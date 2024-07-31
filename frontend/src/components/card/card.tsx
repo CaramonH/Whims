@@ -45,18 +45,22 @@ const getRandomColorHelper = (): string => {
 
 interface CardData {
   id: string;
+  groupId: string;
+  createdBy?: string;
   eventName: string;
   eventType: string;
-  location: string;
-  date: string;
+  location?: string;
+  date?: string;
   color: string;
 }
 
 interface CardProps {
   id: string;
+  groupId: string;
+  createdBy?: string;
   eventName: string;
   eventType: string;
-  location: string;
+  location?: string;
   date?: string;
   color: string;
   onDeleteCard: (cardData: CardData) => void;
@@ -64,6 +68,8 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({
   id,
+  groupId,
+  createdBy,
   eventName,
   eventType,
   location,
@@ -95,6 +101,8 @@ const Card: React.FC<CardProps> = ({
   const handleDeleteWhim = () => {
     const cardData: CardData = {
       id,
+      groupId,
+      createdBy,
       eventName,
       eventType,
       location,
@@ -102,7 +110,7 @@ const Card: React.FC<CardProps> = ({
       color,
     };
 
-    deleteWhim(id)
+    deleteWhim(cardData)
       .then(() => {
         console.log("Whim deleted successfully!");
         onDeleteCard(cardData);
@@ -138,11 +146,6 @@ const Card: React.FC<CardProps> = ({
         />  */}
       </div>
       <div className="location-container">{location}</div>
-      {/* Button to add the card as a whim
-      <button onClick={handleAddWhim} className="add-whim-button">
-        Add to Whims
-      </button>
-      */}
     </div>
   );
 };

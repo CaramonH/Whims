@@ -5,7 +5,7 @@ import Button from "../general/button";
 import { faPlus, faCopy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./functional.css";
-import { createGroup, checkGroupCodeUnique } from "../../firebaseService";
+import { createGroup } from "../../firebaseService";
 
 interface GroupData {
   id: string;
@@ -85,10 +85,9 @@ const CreateGroup: React.FC<CreateGroupProps> = ({ onCreateGroup }) => {
         isExpanded={true}
       />
       {showPopup && (
-        <div className="popup">
-          <div className="popup-content">
+        <div className="group-created">
             <h3>Group Created!</h3>
-            <p className="yourCode">Your group code is:</p>
+            <p className="your-code">Your group code is:</p>
             <div className="group-code-container" onClick={handleCopyCode}>
               <span className="group-code">{groupCode}</span>
               <FontAwesomeIcon icon={faCopy} className="copy-icon" />
@@ -97,7 +96,6 @@ const CreateGroup: React.FC<CreateGroupProps> = ({ onCreateGroup }) => {
               <p className="copy-success">Copied to clipboard!</p>
             )}
             <button onClick={() => setShowPopup(false)}>Close</button>
-          </div>
         </div>
       )}
     </>

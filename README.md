@@ -53,20 +53,20 @@ Once the application is running, you can:
 ## Authors
 
 **[Cason Bobo](https://github.com/casonbobo)**  
-*GitHub: [YourGitHubUsername](https://github.com/casonbobo)*  
-*LinkedIn: [YourLinkedInProfile](https://www.linkedin.com/in/cason-bobo)*
+*GitHub: [casonbobo](https://github.com/casonbobo)*  
+*LinkedIn: [cason-bobo](https://www.linkedin.com/in/cason-bobo)*
 
 **[Caramon Hofstetter](https://github.com/CaramonH)**  
-*GitHub: [ContributorGitHubUsername](https://github.com/CaramonH)*  
-*LinkedIn: [ContributorLinkedInProfile](https://www.linkedin.com/in/caramonhofstetter)*
+*GitHub: [CaramonH](https://github.com/CaramonH)*  
+*LinkedIn: [caramonhofstetter](https://www.linkedin.com/in/caramonhofstetter)*
 
 **[Evan Newman-Chock](https://github.com/gumquat)**  
-*GitHub: [YourGitHubUsername](https://github.com/gumquat)*  
-*LinkedIn: [YourLinkedInProfile](https://www.linkedin.com/in/evan-newman-chock)*
+*GitHub: [gumquat](https://github.com/gumquat)*  
+*LinkedIn: [evan-newman-chock](https://www.linkedin.com/in/evan-newman-chock)*
 
 **[Karis Richardson](https://github.com/krisCrossApplesauce)**  
-*GitHub: [ContributorGitHubUsername](https://github.com/krisCrossApplesauce)*  
-*LinkedIn: [ContributorLinkedInProfile](https://www.linkedin.com/in/karisrichardson)*
+*GitHub: [kriscrossApplesauce](https://github.com/krisCrossApplesauce)*  
+*LinkedIn: [karisrichardson](https://www.linkedin.com/in/karisrichardson)*
 
 ## License
 

@@ -1,11 +1,9 @@
-// firebaseService.ts
 import { firestore } from './firebaseConfig';
 import {
   addDoc, getDoc, getDocs, setDoc, deleteDoc, updateDoc,
   doc, collection,
   query, where, arrayUnion, arrayRemove
 } from 'firebase/firestore';
-
 
 // Function to create a whim
 export const createWhim = async (whimData: any) => {
@@ -17,6 +15,16 @@ export const createWhim = async (whimData: any) => {
   }
 };
 
+
+// Function to get whims - gets all, outdated function for Karis' code
+// export const getWhims = async () => {
+//   try {
+//     const whimsRef = collection(firestore, 'whims');
+//     const whimsSnapshot = await getDocs(whimsRef);
+
+//     if (whimsSnapshot.empty) {
+//       console.log("No whims available.");
+//       return [];
 
 // Function to get all whims of a user
 export const getWhims = async (userId: string) => {
@@ -48,7 +56,6 @@ export const getWhims = async (userId: string) => {
     return [];
   }
 };
-
 
 // Function to delete a whim by its ID
 export const deleteWhim = async (whimData: any) => {

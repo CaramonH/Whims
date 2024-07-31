@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../navigation/sidebar";
 import Header from "../navigation/header";
-import Card from "../card/card";
+import Tray from "../navigation/tray";
 import { getWhims } from "../../firebaseService";
 import "./dashboard.css";
 import { getAuth } from "firebase/auth";
 
-interface CardData {
+interface WhimData {
   id: string;
   groupId: string;
   createdBy: string;
@@ -15,16 +15,17 @@ interface CardData {
   date?: string;
   location?: string;
   color: string;
+  groupId: string; // Add groupId
 }
 
-interface GroupData {
-  id: string;
-  createdAt: string;
-  groupName: string;
-  groupCode: string;
-};
+interface GroupedWhims {
+  [groupId: string]: WhimData[];
+}
 
 const Dashboard: React.FC = () => {
+// evanBranch
+//  const [allWhims, setAllWhims] = useState<WhimData[]>([]);
+//  const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
   const [allUserCards, setAllUserCards] = useState<CardData[]>([]);
   // const [cards, setCards] = useState<CardData[]>([]);
   const [currentGroup, setCurrentGroup] = useState<GroupData>();
@@ -35,7 +36,7 @@ const Dashboard: React.FC = () => {
   if (currentGroup) {
     console.log('currentGroup:', currentGroup);
     console.log('allUserCards:', allUserCards);
-    const filteredWhimsByGroup = allUserCards.filter((card) => card.groupId == currentGroup.id);
+    const filteredWhimsByGroup = allUserCards.filter((card) => card.groupId === currentGroup.id);
     console.log('filteredWhimsByGroup: ', filteredWhimsByGroup);
     cards = filteredWhimsByGroup;
   } else {
@@ -46,6 +47,10 @@ const Dashboard: React.FC = () => {
 
   const fetchWhims = async () => {
     if (auth.currentUser) {
+// evanBranch
+//       const whimsData = await getWhims();
+//       if (whimsData) {
+//         setAllWhims(whimsData);
       const userId = auth.currentUser.uid;
       const allWhimsData = await getWhims(userId);
 
@@ -71,15 +76,20 @@ const Dashboard: React.FC = () => {
     fetchWhims();
   }, []);
 
-  const handleCreateCard = async (cardData: CardData) => {
-    console.log("Creating card:", cardData); // Debug log
+  const handleCreateCard = async (cardData: WhimData) => {
+    console.log("Creating card:", cardData);
     await fetchWhims();
   };
 
-  const handleDeleteCard = async (cardData: CardData) => {
-    console.log("Deleting card:", cardData); // Debug log
+  const handleDeleteCard = async (cardData: WhimData) => {
+    console.log("Deleting card:", cardData);
     await fetchWhims();
   };
+
+// evanBranch
+//   const handleSelectGroup = (groupId: string | null) => {
+//    setSelectedGroupId(groupId);
+//   };
 
   const handleSelectGroup = (groupData?: GroupData) => {
     // console.log(`Group ${groupData.groupCode} button clicked`);
@@ -96,7 +106,19 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  console.log("Current cards:", cards); // Debug log
+  const filteredWhims = currentGroup.id
+    ? allUserCards.filter((whim) => whim.groupId === currentGroup.id)
+    : allUserCards;
+
+  const groupedWhims: GroupedWhims = filteredWhims.reduce((acc, whim) => {
+    if (!acc[whim.groupId]) {
+      acc[whim.groupId] = [];
+    }
+    acc[whim.groupId].push(whim);
+    return acc;
+  }, {} as GroupedWhims);
+
+  const isHomeView = currentGroup.id === null;
 
   return (
     <div className="dashboard">
@@ -107,7 +129,14 @@ const Dashboard: React.FC = () => {
           groupData={currentGroup}
         />
         <main className="main-content">
-          <div className="cards-container">
+{/* evanBranch */}
+          <Tray
+            groupedWhims={groupedWhims}
+            onDeleteCard={handleDeleteCard}
+            isHomeView={isHomeView}
+          />
+{/* karisBranch
+         <div className="cards-container">
             {cards.map((card, index) => (
               <Card
                 key={index}
@@ -121,7 +150,7 @@ const Dashboard: React.FC = () => {
                 onDeleteCard={handleDeleteCard}
               />
             ))}
-          </div>
+          </div> */}
         </main>
       </div>
     </div>

@@ -41,7 +41,8 @@ interface CardData {
   eventType: string;
   location?: string;
   date?: string;
-  color?: string; // Make color optional
+  color?: string;
+  groupId: string; // Add groupId
 }
 
 interface GroupData {
@@ -49,7 +50,7 @@ interface GroupData {
   createdAt: string;
   groupName: string;
   groupCode: string;
-};
+}
 
 interface CreateCardProps {
   onCreateCard: (cardData: CardData) => void;
@@ -67,6 +68,7 @@ export function CreateCard({ onCreateCard, onCloseForm, groupData }: CreateCardP
       whimData.color = newColor;
       setPreviousColor(newColor);
     }
+
     if (groupData && groupData.id && auth.currentUser) {
       const userId = auth.currentUser.uid;
       whimData.createdBy = userId;

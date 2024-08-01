@@ -2,14 +2,25 @@ import React from "react";
 import Card from "../card/card";
 import "./navigation.css";
 
+// interface WhimData {
+//   id: string;
+//   groupId: string;
+//   eventName: string;
+//   eventType: string;
+//   location: string;
+//   date?: string;
+//   color: string;
+// }
+
 interface WhimData {
   id: string;
+  groupId: string;
+  createdBy: string;
   eventName: string;
   eventType: string;
-  location: string;
   date?: string;
+  location?: string;
   color: string;
-  groupId: string;
 }
 
 interface GroupedWhims {

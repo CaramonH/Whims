@@ -53,13 +53,11 @@ const Header: React.FC<HeaderProps> = ({ onCreateCard, /* currentGroupId, */ gro
             className="create-button"
             label="Create New Event"
             disabled={!groupData}
-            {/* disabled={!currentGroupId} // Disable button when no group is selected */}
           />
         ) : (
           <CreateCard
             onCreateCard={onCreateCard}
             onCloseForm={handleCloseForm}
-            {/* currentGroupId={currentGroupId} */}
             groupData={groupData}
           />
         )}

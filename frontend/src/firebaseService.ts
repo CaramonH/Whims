@@ -15,17 +15,6 @@ export const createWhim = async (whimData: any) => {
   }
 };
 
-
-// Function to get whims - gets all, outdated function for Karis' code
-// export const getWhims = async () => {
-//   try {
-//     const whimsRef = collection(firestore, 'whims');
-//     const whimsSnapshot = await getDocs(whimsRef);
-
-//     if (whimsSnapshot.empty) {
-//       console.log("No whims available.");
-//       return [];
-
 // Function to get all whims of a user
 export const getWhims = async (userId: string) => {
   try {
@@ -136,10 +125,6 @@ export const joinGroup = async (userId: string, groupCode: string) => {
     const groupDoc = groupSnapshot.docs[0];
     const groupId = groupDoc.id;
     const groupData = groupDoc.data();
-
-    // const groupRef = doc(firestore, 'groups', groupId);
-    // const userRef = doc(firestore, 'users', userId);
-
 
     // Update the group's memberIds unless already added
     if (groupData.memberIds && groupData.memberIds.includes(userId)) {

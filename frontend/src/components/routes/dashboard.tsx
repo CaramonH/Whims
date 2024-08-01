@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../navigation/sidebar";
 import Header from "../navigation/header";
 import Tray from "../navigation/tray";
-import { getWhims } from "../../firebaseService";
+import { getUserWhims, getGroupWhims } from "../../firebaseService";
 import "./dashboard.css";
 import { getAuth } from "firebase/auth";
 
@@ -33,6 +33,7 @@ const Dashboard: React.FC = () => {
   const [allUserCards, setAllUserCards] = useState<CardData[]>([]);
   const [userGroups, setUserGroups] = useState<GroupData[]>([]);
   const [currentGroup, setCurrentGroup] = useState<GroupData>();
+  const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true);
   const auth = getAuth();
 
   const filteredWhims = currentGroup
@@ -51,8 +52,15 @@ const Dashboard: React.FC = () => {
 
   const fetchWhims = async () => {
     if (auth.currentUser) {
-      const userId = auth.currentUser.uid;
-      const allWhimsData = await getWhims(userId);
+      let allWhimsData;
+
+      if (isInitialLoad === true) {
+        const userId = auth.currentUser.uid;
+        allWhimsData = await getUserWhims(userId);
+        setIsInitialLoad(false);
+      } else {
+        allWhimsData = await getGroupWhims(userGroups);
+      }
 
       if (allWhimsData) {
         // it says the properties don't exist for whims, but it's wrong, it works

@@ -15,8 +15,8 @@ export const createWhim = async (whimData: any) => {
   }
 };
 
-// Function to get all whims of a user
-export const getWhims = async (userId: string) => {
+// Function to get all whims of a user based on userId
+export const getUserWhims = async (userId: string) => {
   try {
     const userRef = doc(firestore, 'users', userId);
     const userDoc = await getDoc(userRef);
@@ -40,6 +40,33 @@ export const getWhims = async (userId: string) => {
       console.log("No such user!");
       return [];
     }
+  } catch (error) {
+    console.error("Error reading whims:", error);
+    return [];
+  }
+};
+
+interface GroupData {
+  id: string;
+  createdAt: string;
+  createdBy: string;
+  groupName: string;
+  groupCode: string;
+}
+
+// Function to get all whims of a user based on userGroups
+export const getGroupWhims = async (userGroups: GroupData[]) => {
+  try {
+    let allUserWhims = [];
+    for (const group of userGroups) {
+      const whimsRef = collection(firestore, 'groups', group.id, 'whims');
+      const whimsSnapshot = await getDocs(whimsRef);
+      const groupWhims = whimsSnapshot.docs.map(whim => ({ id: whim.id, ...whim.data() }));
+      allUserWhims.push(...groupWhims);
+      console.log('groupWhims:', groupWhims); // Debug log
+    }
+    console.log("getWhims - all user whims:", allUserWhims); // Debug log
+    return allUserWhims;
   } catch (error) {
     console.error("Error reading whims:", error);
     return [];

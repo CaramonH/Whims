@@ -1,49 +1,73 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../navigation/sidebar";
 import Header from "../navigation/header";
-import Card from "../card/card";
+import Tray from "../navigation/tray";
 import { getWhims } from "../../firebaseService";
 import "./dashboard.css";
 import { getAuth } from "firebase/auth";
 
 interface CardData {
   id: string;
+  groupId: string;
+  createdBy: string;
   eventName: string;
   eventType: string;
-  date: string;
-  location: string;
+  date?: string;
+  location?: string;
   color: string;
 }
 
 interface GroupData {
   id: string;
   createdAt: string;
+  createdBy: string;
   groupName: string;
   groupCode: string;
-};
+}
+
+interface GroupedWhims {
+  [groupId: string]: CardData[];
+}
 
 const Dashboard: React.FC = () => {
-  const [cards, setCards] = useState<CardData[]>([]);
-  // const [currentGroup, setCurrentGroup] = useState<GroupData>();
+  const [allUserCards, setAllUserCards] = useState<CardData[]>([]);
+  const [userGroups, setUserGroups] = useState<GroupData[]>([]);
+  const [currentGroup, setCurrentGroup] = useState<GroupData>();
   const auth = getAuth();
+
+  const filteredWhims = currentGroup
+    ? allUserCards.filter((whim) => whim.groupId === currentGroup.id)
+    : allUserCards;
+
+  const groupedWhims: GroupedWhims = filteredWhims.reduce((acc, whim) => {
+    if (!acc[whim.groupId]) {
+      acc[whim.groupId] = [];
+    }
+    acc[whim.groupId].push(whim);
+    return acc;
+  }, {} as GroupedWhims);
+
+  const isHomeView = currentGroup === null;
 
   const fetchWhims = async () => {
     if (auth.currentUser) {
-      // const userId = auth.currentUser.uid;
-      // const whimsData = await getWhims(userId, currentGroup);
-      const whimsData = await getWhims();
+      const userId = auth.currentUser.uid;
+      const allWhimsData = await getWhims(userId);
 
-      if (whimsData) {
+      if (allWhimsData) {
         // it says the properties don't exist for whims, but it's wrong, it works
-        const formattedWhims = whimsData.map((whim) => ({
+        const formattedWhims = allWhimsData.map((whim) => ({
           id: whim.id,
+          groupId: whim.groupId,
+          createdBy: whim.createdBy,
           eventName: whim.eventName || null,
           eventType: whim.eventType || null,
           date: whim.date || null,
           location: whim.location || null,
           color: whim.color || null,
         }));
-        setCards(formattedWhims);
+        console.log(`formattedWhims:`, formattedWhims);
+        setAllUserCards(formattedWhims);
       }
     }
   };
@@ -53,44 +77,52 @@ const Dashboard: React.FC = () => {
   }, []);
 
   const handleCreateCard = async (cardData: CardData) => {
-    console.log("Creating card:", cardData); // Debug log
+    console.log("Creating card:", cardData);
     await fetchWhims();
   };
 
   const handleDeleteCard = async (cardData: CardData) => {
-    console.log("Deleting card:", cardData); // Debug log
+    console.log("Deleting card:", cardData);
     await fetchWhims();
   };
 
-  const handleSelectGroup = async (groupData: GroupData) => {
-    console.log(`Group ${groupData.groupCode} button clicked`);
-    // console.log("Pulling whims for group:", groupData.groupCode); // Debug log
-    // setCurrentGroup(groupData);
-    // await fetchWhims();
+  const handleSelectGroup = (groupData?: GroupData) => {
+    if (groupData == currentGroup) {
+      console.log("Already on this group page"); // Debug log
+      return;
+    }
+    if (groupData) {
+      console.log('Setting selected group to', groupData.groupCode); // Debug log
+      setCurrentGroup(groupData);
+    } else {
+      console.log('Setting selected group to home'); // Debug log
+      setCurrentGroup(undefined);
+    }
   };
 
-  console.log("Current cards:", cards); // Debug log
+  const handleGetGroupList = (groupList: GroupData[]) => {
+    console.log("Getting group list from sidebar:", groupList);
+    setUserGroups(groupList);
+  };
 
   return (
     <div className="dashboard">
-      <Sidebar onSelectGroup={handleSelectGroup} />
+      <Sidebar
+        onSelectGroup={handleSelectGroup}
+        onGetGroupList={handleGetGroupList}
+      />
       <div className="dashboard-content">
-        <Header onCreateCard={handleCreateCard} />
+        <Header
+          onCreateCard={handleCreateCard}
+          groupData={currentGroup}
+        />
         <main className="main-content">
-          <div className="cards-container">
-            {cards.map((card, index) => (
-              <Card
-                key={index}
-                id={card.id}
-                eventName={card.eventName}
-                eventType={card.eventType}
-                location={card.location}
-                date={card.date}
-                color={card.color}
-                onDeleteCard={handleDeleteCard}
-              />
-            ))}
-          </div>
+          <Tray
+            groupedWhims={groupedWhims}
+            onDeleteCard={handleDeleteCard}
+            isHomeView={isHomeView}
+            userGroups={userGroups}
+          />
         </main>
       </div>
     </div>

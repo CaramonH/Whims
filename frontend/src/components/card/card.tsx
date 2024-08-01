@@ -15,6 +15,8 @@ import {
 import "./card.css";
 import Button from "../general/button";
 import { deleteWhim } from "../../firebaseService";
+import { getAuth } from "firebase/auth";
+
 
 const colorVariables: string[] = [
   "--color-turq",
@@ -45,32 +47,49 @@ const getRandomColorHelper = (): string => {
 
 interface CardData {
   id: string;
+  groupId: string;
+  createdBy: string;
   eventName: string;
   eventType: string;
-  location: string;
-  date: string;
+  date?: string;
+  location?: string;
   color: string;
+}
+
+interface GroupData {
+  id: string;
+  createdAt: string;
+  createdBy: string;
+  groupName: string;
+  groupCode: string;
 }
 
 interface CardProps {
   id: string;
+  groupId: string;
+  createdBy: string;
   eventName: string;
   eventType: string;
-  location: string;
-  date: string;
+  location?: string;
+  date?: string;
   color: string;
   onDeleteCard: (cardData: CardData) => void;
+  userGroups: GroupData[];
 }
 
 const Card: React.FC<CardProps> = ({
   id,
+  groupId,
+  createdBy,
   eventName,
   eventType,
   location,
   date,
   color,
   onDeleteCard,
+  userGroups,
 }) => {
+  const auth = getAuth();
   const randomColor: string = getRandomColor(color);
 
   const getEventIcon = (type: string): IconProp => {
@@ -95,6 +114,8 @@ const Card: React.FC<CardProps> = ({
   const handleDeleteWhim = () => {
     const cardData: CardData = {
       id,
+      groupId,
+      createdBy,
       eventName,
       eventType,
       location,
@@ -102,7 +123,7 @@ const Card: React.FC<CardProps> = ({
       color,
     };
 
-    deleteWhim(id)
+    deleteWhim(cardData)
       .then(() => {
         console.log("Whim deleted successfully!");
         onDeleteCard(cardData);
@@ -112,22 +133,42 @@ const Card: React.FC<CardProps> = ({
       });
   };
 
+  const canDelete = () => {
+    if (auth.currentUser) {
+      const userId = auth.currentUser.uid;
+
+      // Allows user to delete their own whims
+      if (userId === createdBy) {
+        return true;
+      }
+
+      // Allows creator of group to delete any whim within the group
+      const group = userGroups.find(group => group.id === groupId);
+      console.log(`group of whim that says "${eventName}":`, group);
+      console.log(`creator of group that contains the previously mentioned whim:`, userId);
+      if (group && userId === group.createdBy) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   return (
     <div className={`card ${color || randomColor}`}>
-      {date && (
-        <div className="card-date">{date}</div>
-      )}
+      {date && <div className="card-date">{date}</div>}
       <h1 className="card-title">{eventName}</h1>
       <div className="event-type-icon">
         <FontAwesomeIcon icon={getEventIcon(eventType)} />
       </div>
       <div>
-        <Button
-          icon={faTrash}
-          onClick={handleDeleteWhim}
-          className="delete-button"
-          label="Delete"
-        />
+        { canDelete() &&
+          <Button
+            icon={faTrash}
+            onClick={handleDeleteWhim}
+            className="delete-button"
+            label="Delete"
+          />
+        }
       </div>
       <div className="like-dislike-container">
         <LikeDislike />
@@ -138,11 +179,6 @@ const Card: React.FC<CardProps> = ({
         />  */}
       </div>
       <div className="location-container">{location}</div>
-      {/* Button to add the card as a whim
-      <button onClick={handleAddWhim} className="add-whim-button">
-        Add to Whims
-      </button>
-      */}
     </div>
   );
 };

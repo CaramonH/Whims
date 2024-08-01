@@ -1,60 +1,44 @@
-// firebaseService.ts
-import { firestore } from './firebaseConfig';
+import { firestore } from './firebaseConfig.tsx';
 import {
   addDoc, getDoc, getDocs, setDoc, deleteDoc, updateDoc,
   doc, collection,
   query, where, arrayUnion, arrayRemove
 } from 'firebase/firestore';
 
-
 // Function to create a whim
-export const createWhim = async (/*groupId: string, */whimData: any) => {
+export const createWhim = async (whimData: any) => {
   try {
-    const whimRef = await addDoc(collection(firestore, 'whims'), whimData);
+    const whimRef = await addDoc(collection(firestore, 'groups', whimData.groupId, 'whims'), whimData);
     console.log(`Whim created successfully with ID: ${whimRef.id}`);
   } catch (error) {
     console.error("Error creating whim:", error);
   }
 };
 
-
-// Function to get whims of a user based on group (if selected)
-// userId: string, groupData: any
-export const getWhims = async () => {
+// Function to get all whims of a user
+export const getWhims = async (userId: string) => {
   try {
-    // if (groupData) {
-    //   const whimsRef = collection(firestore, 'groups', groupData.id, 'whims');
-    //   const whimsSnapshot = await getDocs(whimsRef);
-
-    //   if (whimsSnapshot.empty) {
-    //     console.log("No whims available.");
-    //     return [];
-    //   } else {
-    //     const whims = whimsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    //     console.log(whims);
-    //     return whims;
-    //   }
-    // } else {
-    //   const allUserGroups = getUserGroups(userId);
-    //   const groupsRef = collection(firestore, 'groups');
-    //   const q = query(groupsRef, where('__name__', 'in', allUserGroups));
-    //   const groupsSnapshot = await getDocs(q);
-
-    //   const allWhims = groupsSnapshot.docs.map(doc => ([ ...doc.whims ]));
-    //   // ^this code isn't quite right I dont, think. Specifically ^this part
-    //   return allWhims;
-    // }
-
-    const whimsRef = collection(firestore, 'whims');
-    const whimsSnapshot = await getDocs(whimsRef);
-
-    if (whimsSnapshot.empty) {
-      console.log("No whims available.");
-      return [];
+    const userRef = doc(firestore, 'users', userId);
+    const userDoc = await getDoc(userRef);
+    const userData = userDoc.data();
+    if (userData) {
+      if (!userData.groupIds) {
+        console.log("No whims available.");
+        return [];
+      }
+      let allUserWhims = [];
+      for (const groupId of userData.groupIds) {
+        const whimsRef = collection(firestore, 'groups', groupId, 'whims');
+        const whimsSnapshot = await getDocs(whimsRef);
+        const groupWhims = whimsSnapshot.docs.map(whim => ({ id: whim.id, ...whim.data() }));
+        allUserWhims.push(...groupWhims);
+        console.log('groupWhims:', groupWhims); // Debug log
+      }
+      console.log("getWhims - all user whims:", allUserWhims); // Debug log
+      return allUserWhims;
     } else {
-      const whims = whimsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      console.log(whims);
-      return whims;
+      console.log("No such user!");
+      return [];
     }
   } catch (error) {
     console.error("Error reading whims:", error);
@@ -62,13 +46,12 @@ export const getWhims = async () => {
   }
 };
 
-
 // Function to delete a whim by its ID
-export const deleteWhim = async (whimId: string) => {
+export const deleteWhim = async (whimData: any) => {
   try {
-    const whimRef = doc(firestore, 'whims', whimId);
+    const whimRef = doc(firestore, 'groups', whimData.groupId, 'whims', whimData.id);
     await deleteDoc(whimRef);
-    console.log('Whim deleted with ID:', whimId);
+    console.log('Whim deleted with ID:', whimData.id);
   } catch (error) {
     console.error('Error deleting whim deleteWhim:', error);
   }
@@ -143,10 +126,6 @@ export const joinGroup = async (userId: string, groupCode: string) => {
     const groupId = groupDoc.id;
     const groupData = groupDoc.data();
 
-    // const groupRef = doc(firestore, 'groups', groupId);
-    // const userRef = doc(firestore, 'users', userId);
-
-
     // Update the group's memberIds unless already added
     if (groupData.memberIds && groupData.memberIds.includes(userId)) {
       console.log('Group already has this member.');
@@ -186,31 +165,41 @@ export const leaveGroup = async (userId: string, groupId: string) => {
     const groupRef = doc(firestore, 'groups', groupId);
     const groupDoc = await getDoc(groupRef);
     const groupData = groupDoc.data();
-    const userRef = doc(firestore, 'users', userId);
-    const userDoc = await getDoc(userRef);
-    const userData = userDoc.data();
 
-    // remove user from groups members (or delete the group)
     if (!groupData) {
       console.log('groupData not found');
-    } else if (groupData.createdBy === userId) {
+      return;
+    }
+
+    if (groupData.createdBy === userId) {
+      // Remove the groupId from each user's groupIds
+      for (const memberId of groupData.memberIds) {
+        const memberRef = doc(firestore, 'users', memberId);
+        await updateDoc(memberRef, {
+          groupIds: arrayRemove(groupId)
+        });
+        console.log(`Removed group ${groupId} from user ${memberId}'s groupIds`); // Debug log
+      }
+
+      // Delete the group
       await deleteDoc(groupRef);
-      console.log(`${userId} deleted ${groupId} when leaving`); // Debug log
+      console.log(`${userId} deleted ${groupId} when leaving`);
     } else {
+      // Remove the user from the group's memberIds
       await updateDoc(groupRef, {
         memberIds: arrayRemove(userId)
       });
-      console.log(`${userId} was removed as a member from group ${groupId}`);
+      console.log(`${userId} was removed as a member from group ${groupId}`); // Debug log
+
+      // Remove group from the user's groupIds
+      const userRef = doc(firestore, 'users', userId);
+      await updateDoc(userRef, {
+        groupIds: arrayRemove(groupId)
+      });
     }
-
-    // remove group from users groups
-    await updateDoc(userRef, {
-      groupIds: arrayRemove(groupId)
-    });
-
-    console.log(`${userId} left group with ID: ${groupId}`);
+    console.log(`${userId} left group with ID: ${groupId}`); // Debug log
   } catch (error) {
-    console.error('Error leaving group:', error);
+    console.error('Error leaving group:', error); // Debug log
   }
 };
 

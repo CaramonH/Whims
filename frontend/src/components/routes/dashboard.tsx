@@ -108,9 +108,11 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const handleGetGroupList = (groupList: GroupData[]) => {
+  const handleGetGroupList = async (groupList: GroupData[]) => {
     console.log("Getting group list from sidebar:", groupList);
     setUserGroups(groupList);
+    // await fetchWhims();
+    // ^I think this caused some recursive stuff to happen so definitely don't do that
   };
 
   return (

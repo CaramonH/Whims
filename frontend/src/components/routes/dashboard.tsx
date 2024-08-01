@@ -109,10 +109,21 @@ const Dashboard: React.FC = () => {
   };
 
   const handleGetGroupList = async (groupList: GroupData[]) => {
-    console.log("Getting group list from sidebar:", groupList);
-    setUserGroups(groupList);
-    // await fetchWhims();
-    // ^I think this caused some recursive stuff to happen so definitely don't do that
+    // tried to add this if statement, but something's off about it.
+    // it doesn't continue repeating this indefinitely with the if statement,
+    // but it still seems to be calling something more than it should.
+    // and when I added !isInitialLoad, the first time it pulls the cards, it doesn't
+    // no idea why??? actually, maybe a little bit of an idea, but just a hypothesis:
+    // before everything's fully loaded, the state isn't fully set? And so it runs
+    // indefinitely before isInitialLoad === true, but then it's set to true and messes
+    // things up?? I don't really know, I'm not sure that logic is sound actually,
+    // but oh well :T we'll figure it out another time, I gotta go to bed
+    // if (!isInitialLoad && groupList != userGroups) {
+      console.log("Getting group list from sidebar:", groupList);
+      setUserGroups(groupList);
+      // await fetchWhims();
+      // ^I think this caused some recursive stuff to happen so definitely don't do that
+    // }
   };
 
   return (

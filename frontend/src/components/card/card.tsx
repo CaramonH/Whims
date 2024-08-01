@@ -52,7 +52,6 @@ interface CardData {
   location?: string;
   date?: string;
   color: string;
-  groupId: string;
 }
 
 interface CardProps {
@@ -64,7 +63,6 @@ interface CardProps {
   location?: string;
   date?: string;
   color: string;
-  groupId: string;
   onDeleteCard: (cardData: CardData) => void;
 }
 
@@ -77,7 +75,6 @@ const Card: React.FC<CardProps> = ({
   location,
   date,
   color,
-  groupId,
   onDeleteCard,
 }) => {
   const randomColor: string = getRandomColor(color);
@@ -111,7 +108,6 @@ const Card: React.FC<CardProps> = ({
       location,
       date,
       color,
-      groupId,
     };
 
     deleteWhim(cardData)

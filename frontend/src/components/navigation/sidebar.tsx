@@ -92,7 +92,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
 // evanBranch
   const handleGroupClick = (groupData: GroupData) => {
     console.log(`Group ${groupData.groupCode} button clicked`);
-    onSelectGroup(groupData.id);
+    onSelectGroup(groupData);
   };
 
   const handleHomeClick = () => {
@@ -128,7 +128,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup }) => {
           <div id="groups">
             <Button
               icon={faHome}
-              onClick={() => handleHomeClick(undefined)}
+              onClick={() => handleHomeClick()}
               className="nav-item home-button"
               label="Home"
               isExpanded={isExpanded}

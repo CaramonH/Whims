@@ -6,7 +6,7 @@ import { getWhims } from "../../firebaseService";
 import "./dashboard.css";
 import { getAuth } from "firebase/auth";
 
-interface WhimData {
+interface CardData {
   id: string;
   groupId: string;
   createdBy: string;
@@ -15,16 +15,22 @@ interface WhimData {
   date?: string;
   location?: string;
   color: string;
-  groupId: string; // Add groupId
+}
+
+interface GroupData {
+  id: string;
+  createdAt: string;
+  groupName: string;
+  groupCode: string;
 }
 
 interface GroupedWhims {
-  [groupId: string]: WhimData[];
+  [groupId: string]: CardData[];
 }
 
 const Dashboard: React.FC = () => {
 // evanBranch
-//  const [allWhims, setAllWhims] = useState<WhimData[]>([]);
+//  const [allWhims, setAllWhims] = useState<CardData[]>([]);
 //  const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
   const [allUserCards, setAllUserCards] = useState<CardData[]>([]);
   // const [cards, setCards] = useState<CardData[]>([]);
@@ -34,13 +40,13 @@ const Dashboard: React.FC = () => {
   let cards;
   // const filterGroupWhims = () => {
   if (currentGroup) {
-    console.log('currentGroup:', currentGroup);
-    console.log('allUserCards:', allUserCards);
+    // console.log('currentGroup:', currentGroup);
+    // console.log('allUserCards:', allUserCards);
     const filteredWhimsByGroup = allUserCards.filter((card) => card.groupId === currentGroup.id);
-    console.log('filteredWhimsByGroup: ', filteredWhimsByGroup);
+    // console.log('filteredWhimsByGroup: ', filteredWhimsByGroup);
     cards = filteredWhimsByGroup;
   } else {
-    console.log('no currentGroup - allUserCards:', allUserCards);
+    // console.log('no currentGroup - allUserCards:', allUserCards);
     cards = allUserCards;
   }
   // };
@@ -76,12 +82,12 @@ const Dashboard: React.FC = () => {
     fetchWhims();
   }, []);
 
-  const handleCreateCard = async (cardData: WhimData) => {
+  const handleCreateCard = async (cardData: CardData) => {
     console.log("Creating card:", cardData);
     await fetchWhims();
   };
 
-  const handleDeleteCard = async (cardData: WhimData) => {
+  const handleDeleteCard = async (cardData: CardData) => {
     console.log("Deleting card:", cardData);
     await fetchWhims();
   };
@@ -98,15 +104,16 @@ const Dashboard: React.FC = () => {
       return;
     }
     if (groupData) {
-      console.log("Pulling whims for group:", groupData.groupCode); // Debug log
+      console.log('Setting selected group to', groupData.groupCode); // Debug log
       setCurrentGroup(groupData);
     } else {
-      console.log("Pulling all whims for home page"); // Debug log
+      console.log('Setting selected group to home'); // Debug log
       setCurrentGroup(undefined);
     }
   };
 
-  const filteredWhims = currentGroup.id
+  // Evan's code is basically the same as mine
+  const filteredWhims = currentGroup
     ? allUserCards.filter((whim) => whim.groupId === currentGroup.id)
     : allUserCards;
 
@@ -118,7 +125,7 @@ const Dashboard: React.FC = () => {
     return acc;
   }, {} as GroupedWhims);
 
-  const isHomeView = currentGroup.id === null;
+  const isHomeView = currentGroup === null;
 
   return (
     <div className="dashboard">

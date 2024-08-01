@@ -1,4 +1,4 @@
-import { firestore } from './firebaseConfig';
+import { firestore } from './firebaseConfig.tsx';
 import {
   addDoc, getDoc, getDocs, setDoc, deleteDoc, updateDoc,
   doc, collection,

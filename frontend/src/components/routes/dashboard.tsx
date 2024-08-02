@@ -93,10 +93,10 @@ const Dashboard: React.FC = () => {
       return;
     }
     if (groupData) {
-      console.log('Setting selected group to', groupData.groupCode); // Debug log
+      console.log("Setting selected group to", groupData.groupCode); // Debug log
       setCurrentGroup(groupData);
     } else {
-      console.log('Setting selected group to home'); // Debug log
+      console.log("Setting selected group to home"); // Debug log
       setCurrentGroup(undefined);
     }
   };
@@ -113,10 +113,7 @@ const Dashboard: React.FC = () => {
         onGetGroupList={handleGetGroupList}
       />
       <div className="dashboard-content">
-        <Header
-          onCreateCard={handleCreateCard}
-          groupData={currentGroup}
-        />
+        <Header onCreateCard={handleCreateCard} groupData={currentGroup} />
         <main className="main-content">
           <Tray
             groupedWhims={groupedWhims}

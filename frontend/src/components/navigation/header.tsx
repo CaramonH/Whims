@@ -16,9 +16,14 @@ interface GroupData {
 interface HeaderProps {
   onCreateCard: (cardData: CardData) => void;
   groupData?: GroupData;
+  isHomePage: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ onCreateCard, groupData }) => {
+const Header: React.FC<HeaderProps> = ({
+  onCreateCard,
+  groupData,
+  isHomePage,
+}) => {
   const [showInputForm, setShowInputForm] = useState(false);
 
   const handleCreateClick = () => {
@@ -31,27 +36,29 @@ const Header: React.FC<HeaderProps> = ({ onCreateCard, groupData }) => {
 
   return (
     <header className="header">
-      <div className="header-sorting">
-        <Sorting />
-      </div>
-      <div className="create-card-container">
-        {!showInputForm ? (
-          <Button
-            icon={faPlus}
-            onClick={handleCreateClick}
-            className="create-button"
-            label="Create New Event"
-            disabled={!groupData}
-          />
-        ) : (
-          <CreateCard
-            className="create-card"
-            onCreateCard={onCreateCard}
-            onCloseForm={handleCloseForm}
-            groupData={groupData}
-          />
-        )}
-      </div>
+      {!isHomePage && (
+        <>
+          <div className="header-sorting">
+            <Sorting />
+          </div>
+          <div className="create-card-container">
+            {!showInputForm ? (
+              <Button
+                icon={faPlus}
+                onClick={handleCreateClick}
+                className="create-button"
+                label="Create New Event"
+              />
+            ) : (
+              <CreateCard
+                onCreateCard={onCreateCard}
+                onCloseForm={handleCloseForm}
+                groupData={groupData}
+              />
+            )}
+          </div>
+        </>
+      )}
     </header>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
-import { leaveGroup } from '../../firebaseService';
+import { leaveGroup } from "../../firebaseService";
 import { getAuth } from "firebase/auth";
 
 interface GroupData {
@@ -9,7 +9,7 @@ interface GroupData {
   createdAt: string;
   groupName: string;
   groupCode: string;
-};
+}
 
 interface GroupButtonProps {
   isExpanded: boolean;
@@ -18,7 +18,7 @@ interface GroupButtonProps {
   onLeave: () => void;
 }
 
-const GroupButton: React.FC<GroupButtonProps> = ({
+const Group: React.FC<GroupButtonProps> = ({
   isExpanded,
   onClick,
   groupData,
@@ -55,4 +55,4 @@ const GroupButton: React.FC<GroupButtonProps> = ({
   );
 };
 
-export default GroupButton;
+export default Group;

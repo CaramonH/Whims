@@ -67,7 +67,7 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({
-  id,
+  // id, Missed this. Its uneeded because of restructuring 
   groupId,
   createdBy,
   eventName,

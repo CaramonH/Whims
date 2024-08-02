@@ -34,15 +34,20 @@ const Dashboard: React.FC = () => {
   const [userGroups, setUserGroups] = useState<GroupData[]>([]);
   const [currentGroup, setCurrentGroup] = useState<GroupData>();
   const auth = getAuth();
-  const isHomePage = !currentGroup;
 
-  let cards;
-  if (currentGroup) {
-    const filteredWhimsByGroup = allUserCards.filter((card) => card.groupId === currentGroup.id);
-    cards = filteredWhimsByGroup;
-  } else {
-    cards = allUserCards;
-  }
+  const filteredWhims = currentGroup
+    ? allUserCards.filter((whim) => whim.groupId === currentGroup.id)
+    : allUserCards;
+
+  const groupedWhims: GroupedWhims = filteredWhims.reduce((acc, whim) => {
+    if (!acc[whim.groupId]) {
+      acc[whim.groupId] = [];
+    }
+    acc[whim.groupId].push(whim);
+    return acc;
+  }, {} as GroupedWhims);
+
+  const isHomeView = currentGroup === null;
 
   const fetchWhims = async () => {
     if (auth.currentUser) {
@@ -88,10 +93,10 @@ const Dashboard: React.FC = () => {
       return;
     }
     if (groupData) {
-      console.log("Setting selected group to", groupData.groupCode); // Debug log
+      console.log('Setting selected group to', groupData.groupCode); // Debug log
       setCurrentGroup(groupData);
     } else {
-      console.log("Setting selected group to home"); // Debug log
+      console.log('Setting selected group to home'); // Debug log
       setCurrentGroup(undefined);
     }
   };
@@ -111,15 +116,14 @@ const Dashboard: React.FC = () => {
         <Header
           onCreateCard={handleCreateCard}
           groupData={currentGroup}
-          isHomePage={isHomePage}
         />
         <main className="main-content">
           <Tray
             groupedWhims={groupedWhims}
             onDeleteCard={handleDeleteCard}
             isHomeView={isHomeView}
+            userGroups={userGroups}
           />
-
         </main>
       </div>
     </div>

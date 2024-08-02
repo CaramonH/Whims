@@ -179,7 +179,6 @@ const GroupManagement: React.FC<GroupManagementProps> = ({
                 )}
                 {groupCreated && (
                   <div className="group-created">
-                    <h3>Group Created!</h3>
                     <p className="your-code">Your Invitation code is:</p>
                     <div
                       className="group-code-container"

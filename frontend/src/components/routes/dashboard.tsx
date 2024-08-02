@@ -56,6 +56,7 @@ const Dashboard: React.FC = () => {
 
       if (allWhimsData) {
         // it says the properties don't exist for whims, but it's wrong, it works
+        // LOL
         const formattedWhims = allWhimsData.map((whim) => ({
           id: whim.id,
           groupId: whim.groupId,

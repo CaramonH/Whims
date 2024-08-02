@@ -24,17 +24,17 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  gap: 40px;
-  padding-bottom: 40px;
+  gap: 30px;
+  padding-bottom: 5rem;
 }
 
 .login-input {
-  background-color: var(--color-ui-blue);
-  border: 2px solid var(--color-ui-white);
-  border-radius: 5px;
-  padding: 3px;
-  margin: 0px 5px;
-  font-size: 1em;
+  background-color: transparent !important;
+  border: none;
+  border-bottom: 3px solid var(--color-ui-white);
+  border-radius: 2px;
+  padding: 0px 5px;
+  font-size: 1.2em;
 }
 
 .login-input:focus {
@@ -45,18 +45,26 @@
 .login-button-container {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 20px;
 }
 
 .login-error {
   color: var(--color-dark-red);
   background-color: rgba(255, 255, 255, 0.5);
   margin: auto;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .login-button {
   margin: 0px 5px;
+  padding: 10px 15px; 
+}
+
+.blurb-p {
+  font-size: medium;
+  color: var(--color-ui-white);
+  margin-top: 4rem;
+  margin-bottom: 5px;
 }
 
 .login-button:hover {

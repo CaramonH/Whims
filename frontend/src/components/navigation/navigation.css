@@ -191,7 +191,7 @@
 }
 
 .pop-window-content {
-  width: 30%; /* Adjust as needed */
+  width: 60%; /* Adjust as needed */
   height: 60%;
 }
 
@@ -273,7 +273,7 @@
 }
 
 .group-section {
-  background-color: #f0f0f0;
+  background-color: var(--color-ui-white);
   border-radius: 8px;
   padding: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

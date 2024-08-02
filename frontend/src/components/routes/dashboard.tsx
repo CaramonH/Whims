@@ -29,20 +29,23 @@ interface GroupedWhims {
 }
 
 const Dashboard: React.FC = () => {
-// evanBranch
-//  const [allWhims, setAllWhims] = useState<CardData[]>([]);
-//  const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
+  // evanBranch
+  //  const [allWhims, setAllWhims] = useState<CardData[]>([]);
+  //  const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
   const [allUserCards, setAllUserCards] = useState<CardData[]>([]);
   // const [cards, setCards] = useState<CardData[]>([]);
   const [currentGroup, setCurrentGroup] = useState<GroupData>();
   const auth = getAuth();
+  const isHomePage = !currentGroup;
 
   let cards;
   // const filterGroupWhims = () => {
   if (currentGroup) {
     // console.log('currentGroup:', currentGroup);
     // console.log('allUserCards:', allUserCards);
-    const filteredWhimsByGroup = allUserCards.filter((card) => card.groupId === currentGroup.id);
+    const filteredWhimsByGroup = allUserCards.filter(
+      (card) => card.groupId === currentGroup.id
+    );
     // console.log('filteredWhimsByGroup: ', filteredWhimsByGroup);
     cards = filteredWhimsByGroup;
   } else {
@@ -53,10 +56,10 @@ const Dashboard: React.FC = () => {
 
   const fetchWhims = async () => {
     if (auth.currentUser) {
-// evanBranch
-//       const whimsData = await getWhims();
-//       if (whimsData) {
-//         setAllWhims(whimsData);
+      // evanBranch
+      //       const whimsData = await getWhims();
+      //       if (whimsData) {
+      //         setAllWhims(whimsData);
       const userId = auth.currentUser.uid;
       const allWhimsData = await getWhims(userId);
 
@@ -92,10 +95,10 @@ const Dashboard: React.FC = () => {
     await fetchWhims();
   };
 
-// evanBranch
-//   const handleSelectGroup = (groupId: string | null) => {
-//    setSelectedGroupId(groupId);
-//   };
+  // evanBranch
+  //   const handleSelectGroup = (groupId: string | null) => {
+  //    setSelectedGroupId(groupId);
+  //   };
 
   const handleSelectGroup = (groupData?: GroupData) => {
     // console.log(`Group ${groupData.groupCode} button clicked`);
@@ -104,10 +107,10 @@ const Dashboard: React.FC = () => {
       return;
     }
     if (groupData) {
-      console.log('Setting selected group to', groupData.groupCode); // Debug log
+      console.log("Setting selected group to", groupData.groupCode); // Debug log
       setCurrentGroup(groupData);
     } else {
-      console.log('Setting selected group to home'); // Debug log
+      console.log("Setting selected group to home"); // Debug log
       setCurrentGroup(undefined);
     }
   };
@@ -134,16 +137,17 @@ const Dashboard: React.FC = () => {
         <Header
           onCreateCard={handleCreateCard}
           groupData={currentGroup}
+          isHomePage={isHomePage}
         />
         <main className="main-content">
-{/* evanBranch */}
+          {/* evanBranch */}
           <Tray
             groupedWhims={groupedWhims}
             onDeleteCard={handleDeleteCard}
             isHomeView={isHomeView}
           />
-{/* karisBranch
-         <div className="cards-container">
+          {/* karisBranch
+          <div className="cards-container">
             {cards.map((card, index) => (
               <Card
                 key={index}

@@ -34,8 +34,10 @@ const GroupManagement: React.FC<GroupManagementProps> = ({
   const [showOptions, setShowOptions] = useState(false);
   const [showJoinInput, setShowJoinInput] = useState(false);
   const [groupCode, setGroupCode] = useState("");
+  const [customGroupName, setCustomGroupName] = useState("");
   const [copySuccess, setCopySuccess] = useState(false);
   const [groupCreated, setGroupCreated] = useState(false);
+  const [showNameInput, setShowNameInput] = useState(false);
   const windowRef = useRef<HTMLDivElement>(null);
   const auth = getAuth();
 
@@ -67,23 +69,28 @@ const GroupManagement: React.FC<GroupManagementProps> = ({
   };
 
   const handleCreateGroup = async () => {
-    const newGroupCode = generateGroupCode();
     if (auth.currentUser) {
       const userId = auth.currentUser.uid;
-      try {
-        const newGroup = await createGroup(userId, {
-          groupCode: newGroupCode,
-          createdAt: new Date(),
-        });
+      if (customGroupName.length > 0 && customGroupName.length <= 14) {
+        const newGroupCode = generateGroupCode();
+        try {
+          const newGroup = await createGroup(userId, {
+            groupCode: newGroupCode,
+            groupName: customGroupName,
+            createdAt: new Date(),
+          });
 
-        setGroupCode(newGroupCode);
-        setGroupCreated(true);
+          setGroupCode(newGroupCode);
+          setGroupCreated(true);
 
-        if (newGroup) {
-          onCreateGroup(newGroup);
+          if (newGroup) {
+            onCreateGroup(newGroup);
+          }
+        } catch (e) {
+          console.error("Error creating group: ", e);
         }
-      } catch (e) {
-        console.error("Error creating group: ", e);
+      } else {
+        alert("Group name must be between 1 and 14 characters.");
       }
     }
   };
@@ -142,15 +149,38 @@ const GroupManagement: React.FC<GroupManagementProps> = ({
               <div className="group-options">
                 <Button
                   icon={faPlus}
-                  onClick={handleCreateGroup}
+                  onClick={() => {
+                    setShowNameInput(true);
+                    setShowJoinInput(false);
+                  }}
                   className="nav-item create-group-button"
                   label="Create Group"
                   isExpanded={true}
                 />
+                {showNameInput && (
+                  <>
+                    <Input
+                      placeholder="Enter group name (1-14 characters)"
+                      onChange={(value) => setCustomGroupName(value)}
+                      className="group-name-input"
+                    />
+                    <Button
+                      icon={faPlus}
+                      onClick={handleCreateGroup}
+                      className="nav-item create-group-button"
+                      label="Create"
+                      isExpanded={true}
+                      disabled={
+                        customGroupName.length === 0 ||
+                        customGroupName.length > 14
+                      }
+                    />
+                  </>
+                )}
                 {groupCreated && (
                   <div className="group-created">
                     <h3>Group Created!</h3>
-                    <p className="your-code">Your group code is:</p>
+                    <p className="your-code">Your Invitation code is:</p>
                     <div
                       className="group-code-container"
                       onClick={handleCopyCode}

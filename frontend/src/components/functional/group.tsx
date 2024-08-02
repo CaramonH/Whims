@@ -30,10 +30,9 @@ const Group: React.FC<GroupButtonProps> = ({
     if (auth.currentUser) {
       const userId = auth.currentUser.uid;
       try {
-        // Add to global groups collection
+        // Remove user from group in the database
         await leaveGroup(userId, groupData.id);
-
-        onLeave(); // I really hope this works...
+        onLeave(); // Notify parent component
       } catch (e) {
         console.error("Error leaving group (group.tsx): ", e);
       }
@@ -43,12 +42,19 @@ const Group: React.FC<GroupButtonProps> = ({
   const divRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div ref={divRef}>
+    <div ref={divRef} className="group-item">
       <button onClick={onClick} className="nav-item group-button">
-        <FontAwesomeIcon icon={faUser} />
-        {isExpanded && <span className="label">{groupData.groupCode}</span>}
+        <div className="group-icon">
+          {groupData.groupName ? groupData.groupName[0] : "G"}{" "}
+          {/* Display first letter of group name */}
+        </div>
+        {isExpanded && (
+          <span className="label">
+            {groupData.groupName || groupData.groupCode}
+          </span>
+        )}
       </button>
-      <button onClick={handleOnLeave}>
+      <button onClick={handleOnLeave} className="leave-button">
         <FontAwesomeIcon icon={faSignOutAlt} />
       </button>
     </div>

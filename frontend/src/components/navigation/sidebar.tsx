@@ -36,11 +36,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup, onGetGroupList }) => {
   const navigate = useNavigate();
   const auth = getAuth();
 
-  // This gives the list of groups to dashboard so it can:
-  // - give it to tray so tray can give the list of groups to card,
-  //   which will use it to make sure group creators can delete any card/whim
-  //   in their group
-  // - pass it as the input for getWhims() to minimize read requests :D
   onGetGroupList(groups);
 
   const fetchGroups = async () => {
@@ -52,7 +47,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup, onGetGroupList }) => {
           id: group.id,
           createdAt: group.createdAt,
           createdBy: group.createdBy,
-          groupName: group.groupName || null,
+          groupName: group.groupName || "Unnamed Group", // Default if no name is set
           groupCode: group.groupCode,
         }));
         setGroups(formattedGroupsData);
@@ -69,7 +64,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup, onGetGroupList }) => {
     document.body.classList.toggle("sidebar-expanded", expanded);
   };
 
-  //   const handleHome = () => console.log("Home clicked");
   const handleSettings = () => setShowSettings(true);
   const handleCloseSettings = () => setShowSettings(false);
   const handleAccount = () => setShowAccount(true);

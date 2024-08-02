@@ -5,24 +5,22 @@ import Button from "../general/button";
 import DateInput from "../functional/dateInput";
 import "./inputForm.css";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { CardData } from "../types/cardData";
 
 interface InputFormProps {
   onSubmit: (cardData: CardData) => void;
 }
 
-interface CardData {
-  eventName: string;
-  eventType: string;
-  location: string;
-  date: string;
-}
-
 const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
   const [formData, setFormData] = useState<CardData>({
+    // id: "", uneeded for prop because of restructuring
+    groupId: "",
+    createdBy: "",
     eventName: "",
     eventType: "",
-    location: "",
-    date: "",
+    color: "",
+    date: "", // Optional field, but needs an initial value
+    location: "", // Optional field, but needs an initial value
   });
 
   const handleInputChange = (field: keyof CardData) => (value: string) => {

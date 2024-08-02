@@ -4,32 +4,26 @@ import Button from "../general/button";
 import Sorting from "../functional/sorting";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import "./navigation.css";
-
-interface CardData {
-  id: string;
-  groupId: string;
-  createdBy: string;
-  eventName: string;
-  eventType: string;
-  location?: string;
-  date?: string;
-  color: string;
-}
+import { CardData } from "../types/cardData";
 
 interface GroupData {
   id: string;
   createdAt: string;
   groupName: string;
   groupCode: string;
-};
+}
 
 interface HeaderProps {
   onCreateCard: (cardData: CardData) => void;
-//   currentGroupId: string | null;
   groupData?: GroupData;
+  isHomePage: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ onCreateCard, /* currentGroupId, */ groupData }) => {
+const Header: React.FC<HeaderProps> = ({
+  onCreateCard,
+  groupData,
+  isHomePage,
+}) => {
   const [showInputForm, setShowInputForm] = useState(false);
 
   const handleCreateClick = () => {
@@ -42,26 +36,29 @@ const Header: React.FC<HeaderProps> = ({ onCreateCard, /* currentGroupId, */ gro
 
   return (
     <header className="header">
-      <div className="header-sorting">
-        <Sorting />
-      </div>
-      <div className="create-card-container">
-        {!showInputForm ? (
-          <Button
-            icon={faPlus}
-            onClick={handleCreateClick}
-            className="create-button"
-            label="Create New Event"
-            disabled={!groupData}
-          />
-        ) : (
-          <CreateCard
-            onCreateCard={onCreateCard}
-            onCloseForm={handleCloseForm}
-            groupData={groupData}
-          />
-        )}
-      </div>
+      {!isHomePage && (
+        <>
+          <div className="header-sorting">
+            <Sorting />
+          </div>
+          <div className="create-card-container">
+            {!showInputForm ? (
+              <Button
+                icon={faPlus}
+                onClick={handleCreateClick}
+                className="create-button"
+                label="Create New Event"
+              />
+            ) : (
+              <CreateCard
+                onCreateCard={onCreateCard}
+                onCloseForm={handleCloseForm}
+                groupData={groupData}
+              />
+            )}
+          </div>
+        </>
+      )}
     </header>
   );
 };

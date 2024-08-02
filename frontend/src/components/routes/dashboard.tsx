@@ -64,6 +64,7 @@ const Dashboard: React.FC = () => {
 
       if (allWhimsData) {
         // it says the properties don't exist for whims, but it's wrong, it works
+        // LOL
         const formattedWhims = allWhimsData.map((whim) => ({
           id: whim.id,
           groupId: whim.groupId,
@@ -100,10 +101,10 @@ const Dashboard: React.FC = () => {
       return;
     }
     if (groupData) {
-      console.log('Setting selected group to', groupData.groupCode); // Debug log
+      console.log("Setting selected group to", groupData.groupCode); // Debug log
       setCurrentGroup(groupData);
     } else {
-      console.log('Setting selected group to home'); // Debug log
+      console.log("Setting selected group to home"); // Debug log
       setCurrentGroup(undefined);
     }
   };
@@ -136,6 +137,7 @@ const Dashboard: React.FC = () => {
         <Header
           onCreateCard={handleCreateCard}
           groupData={currentGroup}
+          isHomePage={currentGroup === undefined}
         />
         <main className="main-content">
           <Tray

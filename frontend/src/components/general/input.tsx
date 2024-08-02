@@ -3,7 +3,7 @@ import React, { useState, ChangeEvent } from "react";
 interface InputProps {
   placeholder?: string;
   type?: string;
-  value: string; //keep an eye on this and remove if neccessary
+  value?: string; //keep an eye on this and remove if neccessary
   onChange?: (value: string) => void;
   className?: string;
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Button from "../general/button";
-import CreateGroupOptions from "../functional/createGroupOptions";
-import GroupButton from "../functional/group";
+import GroupManagement from "../functional/groupManagement";
+import Group from "../functional/group";
 import Settings from "./settings";
 import Account from "./account";
 import {
@@ -69,7 +69,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup, onGetGroupList }) => {
     document.body.classList.toggle("sidebar-expanded", expanded);
   };
 
-//   const handleHome = () => console.log("Home clicked");
+  //   const handleHome = () => console.log("Home clicked");
   const handleSettings = () => setShowSettings(true);
   const handleCloseSettings = () => setShowSettings(false);
   const handleAccount = () => setShowAccount(true);
@@ -126,7 +126,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup, onGetGroupList }) => {
               isExpanded={isExpanded}
             />
             {groups.map((group, index) => (
-              <GroupButton
+              <Group
                 key={index}
                 isExpanded={isExpanded}
                 onClick={() => handleGroupClick(group)}
@@ -135,7 +135,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup, onGetGroupList }) => {
               />
             ))}
           </div>
-          <CreateGroupOptions
+          <GroupManagement
             isExpanded={isExpanded}
             onCreateGroup={handleCreateGroup}
             onJoinGroup={handleJoinGroup}

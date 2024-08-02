@@ -1,0 +1,61 @@
+/* generalStyle.css */
+
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+/*  */
+
+.dropdown option.option-icon {
+  background-repeat: no-repeat;
+  background-position: left center;
+  padding-left: 25px; /* Adjust this value based on your icon size */
+  font-weight: 900;
+}
+
+.dropdown option[value="food"]::before {
+  content: "\f0f5"; /* Replace with your desired Font Awesome icon */
+  margin-right: 5px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
+
+.dropdown option[value="music"]::before {
+  content: "\f001"; /* Replace with your desired Font Awesome icon */
+  margin-right: 5px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
+
+.dropdown option[value="movie"]::before {
+  content: "\f008"; /* Replace with your desired Font Awesome icon */
+  margin-right: 5px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
+
+.dropdown option[value="games"]::before {
+  content: "\f11b"; /* Replace with your desired Font Awesome icon */
+  margin-right: 5px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
+
+.dropdown option[value="travel"]::before {
+  content: "\f072"; /* Replace with your desired Font Awesome icon */
+  margin-right: 5px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
+
+.dropdown option[value="art"]::before {
+  content: "\f1fc"; /* Replace with your desired Font Awesome icon */
+  margin-right: 5px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
+
+.dropdown option[value="misc"]::before {
+  content: "\f07b"; /* Replace with your desired Font Awesome icon */
+  margin-right: 5px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}

@@ -16,7 +16,7 @@ import "./card.css";
 import Button from "../general/button";
 import { deleteWhim } from "../../firebaseService";
 import { getAuth } from "firebase/auth";
-
+import { CardData } from "../types/cardData";
 
 const colorVariables: string[] = [
   "--color-turq",
@@ -45,42 +45,29 @@ const getRandomColorHelper = (): string => {
   return colorVariables[randomIndex];
 };
 
-// interface CardData {
-//   id: string;
-//   groupId: string;
-//   createdBy?: string;
-//   eventName: string;
-//   eventType: string;
-//   location?: string;
-//   date?: string;
-//   color: string;
-// }
-
-interface CardData {
+interface GroupData {
   id: string;
-  groupId: string;
+  createdAt: string;
   createdBy: string;
-  eventName: string;
-  eventType: string;
-  date?: string;
-  location?: string;
-  color: string;
+  groupName: string;
+  groupCode: string;
 }
 
 interface CardProps {
   id: string;
   groupId: string;
-  createdBy?: string;
+  createdBy: string;
   eventName: string;
   eventType: string;
   location?: string;
   date?: string;
   color: string;
   onDeleteCard: (cardData: CardData) => void;
+  userGroups: GroupData[];
 }
 
 const Card: React.FC<CardProps> = ({
-  id,
+  // id, Missed this. Its uneeded because of restructuring 
   groupId,
   createdBy,
   eventName,
@@ -89,6 +76,7 @@ const Card: React.FC<CardProps> = ({
   date,
   color,
   onDeleteCard,
+  userGroups,
 }) => {
   const auth = getAuth();
   const randomColor: string = getRandomColor(color);
@@ -114,7 +102,7 @@ const Card: React.FC<CardProps> = ({
 
   const handleDeleteWhim = () => {
     const cardData: CardData = {
-      id,
+      // id, uneeded id because of restructing 
       groupId,
       createdBy,
       eventName,
@@ -137,7 +125,17 @@ const Card: React.FC<CardProps> = ({
   const canDelete = () => {
     if (auth.currentUser) {
       const userId = auth.currentUser.uid;
-      if (userId == createdBy) {
+
+      // Allows user to delete their own whims
+      if (userId === createdBy) {
+        return true;
+      }
+
+      // Allows creator of group to delete any whim within the group
+      const group = userGroups.find(group => group.id === groupId);
+      console.log(`group of whim that says "${eventName}":`, group);
+      console.log(`creator of group that contains the previously mentioned whim:`, userId);
+      if (group && userId === group.createdBy) {
         return true;
       }
     }
@@ -152,20 +150,14 @@ const Card: React.FC<CardProps> = ({
         <FontAwesomeIcon icon={getEventIcon(eventType)} />
       </div>
       <div>
-      <Button
-        icon={faTrash}
-        onClick={handleDeleteWhim}
-        className="delete-button"
-        label="Delete"
-      />
-        {/* canDelete() &&
+        { canDelete() &&
           <Button
             icon={faTrash}
             onClick={handleDeleteWhim}
             className="delete-button"
             label="Delete"
           />
-        */}
+        }
       </div>
       <div className="like-dislike-container">
         <LikeDislike />

@@ -4,17 +4,7 @@ import Button from "../general/button";
 import Sorting from "../functional/sorting";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import "./navigation.css";
-
-interface CardData {
-  id: string;
-  groupId: string;
-  createdBy: string;
-  eventName: string;
-  eventType: string;
-  location?: string;
-  date?: string;
-  color: string;
-}
+import { CardData } from "../types/cardData";
 
 interface GroupData {
   id: string;

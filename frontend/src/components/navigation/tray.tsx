@@ -2,16 +2,6 @@ import React from "react";
 import Card from "../card/card";
 import "./navigation.css";
 
-// interface WhimData {
-//   id: string;
-//   groupId: string;
-//   eventName: string;
-//   eventType: string;
-//   location: string;
-//   date?: string;
-//   color: string;
-// }
-
 interface WhimData {
   id: string;
   groupId: string;
@@ -23,6 +13,14 @@ interface WhimData {
   color: string;
 }
 
+interface GroupData {
+  id: string;
+  createdAt: string;
+  createdBy: string;
+  groupName: string;
+  groupCode: string;
+}
+
 interface GroupedWhims {
   [groupId: string]: WhimData[];
 }
@@ -31,12 +29,14 @@ interface TrayProps {
   groupedWhims: GroupedWhims;
   onDeleteCard: (cardData: WhimData) => void;
   isHomeView: boolean;
+  userGroups: GroupData[];
 }
 
 const Tray: React.FC<TrayProps> = ({
   groupedWhims,
   onDeleteCard,
   isHomeView,
+  userGroups,
 }) => {
   return (
     <div className={`tray-container ${isHomeView ? "home-view" : ""}`}>
@@ -45,7 +45,7 @@ const Tray: React.FC<TrayProps> = ({
           <h2>Group: {groupId}</h2>
           <div className="whims-container">
             {whims.map((whim) => (
-              <Card key={whim.id} {...whim} onDeleteCard={onDeleteCard} />
+              <Card key={whim.id} {...whim} onDeleteCard={onDeleteCard} userGroups={userGroups} />
             ))}
           </div>
         </div>

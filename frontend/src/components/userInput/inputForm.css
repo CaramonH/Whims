@@ -58,12 +58,22 @@
 
 .dropdown {
   border-radius: 8px;
-  color: var(--color-ui-black);
   border: 2px solid var(--color-ui-blue);
   width: 90%;
   padding: 0.5rem;
   background-color: transparent;
 }
+
+
+.dropdown {
+  color: var(--color-ui-white);
+}
+
+.dropdown option {
+  color: var(--color-ui-white);
+  background-color: var(--color-ui-dark-blue);
+}
+
 
 .date-input {
   border-radius: 8px;
@@ -79,7 +89,7 @@
 
 .optional-p {
   font-size: medium;
-  color: var(--color-dark-red);
+  color: var(--color-ui-black);
   margin: auto; /*This margin is needed to override the default margin*/
   margin-left: 20px;
 }

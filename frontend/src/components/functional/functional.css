@@ -76,6 +76,31 @@
   font-size: 0.8em;
 }
 
+@media (max-width: 850px) {
+  .filter-div {
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .sorting-button-div {
+    display: flex;
+    gap: 10px;
+  }
+  .unread-btn {
+    width: auto;
+  }
+
+  .newest-btn {
+    width: auto;
+  }
+
+  .create-button {
+    width: 7rem;
+    height: 5rem;
+  }
+}
+
 /*GROUPS STYLING*/
 .group-code-container {
   display: flex;

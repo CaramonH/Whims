@@ -113,7 +113,11 @@ const Dashboard: React.FC = () => {
         onGetGroupList={handleGetGroupList}
       />
       <div className="dashboard-content">
-        <Header onCreateCard={handleCreateCard} groupData={currentGroup} />
+        <Header
+          onCreateCard={handleCreateCard}
+          groupData={currentGroup}
+          isHomePage={currentGroup === undefined}
+        />
         <main className="main-content">
           <Tray
             groupedWhims={groupedWhims}

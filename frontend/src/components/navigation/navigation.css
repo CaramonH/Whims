@@ -191,8 +191,8 @@
 }
 
 .pop-window-content {
-  width: 300px; /* Adjust as needed */
-  height: 40vh;
+  width: 30%; /* Adjust as needed */
+  height: 60%;
 }
 
 .pop-window-header {

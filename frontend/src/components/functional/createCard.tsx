@@ -2,6 +2,7 @@ import { useState } from "react";
 import Button from "../general/button";
 import InputForm from "../userInput/inputForm";
 import "./functional.css";
+import { CardData } from "../types/cardData"
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { createWhim } from "../../firebaseService"; // Import the createWhim function
 import { getAuth } from "firebase/auth";
@@ -33,16 +34,8 @@ const getRandomColorHelper = (): string => {
   return colorVariables[randomIndex];
 };
 
-interface CardData {
-  id: string;
-  groupId: string;
-  createdBy: string;
-  eventName: string;
-  eventType: string;
-  location?: string;
-  date?: string;
-  color?: string;
-  groupId: string; // Add groupId
+interface CreateCardProps {
+  onCreateCard: (cardData: CardData) => void;
 }
 
 interface GroupData {
@@ -56,6 +49,7 @@ interface CreateCardProps {
   onCreateCard: (cardData: CardData) => void;
   onCloseForm: () => void;
   groupData?: GroupData;
+  className?: string; //added to fix an error in header
 }
 
 export function CreateCard({ onCreateCard, onCloseForm, groupData }: CreateCardProps) {

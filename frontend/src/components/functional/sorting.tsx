@@ -29,7 +29,7 @@ const Sorting: React.FC = () => {
         className="newest-btn"
         isExpanded={true}
       />
-      <Dropdown className="event-sorting" />
+      <Dropdown title="" className="event-sorting" />
     </div>
   );
 };

@@ -16,7 +16,7 @@ import "./card.css";
 import Button from "../general/button";
 import { deleteWhim } from "../../firebaseService";
 import { getAuth } from "firebase/auth";
-
+import { CardData } from "../types/cardData";
 
 const colorVariables: string[] = [
   "--color-turq",
@@ -44,17 +44,6 @@ const getRandomColorHelper = (): string => {
   const randomIndex: number = Math.floor(Math.random() * colorVariables.length);
   return colorVariables[randomIndex];
 };
-
-interface CardData {
-  id: string;
-  groupId: string;
-  createdBy: string;
-  eventName: string;
-  eventType: string;
-  date?: string;
-  location?: string;
-  color: string;
-}
 
 interface GroupData {
   id: string;
@@ -113,7 +102,7 @@ const Card: React.FC<CardProps> = ({
 
   const handleDeleteWhim = () => {
     const cardData: CardData = {
-      id,
+      // id, uneeded id because of restructing 
       groupId,
       createdBy,
       eventName,

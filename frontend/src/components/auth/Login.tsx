@@ -126,8 +126,9 @@ const Login: React.FC = () => {
         <button className='login-button google-login' onClick={handleGoogleLogin}>
           Sign in with Google
         </button>
+        <p className="blurb-p">{isRegistering ? 'Don\'t have an account with us? Join here!' : 'Have an account already? Sign in!'}</p>
         <button className='login-button' onClick={toggleRegistering}>
-          {isRegistering ? 'Already have an account? Login' : 'Create an account'}
+          {isRegistering ? 'Login' : 'Create an account'}
         </button>
       </div>
     </div>

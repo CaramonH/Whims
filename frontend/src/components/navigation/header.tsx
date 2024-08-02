@@ -4,32 +4,21 @@ import Button from "../general/button";
 import Sorting from "../functional/sorting";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import "./navigation.css";
-
-interface CardData {
-  id: string;
-  groupId: string;
-  createdBy: string;
-  eventName: string;
-  eventType: string;
-  location?: string;
-  date?: string;
-  color: string;
-}
+import { CardData } from "../types/cardData";
 
 interface GroupData {
   id: string;
   createdAt: string;
   groupName: string;
   groupCode: string;
-};
+}
 
 interface HeaderProps {
   onCreateCard: (cardData: CardData) => void;
-//   currentGroupId: string | null;
   groupData?: GroupData;
 }
 
-const Header: React.FC<HeaderProps> = ({ onCreateCard, /* currentGroupId, */ groupData }) => {
+const Header: React.FC<HeaderProps> = ({ onCreateCard, groupData }) => {
   const [showInputForm, setShowInputForm] = useState(false);
 
   const handleCreateClick = () => {

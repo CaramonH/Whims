@@ -1,4 +1,5 @@
 @import '../../App.css';
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
 .create-card-container {
   position: relative;
@@ -31,8 +32,8 @@
 }
 
 .input-form-wrapper {
-  width: 600px;
-  height: 600px;
+  width: 30%;
+  height: 60%;
   background-color: var(--color-ui-white);
   padding: 20px;
   border-radius: 10px;
@@ -175,3 +176,4 @@ h3 {
   border-radius: 8px;
   position: relative;
 }
+

@@ -45,18 +45,15 @@ const Group: React.FC<GroupButtonProps> = ({
     <div ref={divRef} className="group-item">
       <button onClick={onClick} className="nav-item group-button">
         <div className="group-icon">
-          {groupData.groupName ? groupData.groupName[0] : "G"}{" "}
-          {/* Display first letter of group name */}
+          {isExpanded ? groupData.groupName : groupData.groupName[0] || "G"}{" "}
+          {/* Display full name if expanded, otherwise first letter */}
         </div>
-        {isExpanded && (
-          <span className="label">
-            {groupData.groupName || groupData.groupCode}
-          </span>
-        )}
       </button>
-      <button onClick={handleOnLeave} className="leave-button">
-        <FontAwesomeIcon icon={faSignOutAlt} />
-      </button>
+      {isExpanded && (
+        <button onClick={handleOnLeave} className="leave-button">
+          <FontAwesomeIcon icon={faSignOutAlt} />
+        </button>
+      )}
     </div>
   );
 };

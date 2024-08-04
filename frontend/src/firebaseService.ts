@@ -5,6 +5,13 @@ import {
   query, where, arrayUnion, arrayRemove
 } from 'firebase/firestore';
 
+export interface GroupData {
+  id: string;
+  createdAt: string;
+  groupName: string;
+  groupCode: string;
+}
+
 // Function to create a whim
 export const createWhim = async (whimData: any) => {
   try {

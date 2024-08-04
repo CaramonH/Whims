@@ -54,7 +54,7 @@ interface GroupData {
 }
 
 interface CardProps {
-  id: string; // Add id back to the interface
+  id: string;
   groupId: string;
   createdBy: string;
   eventName: string;
@@ -67,7 +67,7 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({
-  id, // Add id back to the destructuring
+  id,
   groupId,
   createdBy,
   eventName,

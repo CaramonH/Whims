@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "../general/button";
 import Dropdown from "../general/dropdown";
 import { faEnvelope, faClock } from "@fortawesome/free-solid-svg-icons";
@@ -15,20 +15,22 @@ const Sorting: React.FC = () => {
 
   return (
     <div className="filter-div">
-      <Button
-        icon={faEnvelope}
-        onClick={handleUnreadClick}
-        label="  Unread"
-        className="unread-btn"
-        isExpanded={true}
-      />
-      <Button
-        icon={faClock}
-        onClick={handleNewestClick}
-        label="  Newest"
-        className="newest-btn"
-        isExpanded={true}
-      />
+      <div className="sorting-button-div">
+        <Button
+          icon={faEnvelope}
+          onClick={handleUnreadClick}
+          label="  Unread"
+          className="unread-btn"
+          isExpanded={true}
+        />
+        <Button
+          icon={faClock}
+          onClick={handleNewestClick}
+          label="  Newest"
+          className="newest-btn"
+          isExpanded={true}
+        />
+      </div>
       <Dropdown title="" className="event-sorting" />
     </div>
   );

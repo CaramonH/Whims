@@ -1,5 +1,5 @@
 export interface CardData {
-    // id: string; unneeded i think
+    id: string;
     groupId: string;
     createdBy: string;
     eventName: string;

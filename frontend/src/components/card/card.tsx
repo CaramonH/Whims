@@ -67,7 +67,7 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({
-  // id, Missed this. Its uneeded because of restructuring 
+  id,
   groupId,
   createdBy,
   eventName,
@@ -102,7 +102,7 @@ const Card: React.FC<CardProps> = ({
 
   const handleDeleteWhim = () => {
     const cardData: CardData = {
-      // id, uneeded id because of restructing 
+      id, // Add id back to cardData
       groupId,
       createdBy,
       eventName,
@@ -132,7 +132,7 @@ const Card: React.FC<CardProps> = ({
       }
 
       // Allows creator of group to delete any whim within the group
-      const group = userGroups.find(group => group.id === groupId);
+      const group = userGroups.find((group) => group.id === groupId);
       console.log(`group of whim that says "${eventName}":`, group);
       console.log(`creator of group that contains the previously mentioned whim:`, userId);
       if (group && userId === group.createdBy) {
@@ -150,14 +150,14 @@ const Card: React.FC<CardProps> = ({
         <FontAwesomeIcon icon={getEventIcon(eventType)} />
       </div>
       <div>
-        { canDelete() &&
+        {canDelete() && (
           <Button
             icon={faTrash}
             onClick={handleDeleteWhim}
             className="delete-button"
             label="Delete"
           />
-        }
+        )}
       </div>
       <div className="like-dislike-container">
         <LikeDislike />
@@ -165,7 +165,7 @@ const Card: React.FC<CardProps> = ({
       <div className="card-text-container">
         {/* <CardText
           text={eventType.charAt(0).toUpperCase() + eventType.slice(1)}
-        />  */}
+        /> */}
       </div>
       <div className="location-container">{location}</div>
     </div>

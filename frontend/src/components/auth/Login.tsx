@@ -1,122 +1,92 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { getFirestore, doc, setDoc } from 'firebase/firestore'; // Import Firestore
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import './Login.css';
 import '../card/card'
-//imports for the landingpage randomization
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LikeDislike from "../functional/likeDislike";
 import { faUtensils, faMusic, faFilm, faGamepad, faPlaneDeparture, faPalette, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 
-//random colors for the landing page
 const colorVariables: string[] = [
-  "--color-turq",
-  "--color-mant",
-  "--color-apg",
-  "--color-yell",
-  "--color-org",
-  "--color-red",
-  "--color-ind",
-  "--color-purp",
+  "--color-turq", "--color-mant", "--color-apg", "--color-yell",
+  "--color-org", "--color-red", "--color-ind", "--color-purp",
 ];
 
-//random icons for the landing page
 const faIcons: any[] = [
-  faUtensils,
-  faMusic,
-  faFilm,
-  faGamepad,
-  faPlaneDeparture,
-  faPalette,
-  faQuestionCircle,
-  // Add more font awesome icons here
+  faUtensils, faMusic, faFilm, faGamepad, faPlaneDeparture, faPalette, faQuestionCircle,
 ];
 
-//random text for the landing page
 const landingTitle: string[] = [
-  "Who is Whims for? - Event 1",
-  "What is Whims for? - Event 2",
-  "Why Whims? - Event 3",
-  "Who is Whims for? - Event 4",
-  "What is Whims for? - Event 5",
-  "Why Whims? - Event 6",
-  // Add more fake event names here
+  "Who is Whims for? - Event 1", "What is Whims for? - Event 2", "Why Whims? - Event 3",
+  "Who is Whims for? - Event 4", "What is Whims for? - Event 5", "Why Whims? - Event 6",
 ];
 
-//random number generators for the landing page
 const getRandomColor = (previousColor: string): string => {
   let randomColor: string = getRandomColorHelper();
-
-  // Ensure the random color is different from the previous color
   while (randomColor === previousColor) {
     randomColor = getRandomColorHelper();
   }
-
+  console.log('return:', randomColor);
   return randomColor;
 };
 
 const getRandomFaIcon = (): any => {
-  const randomIndex: number = Math.floor(Math.random() * faIcons.length);
-  return faIcons[randomIndex];
+  return faIcons[Math.floor(Math.random() * faIcons.length)];
 };
 
 const getRandomColorHelper = (): string => {
-  const randomIndex: number = Math.floor(Math.random() * colorVariables.length);
-  return colorVariables[randomIndex];
+  return colorVariables[Math.floor(Math.random() * colorVariables.length)];
 };
 
 const getRandomFakeEventName = (): string => {
-  const randomIndex: number = Math.floor(Math.random() * landingTitle.length);
-  return landingTitle[randomIndex];
+  return landingTitle[Math.floor(Math.random() * landingTitle.length)];
 };
 
-const createFakeCard = (): HTMLElement => {
-  const card = document.createElement('div');
-  card.className = 'fake-card';
-  card.style.left = `${Math.floor(Math.random() * 50) - 50}vw`;
-  card.style.backgroundColor = `var(${getRandomColor('')})`; // Pass an empty string to avoid repetitive color
-  card.innerText = landingTitle[Math.floor(Math.random() * landingTitle.length)];
-  const icon = document.createElement('div');
-  const randomFaIcon = getRandomFaIcon();
-  icon.className = 'fa-icon';
-  icon.appendChild(randomFaIcon);
-  card.appendChild(icon);
-  return card;
-};
+const generateRandomCardData = () => ({
+  color: getRandomColor(""),
+  faIcon: getRandomFaIcon(),
+  landingTitle: getRandomFakeEventName(),
+});
 
 const Login: React.FC = () => {
-  const [name, setName] = useState<string>(''); // State for storing the name
+  const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isRegistering, setIsRegistering] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [nameError, setNameError] = useState<string | null>(null); // State for name error
-  const navigate = useNavigate();
-  //var calls for the random stuff on landing page
+  const [nameError, setNameError] = useState<string | null>(null);
   const [cardsData, setCardsData] = useState<any[]>([]);
-
-  // Randomize landing page content on page load
-  useEffect(() => {
-    const cards: any[] = [];
-    for (let i = 0; i < 3; i++) {
-      cards.push({
-        color: getRandomColor(""),
-        faIcon: getRandomFaIcon(),
-        landingTitle: getRandomFakeEventName(),
-      });
-    }
-    setCardsData(cards);
-  }, []);
+  const navigate = useNavigate();
 
   const auth = getAuth();
-  const firestore = getFirestore(); // Initialize Firestore
+  const firestore = getFirestore();
+
+  useEffect(() => {
+    const initialCards = Array(3).fill(null).map(() => generateRandomCardData());
+    setCardsData(initialCards);
+    console.log("Initial cards set:", initialCards);
+  }, []);
+
+  const updateCardData = (index: number) => {
+    setCardsData(prevData => {
+      const newData = [...prevData];
+      newData[index] = generateRandomCardData();
+      console.log(`Card ${index} updated:`, newData[index]);
+      return newData;
+    });
+  };
+
+  const handleAnimationEnd = (index: number) => {
+    updateCardData(index);
+    console.log(`Animation ended for card ${index}`);
+  };
 
   const handleLogin = async () => {
-    setErrorMessage(null); // Clear previous errors
+    setErrorMessage(null);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate('/dashboard'); // Navigate to the dashboard
+      navigate('/dashboard');
     } catch (error) {
       console.error("Error logging in", error);
       setErrorMessage("Failed to log in. Please check your email and password.");
@@ -124,8 +94,8 @@ const Login: React.FC = () => {
   };
 
   const handleRegister = async () => {
-    setErrorMessage(null); // Clear previous errors
-    setNameError(null); // Clear name error
+    setErrorMessage(null);
+    setNameError(null);
 
     if (!name) {
       setNameError("Name is a required field");
@@ -136,13 +106,12 @@ const Login: React.FC = () => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Store the user's name in Firestore
       await setDoc(doc(firestore, "users", user.uid), {
         name: name,
         email: email
       });
 
-      navigate('/dashboard'); // Navigate to the dashboard
+      navigate('/dashboard');
     } catch (error: any) {
       console.error("Error registering", error);
       if (error.code === 'auth/weak-password') {
@@ -154,8 +123,8 @@ const Login: React.FC = () => {
   };
 
   const toggleRegistering = () => {
-    setErrorMessage(null); // Clear error messages when toggling
-    setNameError(null); // Clear name error when toggling
+    setErrorMessage(null);
+    setNameError(null);
     setIsRegistering(!isRegistering);
   };
 
@@ -166,48 +135,33 @@ const Login: React.FC = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      // Extract the user's display name and email
       const name = user.displayName || '';
       const email = user.email || '';
 
-      // Store the user's name and email in Firestore
       await setDoc(doc(firestore, "users", user.uid), {
         name: name,
         email: email
       });
 
-      navigate('/dashboard'); // Navigate to the dashboard
+      navigate('/dashboard');
     } catch (error) {
       console.error("Error logging in with Google", error);
       setErrorMessage("Failed to log in with Google.");
     }
   };
 
-    useEffect(() => {
-    const parentElement = document.querySelector('.fake-card-container');
-    
-    if (parentElement) {
-      const addCard = () => {
-        const card = createFakeCard();
-        parentElement.appendChild(card);
-        
-        (card as HTMLElement).addEventListener('animationend', () => {
-          parentElement.removeChild(card);
-          addCard();
-        });
-      };
-
-      addCard();
-    }
-  }, []);
-  
   return (
     <>
       <div className="landing-whims-div">
         <div className="fake-cards-div">
           {cardsData.map((card, index) => (
-            <div className="fake-card">
-              <div key={index} className={`card ${card.color || getRandomColor}`}>
+            <div 
+              className="fake-card" 
+              key={`card-container-${index}-${JSON.stringify(card)}`}
+              onAnimationEnd={() => handleAnimationEnd(index)}
+              onAnimationIteration={() => console.log(`Animation iterated for card ${index}`)}
+            >
+              <div className={`card ${card.color}`}>
                 <div className="card-title">
                   {card.landingTitle.split('-').map((word: string, i: number) => (
                     i === 0 ? <h5 key={i}>{word} </h5> : <p key={i}>{word}</p>
@@ -273,6 +227,4 @@ const Login: React.FC = () => {
   );
 };
 
-
 export default Login;
-

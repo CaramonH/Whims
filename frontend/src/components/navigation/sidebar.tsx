@@ -87,8 +87,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup, onGetGroupList }) => {
     await fetchGroups();
   };
 
-  const handleLeaveGroup = async (groupData: GroupData) => {
-    console.log(`Group ${groupData.groupCode} left`); // Debug log
+  const handleLeaveGroup = async (groupId: string) => {
     await fetchGroups();
   };
 
@@ -125,7 +124,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup, onGetGroupList }) => {
                 isExpanded={isExpanded}
                 onClick={() => handleGroupClick(group)}
                 groupData={group}
-                onLeave={() => handleLeaveGroup(group)}
               />
             ))}
           </div>
@@ -159,7 +157,13 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup, onGetGroupList }) => {
           </div>
         </nav>
       </div>
-      {showSettings && <Settings onClose={handleCloseSettings} />}
+      {showSettings && (
+        <Settings
+          onClose={handleCloseSettings}
+          groups={groups}
+          onLeaveGroup={handleLeaveGroup}
+        />
+      )}
       {showAccount && <Account onClose={handleCloseAccount} />}
     </>
   );

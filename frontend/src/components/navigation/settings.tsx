@@ -56,13 +56,13 @@ const Settings: React.FC<SettingsProps> = ({
   return (
     <div className="pop-window-overlay">
       <div className="pop-window" ref={windowRef}>
-        <div className="pop-window-content">
-          <Button
-            icon={faTimes}
-            onClick={onClose}
-            className="close-button pop-up-close"
-            label=""
-          />
+        <div className="settings-window-content">
+        <Button
+          icon={faTimes}
+          onClick={onClose}
+          className="close-button pop-up-close"
+          label=""
+        />
           <div className="pop-window-header">
             <h2>Settings</h2>
           </div>

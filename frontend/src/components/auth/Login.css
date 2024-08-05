@@ -5,7 +5,7 @@
   margin: auto;
   position: fixed;
   top: 50%;
-  left: 50%;
+  left: 80%;
   transform: translate(-50%, -50%);
   flex-direction: column;
   padding: 80px;
@@ -16,7 +16,7 @@
 
 .body .login-div {
   display: flex;
-  justify-content: center;
+  justify-content: right;
 }
 
 .login-input-container {
@@ -70,4 +70,60 @@
 .login-button:hover {
   background-color: var(--color-ui-white);
   color: var(--color-ui-black);
+}
+
+.landing-whims-div {
+  position: relative;
+  margin-top: 5%;
+  margin-left: 10%;
+}
+
+.fake-cards-div {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  gap: 10px;
+}
+
+.fake-card {
+  position: relative;
+  animation: drift 20s ease-out;
+}
+
+.fake-card + h5, p {
+  margin: 15px;
+  font-size: 1.5rem;
+}
+
+.fake-card + .card-title, h5 {
+  margin: 15px;
+}
+
+.fake-card:nth-child(1) {
+  animation-delay: 0s;
+  left: -20vw;
+}
+
+.fake-card:nth-child(2) {
+  animation-delay: 0s;
+  left: -40vw;
+}
+
+.fake-card:nth-child(3) {
+  animation-delay: 0s;
+  left: -20vw;
+}
+
+@keyframes drift {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(75vw);
+    opacity: 0;
+  }
 }

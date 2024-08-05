@@ -109,6 +109,8 @@
 
 .group-button {
   margin-bottom: 10px;
+  margin-left: 4px;
+  font-size: 1.2rem;
 }
 
 .home-button {
@@ -190,9 +192,11 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.pop-window-content {
-  width: 60%; /* Adjust as needed */
+.settings-window-content, .account-window-content {
+  width: 60%;
   height: 60%;
+  background-color: var(--color-ui-blue);
+  border-radius: 8px;
 }
 
 .pop-window-header {
@@ -205,6 +209,8 @@
 .close-button {
   position: relative;
   z-index: 1000;
+  top: 10px;
+  left: 10px;
   background-color: var(--color-dark-red);
   color: var(--color-ui-white);
   display: flex;

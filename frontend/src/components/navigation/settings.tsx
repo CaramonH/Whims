@@ -30,7 +30,7 @@ const Settings: React.FC<SettingsProps> = ({ onClose }) => {
   return (
     <div className="pop-window-overlay">
       <div className="pop-window" ref={windowRef}>
-        <div className="pop-window-content">
+        <div className="settings-window-content">
         <Button
           icon={faTimes}
           onClick={onClose}

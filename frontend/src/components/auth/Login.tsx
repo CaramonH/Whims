@@ -18,8 +18,10 @@ const faIcons: any[] = [
 ];
 
 const landingTitle: string[] = [
-  "Who is Whims for? - Event 1", "What is Whims for? - Event 2", "Why Whims? - Event 3",
-  "Who is Whims for? - Event 4", "What is Whims for? - Event 5", "Why Whims? - Event 6",
+  "Who is Whims for? - Indecisive Friends!", "What is Whims for? - What games to play together!", "Why Whims? - Simple organization!",
+  "Who is Whims for? - Coworkers!", "What is Whims for? - Deciding on lunch plans!", "Why Whims? - Ease of access!",
+  "Who is Whims for? - Families!", "What is Whims for? - Deciding what to do on Holidays!", "Why Whims? - To build a community!",
+  "Who is Whims for? - Partners and Relationships!", "What is Whims for? - What movies to watch!", "Why Whims? - Ease of comminication!",
 ];
 
 const getRandomColor = (previousColor: string): string => {

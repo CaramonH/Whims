@@ -137,98 +137,100 @@ const GroupManagement: React.FC<GroupManagementProps> = ({
         isExpanded={isExpanded}
       />
       {showOptions && isExpanded && (
-        <div className="pop-window-overlay">
+        <>
+         <div className="pop-window-overlay">
           <div className="pop-window" ref={windowRef}>
-            <div className="pop-window-content">
-              <Button
-                icon={faTimes}
-                onClick={() => setShowOptions(false)}
-                className="close-button"
-                label=""
-              />
-              <div className="group-options">
-                <Button
-                  icon={faPlus}
-                  onClick={() => {
-                    setShowNameInput(true);
-                    setShowJoinInput(false);
-                  }}
-                  className="nav-item create-group-button"
-                  label="Create Group"
-                  isExpanded={true}
-                />
-                {showNameInput && (
-                  <>
-                    <Input
-                      placeholder="Enter group name (1-14 characters)"
-                      onChange={(value) => setCustomGroupName(value)}
-                      className="group-name-input"
-                    />
-                    <Button
-                      icon={faPlus}
-                      onClick={handleCreateGroup}
-                      className="nav-item create-group-button"
-                      label="Create"
-                      isExpanded={true}
-                      disabled={
-                        customGroupName.length === 0 ||
-                        customGroupName.length > 14
-                      }
-                    />
-                  </>
-                )}
-                {groupCreated && (
-                  <div className="group-created">
-                    <p className="your-code">Your Invitation code is:</p>
-                    <div
-                      className="group-code-container"
-                      onClick={handleCopyCode}
-                    >
-                      <span className="group-code">{groupCode}</span>
-                      <FontAwesomeIcon icon={faCopy} className="copy-icon" />
-                    </div>
-                    {copySuccess && (
-                      <p className="copy-success">Copied to clipboard!</p>
-                    )}
+            <div className="create-join-container">
+              <div className="pop-window-content">
+                <div className="create-group-div">
                     <Button
                       icon={faTimes}
+                      onClick={() => setShowOptions(false)}
+                      className="close-button"
                       label=""
-                      onClick={() => setGroupCreated(false)}
                     />
+                      <h3 className="create-header">Create a Group!</h3>
+                      <>
+                        <Input
+                          placeholder="Enter group name (1-14 characters)"
+                          onChange={(value) => setCustomGroupName(value)}
+                          className="group-name-input"
+                        />
+                        <Button
+                          icon={faPlus}
+                          onClick={handleCreateGroup}
+                          className="nav-item create-group-button"
+                          label="Create"
+                          isExpanded={true}
+                          disabled={
+                            customGroupName.length === 0 ||
+                            customGroupName.length > 14
+                          }
+                        />
+                      </>
+                        {groupCreated && (
+                          <div className="group-created">
+                            <Button
+                              icon={faTimes}
+                              label=""
+                              onClick={() => setGroupCreated(false)}
+                            />
+                            <p className="your-code">Your Invitation code is:</p>
+                            <div
+                              className="group-code-container"
+                              onClick={handleCopyCode}
+                            >
+                              <span className="group-code">{groupCode}</span>
+                              <FontAwesomeIcon icon={faCopy} className="copy-icon" />
+                            </div>
+                            {copySuccess && (
+                              <p className="copy-success">Copied to clipboard!</p>
+                            )}
+                          </div>
+                        )}
+                    </div>
                   </div>
-                )}
-                {!showJoinInput ? (
-                  <Button
-                    icon={faSignInAlt}
-                    onClick={() => setShowJoinInput(true)}
-                    className="nav-item join-group-button"
-                    label="Join Group"
-                    isExpanded={true}
-                  />
-                ) : (
-                  <>
-                    <Input
-                      placeholder="Enter 7-digit code"
-                      onChange={(value) => setGroupCode(value.toUpperCase())}
-                      className="join-group-input"
-                    />
-                    <Button
-                      icon={faSignInAlt}
-                      onClick={handleJoinGroup}
-                      className="nav-item join-group-button"
-                      label="Join"
-                      isExpanded={true}
-                      disabled={groupCode.length !== 7}
-                    />
-                  </>
-                )}
+                <div className="pop-window-content">
+                  <div className="join-group-div">
+                      {/* <Button
+                        icon={faSignInAlt}
+                        onClick={() => setShowJoinInput(true)}
+                        className="nav-item join-group-button"
+                        label="Join Group"
+                        isExpanded={true}
+                      /> */}
+                      <>
+                        <Button
+                          icon={faTimes}
+                          onClick={() => setShowOptions(false)}
+                          className="close-button"
+                          label=""
+                        />
+                        <h3 className="join-header">Join a Group!</h3>
+                        <Input
+                          placeholder="Enter 7-digit code"
+                          onChange={(value) => setGroupCode(value.toUpperCase())}
+                          className="join-group-input"
+                        />
+                        <Button
+                          icon={faSignInAlt}
+                          onClick={handleJoinGroup}
+                          className="nav-item join-group-button"
+                          label="Join"
+                          isExpanded={true}
+                          disabled={groupCode.length !== 7}
+                        />
+                      </>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
 };
+
 
 export default GroupManagement;

@@ -1,24 +1,140 @@
-import { firestore } from './firebaseConfig.tsx';
-import {
-  addDoc, getDoc, getDocs, setDoc, deleteDoc, updateDoc,
-  doc, collection,
-  query, where, arrayUnion, arrayRemove
-} from 'firebase/firestore';
+import { doc, setDoc, collection, updateDoc, increment, getDoc, getDocs, deleteDoc, query, where, arrayUnion, arrayRemove, addDoc } from 'firebase/firestore';
+import { firestore } from './firebaseConfig'; // Assuming you have a Firebase instance
+
+export interface CardData {
+  id: string;
+  groupId: string;
+  createdBy: string;
+  eventName: string;
+  eventType: string;
+  date?: string;
+  location?: string;
+  color: string;
+  likes: number;
+  dislikes: number;
+  userChoices?: { [userId: string]: 'like' | 'dislike' | null }; // Track user choices
+}
 
 export interface GroupData {
   id: string;
   createdAt: string;
   groupName: string;
   groupCode: string;
+  memberIds: string[]; // Assuming memberIds is an array of user IDs
 }
 
-// Function to create a whim
-export const createWhim = async (whimData: any) => {
+// Create a whim
+export const createWhim = async (whimData: CardData) => {
   try {
-    const whimRef = await addDoc(collection(firestore, 'groups', whimData.groupId, 'whims'), whimData);
+    const whimRef = await addDoc(collection(firestore, 'groups', whimData.groupId, 'whims'), {
+      ...whimData,
+      likes: 0,
+      dislikes: 0,
+    });
     console.log(`Whim created successfully with ID: ${whimRef.id}`);
+    return whimRef.id; // Return the created whim's ID
   } catch (error) {
     console.error("Error creating whim:", error);
+    throw error; // Rethrow the error for proper handling
+  }
+};
+
+// Handle like or dislike
+export const handleLikeDislike = async (groupId: string, whimId: string, isLike: boolean, isRemove: boolean) => {
+  try {
+    const whimRef = doc(firestore, 'groups', groupId, 'whims', whimId);
+    await updateDoc(whimRef, {
+      [isLike ? 'likes' : 'dislikes']: increment(isRemove ? -1 : 1),
+    });
+    console.log(`${isLike ? 'Liked' : 'Disliked'} whim with ID: ${whimId}`);
+  } catch (error) {
+    console.error('Error updating likes/dislikes:', error);
+  }
+};
+
+// Fetch like and dislike counts and user choice
+export const getLikesDislikes = async (groupId: string, whimId: string) => {
+  try {
+    const whimDocRef = doc(firestore, 'groups', groupId, 'whims', whimId);
+    const whimDoc = await getDoc(whimDocRef);
+
+    if (whimDoc.exists()) {
+      const whimData = whimDoc.data();
+      return {
+        likeCount: whimData.likes || 0,
+        dislikeCount: whimData.dislikes || 0,
+        userChoice: whimData.userChoices || {},
+      };
+    } else {
+      throw new Error("Whim document does not exist");
+    }
+  } catch (error) {
+    console.error("Error getting like/dislike data:", error);
+    return { likeCount: 0, dislikeCount: 0, userChoice: {} };
+  }
+};
+
+// Update like or dislike
+export const updateLikeDislike = async (groupId: string, whimId: string, type: "like" | "dislike") => {
+  try {
+    const whimDocRef = doc(firestore, 'groups', groupId, 'whims', whimId);
+    // Get current like and dislike counts
+    const whimDoc = await getDoc(whimDocRef);
+    if (!whimDoc.exists()) {
+      throw new Error("Whim document does not exist");
+    }
+
+    const whimData = whimDoc.data();
+    let likeCount = whimData.likes || 0;
+    let dislikeCount = whimData.dislikes || 0;
+
+    // Update like/dislike count based on type
+    if (type === "like") {
+      likeCount += 1;
+    } else if (type === "dislike") {
+      dislikeCount += 1;
+    }
+
+    // Set the new counts in Firestore
+    await updateDoc(whimDocRef, {
+      likes: likeCount,
+      dislikes: dislikeCount,
+    });
+
+  } catch (error) {
+    console.error("Error updating like/dislike:", error);
+    throw error;
+  }
+};
+
+// Create or update user choice
+export const setUserChoice = async (groupId: string, whimId: string, userId: string, choice: "like" | "dislike" | null) => {
+  try {
+    const whimDocRef = doc(firestore, 'groups', groupId, 'whims', whimId);
+    await updateDoc(whimDocRef, {
+      [`userChoices.${userId}`]: choice
+    });
+  } catch (error) {
+    console.error("Error setting user choice:", error);
+    throw error;
+  }
+};
+
+// Fetch user choice
+export const getUserChoice = async (groupId: string, whimId: string, userId: string) => {
+  try {
+    const whimDocRef = doc(firestore, 'groups', groupId, 'whims', whimId);
+    const whimDoc = await getDoc(whimDocRef);
+
+    if (whimDoc.exists()) {
+      const whimData = whimDoc.data();
+      return whimData.userChoices?.[userId] || null;
+    } else {
+      throw new Error("Whim document does not exist");
+    }
+  } catch (error) {
+    console.error("Error getting user choice:", error);
+    throw error;
   }
 };
 
@@ -64,12 +180,11 @@ export const deleteWhim = async (whimData: any) => {
   }
 };
 
-
 // Function to create a group
 export const createGroup = async (userId: string, groupData: any) => {
   try {
     groupData.createdBy = userId;
-    groupData.memberIds = [ userId ];
+    groupData.memberIds = [userId];
 
     // Create group
     const groupRef = await addDoc(collection(firestore, 'groups'), groupData);
@@ -81,13 +196,12 @@ export const createGroup = async (userId: string, groupData: any) => {
     console.log('Group added to user with ID:', userId);
 
     // Returns created group
-    return (groupRef);
+    return groupRef;
 
   } catch (error) {
     console.error('Error creating group:', error);
   }
 };
-
 
 // Function to verify that the randomly generated groupCode is unique
 export const checkGroupCodeUnique = async (groupCode: string) => {
@@ -109,7 +223,6 @@ export const checkGroupCodeUnique = async (groupCode: string) => {
   }
 };
 
-
 // Function to join a group
 export const joinGroup = async (userId: string, groupCode: string) => {
   try {
@@ -123,8 +236,6 @@ export const joinGroup = async (userId: string, groupCode: string) => {
       return;
     }
     if (groupSnapshot.size > 1) {
-      // after I create and implement the function to check code uniqueness,
-      // this shouldn't be needed, but it might be good to keep it just in case
       console.log('Multiple groups found with the same group code.');
       return;
     }
@@ -158,13 +269,12 @@ export const joinGroup = async (userId: string, groupCode: string) => {
 
     // Returns joined group
     console.log(`User ${userId} successfully joined group ${groupId}`);
-    return (groupData);
+    return groupData;
 
   } catch (error) {
     console.error('Error joining group:', error);
   }
 };
-
 
 // Function to leave a group, based on its id
 export const leaveGroup = async (userId: string, groupId: string) => {
@@ -209,7 +319,6 @@ export const leaveGroup = async (userId: string, groupId: string) => {
     console.error('Error leaving group:', error); // Debug log
   }
 };
-
 
 // Function to get groups of a user
 export const getUserGroups = async (userId: string) => {

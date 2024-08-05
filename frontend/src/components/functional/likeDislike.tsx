@@ -4,12 +4,17 @@ import { faThumbsDown as thumbSolidDown, faThumbsUp as thumbSolidUp } from "@for
 import { faThumbsDown as thumbRegularDown, faThumbsUp as thumbRegularUp } from "@fortawesome/free-regular-svg-icons";
 import useLikeDislike from "../../customHooks/useLikeAndDislike";
 
-const LikeDislike: React.FC = () => {
-  const { likeCount, dislikeCount, handleLike, handleDislike, userChoice } = useLikeDislike();
-  const [totalCount, setTotalCount] = useState(likeCount - dislikeCount);
+interface LikeDislikeProps {
+  groupId: string;
+  whimId: string;
+}
+
+const LikeDislike: React.FC<LikeDislikeProps> = ({ groupId, whimId }) => {
+  const { likeCount, dislikeCount, handleLike, handleDislike, userChoice } = useLikeDislike(groupId, whimId);
+  const [totalCount, setTotalCount] = useState<number>(likeCount - dislikeCount);
 
   useEffect(() => {
-    setTotalCount(likeCount - dislikeCount);
+    setTotalCount((likeCount ?? 0) - (dislikeCount ?? 0));
   }, [likeCount, dislikeCount]);
 
   const handleLikeClick = () => {
@@ -40,15 +45,15 @@ const LikeDislike: React.FC = () => {
         icon={userChoice === "like" ? thumbSolidUp : thumbRegularUp}
         onClick={handleLikeClick}
         className={`like-button ${userChoice === "like" ? "selected" : ""}`}
-        label={` (${likeCount})`}
+        label={`(${likeCount ?? 0})`}
         disabled={false}
       />
-      <span className="total-count">{totalCount}</span>
+      <span className="total-count">{totalCount ?? 0}</span>
       <Button
         icon={userChoice === "dislike" ? thumbSolidDown : thumbRegularDown}
         onClick={handleDislikeClick}
         className={`dislike-button ${userChoice === "dislike" ? "selected" : ""}`}
-        label={` (${dislikeCount})`}
+        label={`(${dislikeCount ?? 0})`}
         disabled={false}
       />
     </div>

@@ -102,7 +102,7 @@ const Card: React.FC<CardProps> = ({
 
   const handleDeleteWhim = () => {
     const cardData: CardData = {
-      id, // Add id back to cardData
+      id,
       groupId,
       createdBy,
       eventName,
@@ -110,6 +110,8 @@ const Card: React.FC<CardProps> = ({
       location,
       date,
       color,
+      likes: 0,
+      dislikes: 0,
     };
 
     deleteWhim(cardData)
@@ -160,7 +162,7 @@ const Card: React.FC<CardProps> = ({
         )}
       </div>
       <div className="like-dislike-container">
-        <LikeDislike />
+        <LikeDislike groupId={groupId} whimId={id} />
       </div>
       <div className="card-text-container">
         {/* <CardText

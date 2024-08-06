@@ -1,3 +1,4 @@
+// In sorting.tsx
 import React from "react";
 import Button from "../general/button";
 import Dropdown from "../general/dropdown";
@@ -6,9 +7,13 @@ import "./functional.css";
 
 interface SortingProps {
   onSortByNewest: () => void;
+  onSelectEventType: (eventType: string) => void;
 }
 
-const Sorting: React.FC<SortingProps> = ({ onSortByNewest }) => {
+const Sorting: React.FC<SortingProps> = ({
+  onSortByNewest,
+  onSelectEventType,
+}) => {
   const handleUnreadClick = () => {
     console.log("Unread clicked");
   };
@@ -31,7 +36,11 @@ const Sorting: React.FC<SortingProps> = ({ onSortByNewest }) => {
           isExpanded={true}
         />
       </div>
-      <Dropdown title="" className="event-sorting" />
+      <Dropdown
+        onChange={onSelectEventType}
+        className="event-sorting"
+        title="Select event type"
+      />
     </div>
   );
 };

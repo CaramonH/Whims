@@ -34,11 +34,14 @@ const Dashboard: React.FC = () => {
   const [userGroups, setUserGroups] = useState<GroupData[]>([]);
   const [currentGroup, setCurrentGroup] = useState<GroupData>();
   const [sortByNewest, setSortByNewest] = useState(false);
+  const [selectedEventType, setSelectedEventType] = useState<string>("");
   const auth = getAuth();
 
-  const filteredWhims = currentGroup
-    ? allUserCards.filter((whim) => whim.groupId === currentGroup.id)
-    : allUserCards;
+  const filteredWhims = allUserCards
+    .filter((whim) => (currentGroup ? whim.groupId === currentGroup.id : true))
+    .filter((whim) =>
+      selectedEventType ? whim.eventType === selectedEventType : true
+    );
 
   const groupedWhims: GroupedWhims = filteredWhims.reduce((acc, whim) => {
     if (!acc[whim.groupId]) {
@@ -109,6 +112,10 @@ const Dashboard: React.FC = () => {
     setSortByNewest(true);
   };
 
+  const handleSelectEventType = (eventType: string) => {
+    setSelectedEventType(eventType);
+  };
+
   const sortFunction = sortByNewest
     ? (a: CardData, b: CardData) => {
         if (!a.date || !b.date) return 0;
@@ -128,6 +135,7 @@ const Dashboard: React.FC = () => {
           groupData={currentGroup}
           isHomePage={currentGroup === undefined}
           onSortByNewest={handleSortByNewest}
+          onSelectEventType={handleSelectEventType}
         />
         <main className="main-content">
           <Tray

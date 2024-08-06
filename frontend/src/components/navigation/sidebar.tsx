@@ -14,14 +14,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import "./navigation.css";
 import { getUserGroups } from "../../firebaseService";
-
-interface GroupData {
-  id: string;
-  createdAt: string;
-  createdBy: string;
-  groupName: string;
-  groupCode: string;
-}
+import { GroupData } from "../types/groupData";
 
 interface SidebarProps {
   onSelectGroup: (groupData?: GroupData) => void;
@@ -38,20 +31,19 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup, onGetGroupList }) => {
 
   onGetGroupList(groups);
 
-  const fetchGroups = async () => {
+  const fetchGroups = async (): Promise<void> => {
     if (auth.currentUser) {
       const userId = auth.currentUser.uid;
       const groupsData = await getUserGroups(userId);
-      if (groupsData) {
-        const formattedGroupsData: GroupData[] = groupsData.map((group) => ({
-          id: group.id,
-          createdAt: group.createdAt,
-          createdBy: group.createdBy,
-          groupName: group.groupName || "Unnamed Group", // Default if no name is set
-          groupCode: group.groupCode,
-        }));
-        setGroups(formattedGroupsData);
-      }
+      // Type assertion to ensure that groupsData is an array of GroupData
+      const formattedGroupsData: GroupData[] = (groupsData as GroupData[]).map((group) => ({
+        id: group.id,
+        createdAt: group.createdAt,
+        createdBy: group.createdBy,
+        groupName: group.groupName || "Unnamed Group",  // Provide a default value if null or undefined
+        groupCode: group.groupCode,
+      }));
+      setGroups(formattedGroupsData);
     }
   };
 
@@ -137,7 +129,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup, onGetGroupList }) => {
               icon={faCog}
               onClick={handleSettings}
               className="nav-item bottom-button"
-              label="Settings"
+              label="Group Settings"
               isExpanded={isExpanded}
             />
             <Button

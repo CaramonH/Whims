@@ -105,16 +105,36 @@
 
 .create-group-button {
   margin-bottom: 10px;
+  margin-left: 2px;
+  width: 98%;
+  font-size: 1.2rem;
+  box-shadow: 0 2px var(--color-ui-black);
+  border: 1px solid var(--color-ui-dark-blue);
 }
 
 .group-button {
-  margin-bottom: 10px;
-  margin-left: 4px;
+  margin-bottom: 8px;
+  margin-left: 2px;
+  width: 98%;
   font-size: 1.2rem;
+  box-shadow: 0 2px var(--color-ui-black);
+  border: 1px solid var(--color-ui-dark-blue);
+}
+
+.group-button:active, .create-group-button:active, .home-button:active {
+  background-color: var(--color-ui-black);
+  color: var(--color-ui-white);
+  box-shadow: 0 1px var(--color-ui-black);
+  transform: translateY(4px);
 }
 
 .home-button {
-  margin-bottom: 20px;
+  margin-bottom: 8px;
+  margin-left: 2px;
+  width: 98%;
+  margin-right: 2px;
+  box-shadow: 0 2px var(--color-ui-black);
+  border: 1px solid var(--color-ui-dark-blue);
 }
 
 .bottom-buttons {
@@ -128,9 +148,24 @@
   background-color: var(--color-ui-dark-blue);
 }
 
+.bottom-button {
+  margin-top: 4px;
+  width: 98%;
+  box-shadow: 0 2px var(--color-ui-black);
+  border: 1px solid var(--color-ui-blue);
+}
+
+.bottom-button:active {
+  background-color: var(--color-ui-black);
+  color: var(--color-ui-white);
+  box-shadow: 0 1px var(--color-ui-black);
+  transform: translateY(4px);
+}
+
 .bottom-button:hover {
   background-color: var(--color-ui-blue);
 }
+
 .sidebar::-webkit-scrollbar { 
   display: none;  /* Scroll remover for Safari and Chrome */
 }
@@ -253,12 +288,30 @@
 
 /* SETTINGS WINDOW */
 
-.settings-dropdown1 {
-  color: var(--color-ui-white) !important;
+.group-info {
+  margin: 40px;
 }
 
-.settings-dropdown option {
-  background-color: var(--color-ui-dark-blue) !important;
+.group-item {
+  display: flex;
+  flex-direction: row;
+}
+.group-name, .settings-group-code {
+  font-size: large;  
+  padding-left: 20px;
+}
+
+.group-name {
+}
+
+.settings-group-code {
+  font-style: bold;
+  padding-right: 20px;
+}
+
+.leave-button {
+  width: 50px;
+  height : 50px;
 }
 
 /*TRAY STYLING*/

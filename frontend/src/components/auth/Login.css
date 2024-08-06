@@ -90,7 +90,7 @@
   animation: drift 20s ease-out;
 }
 
-.fake-card + h5, p {
+.fake-card + h5, .fake-card + p {
   margin: 15px;
   font-size: 1.5rem;
 }

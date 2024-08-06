@@ -7,10 +7,11 @@ import useLikeDislike from "../../customHooks/useLikeAndDislike";
 interface LikeDislikeProps {
   groupId: string;
   whimId: string;
+  userID: string;
 }
 
-const LikeDislike: React.FC<LikeDislikeProps> = ({ groupId, whimId }) => {
-  const { likeCount, dislikeCount, handleLike, handleDislike, userChoice } = useLikeDislike(groupId, whimId);
+const LikeDislike: React.FC<LikeDislikeProps> = ({ groupId, whimId, userID }) => {
+  const { likeCount, dislikeCount, handleLike, handleDislike, userChoice } = useLikeDislike(groupId, whimId, userID);
   const [totalCount, setTotalCount] = useState<number>(likeCount - dislikeCount);
 
   useEffect(() => {

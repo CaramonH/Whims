@@ -7,6 +7,6 @@ export interface CardData {
   date?: string;
   location?: string;
   color: string;
-  likes: number;
-  dislikes: number;
+  likes: string[]; // Array of user IDs who liked
+  dislikes: string[]; // Array of user IDs who disliked
 }

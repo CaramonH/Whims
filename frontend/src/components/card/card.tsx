@@ -1,5 +1,4 @@
 import React from "react";
-import LikeDislike from "../functional/likeDislike";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -11,12 +10,15 @@ import {
   faPalette,
   faQuestionCircle,
   faTrash,
+  faThumbsUp,
+  faThumbsDown,
 } from "@fortawesome/free-solid-svg-icons";
 import "./card.css";
 import Button from "../general/button";
 import { deleteWhim } from "../../firebaseService";
 import { getAuth } from "firebase/auth";
 import { CardData } from "../types/cardData";
+import useLikeDislike from "../../customHooks/useLikeAndDislike";
 
 const colorVariables: string[] = [
   "--color-turq",
@@ -80,6 +82,9 @@ const Card: React.FC<CardProps> = ({
 }) => {
   const auth = getAuth();
   const randomColor: string = getRandomColor(color);
+  const userId = auth.currentUser?.uid || '';
+
+  const { likeCount, dislikeCount, handleLike, handleDislike, userChoice } = useLikeDislike(groupId, id, userId);
 
   const getEventIcon = (type: string): IconProp => {
     switch (type) {
@@ -110,8 +115,8 @@ const Card: React.FC<CardProps> = ({
       location,
       date,
       color,
-      likes: 0,
-      dislikes: 0,
+      likes: [],
+      dislikes: [],
     };
 
     deleteWhim(cardData)
@@ -162,7 +167,20 @@ const Card: React.FC<CardProps> = ({
         )}
       </div>
       <div className="like-dislike-container">
-        <LikeDislike groupId={groupId} whimId={id} />
+        <button
+          onClick={handleLike}
+          className={`like-button ${userChoice === 'like' ? 'active' : ''}`}
+        >
+          <FontAwesomeIcon icon={faThumbsUp} />
+          <span>{likeCount}</span>
+        </button>
+        <button
+          onClick={handleDislike}
+          className={`dislike-button ${userChoice === 'dislike' ? 'active' : ''}`}
+        >
+          <FontAwesomeIcon icon={faThumbsDown} />
+          <span>{dislikeCount}</span>
+        </button>
       </div>
       <div className="card-text-container">
         {/* <CardText

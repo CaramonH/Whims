@@ -13,6 +13,7 @@ interface TrayProps {
   onDeleteCard: (cardData: CardData) => void;
   isHomeView: boolean;
   userGroups: GroupData[];
+  sortFunction?: (a: WhimData, b: WhimData) => number;
 }
 
 const Tray: React.FC<TrayProps> = ({
@@ -20,10 +21,11 @@ const Tray: React.FC<TrayProps> = ({
   onDeleteCard,
   isHomeView,
   userGroups,
+  sortFunction,
 }) => {
   const getGroupName = (groupId: string): string => {
-    const group = userGroups.find(group => group.id === groupId);
-    return group ? group.groupName : groupId; // Fallback to groupId if groupName is not found
+    const group = userGroups.find((group) => group.id === groupId);
+    return group ? group.groupName : groupId;
   };
 
   return (
@@ -32,8 +34,13 @@ const Tray: React.FC<TrayProps> = ({
         <div key={groupId} className="group-section">
           <h2>Group: {getGroupName(groupId)}</h2>
           <div className="whims-container">
-            {whims.map((whim) => (
-              <Card key={whim.id} {...whim} onDeleteCard={onDeleteCard} userGroups={userGroups} />
+            {(sortFunction ? whims.sort(sortFunction) : whims).map((whim) => (
+              <Card
+                key={whim.id}
+                {...whim}
+                onDeleteCard={onDeleteCard}
+                userGroups={userGroups}
+              />
             ))}
           </div>
         </div>

@@ -15,12 +15,14 @@ interface DropdownProps {
   onChange?: (selectedValue: string) => void;
   className?: string;
   customOptions?: { value: string; icon: any }[];
+  title?: string;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
   onChange,
   className = "",
   customOptions,
+  title,
 }) => {
   const [selectedValue, setSelectedValue] = useState("");
 
@@ -44,7 +46,10 @@ const Dropdown: React.FC<DropdownProps> = ({
     { value: "misc", icon: eventIcons.misc },
   ];
 
-  const costOptions = ["$", "$$", "$$$"].map((value) => ({ value, icon: null }));
+  const costOptions = ["$", "$$", "$$$"].map((value) => ({
+    value,
+    icon: null,
+  }));
 
   const options =
     customOptions || (className === "cost" ? costOptions : eventOptions);
@@ -62,10 +67,12 @@ const Dropdown: React.FC<DropdownProps> = ({
       value={selectedValue}
       onChange={handleChange}
       className={`dropdown ${className}`}
-      title={className === "cost" ? "Select cost" : "Select event type"}
+      title={
+        title || (className === "cost" ? "Select cost" : "Select event type")
+      }
     >
       <option value="">
-        {className === "cost" ? "Select cost" : "Select event type"}
+        {title || (className === "cost" ? "Select cost" : "Select event type")}
       </option>
       {options.map((option) => (
         <option key={option.value} value={option.value} className="option-icon">

@@ -10,7 +10,7 @@ const DateInput: React.FC<DateInputProps> = ({ onChange }) => {
 
   const handleDateChange = (value: string) => {
     // Remove any non-digit characters
-        // Remove any non-digit characters
+    // Remove any non-digit characters
     let cleaned = value.replace(/\D/g, "");
 
     // Prepend "0" if the cleaned length is 5

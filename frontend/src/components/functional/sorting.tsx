@@ -1,16 +1,21 @@
+// In sorting.tsx
 import React from "react";
 import Button from "../general/button";
 import Dropdown from "../general/dropdown";
 import { faEnvelope, faClock } from "@fortawesome/free-solid-svg-icons";
 import "./functional.css";
 
-const Sorting: React.FC = () => {
+interface SortingProps {
+  onSortByNewest: () => void;
+  onSelectEventType: (eventType: string) => void;
+}
+
+const Sorting: React.FC<SortingProps> = ({
+  onSortByNewest,
+  onSelectEventType,
+}) => {
   const handleUnreadClick = () => {
     console.log("Unread clicked");
-  };
-
-  const handleNewestClick = () => {
-    console.log("Newest clicked");
   };
 
   return (
@@ -25,13 +30,17 @@ const Sorting: React.FC = () => {
         />
         <Button
           icon={faClock}
-          onClick={handleNewestClick}
+          onClick={onSortByNewest}
           label="  Newest"
           className="newest-btn"
           isExpanded={true}
         />
       </div>
-      <Dropdown title="" className="event-sorting" />
+      <Dropdown
+        onChange={onSelectEventType}
+        className="event-sorting"
+        title="Select event type"
+      />
     </div>
   );
 };

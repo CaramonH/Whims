@@ -17,12 +17,16 @@ interface HeaderProps {
   onCreateCard: (cardData: CardData) => void;
   groupData?: GroupData;
   isHomePage: boolean;
+  onSortByNewest: () => void;
+  onSelectEventType: (eventType: string) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
   onCreateCard,
   groupData,
   isHomePage,
+  onSortByNewest,
+  onSelectEventType,
 }) => {
   const [showInputForm, setShowInputForm] = useState(false);
 
@@ -39,7 +43,10 @@ const Header: React.FC<HeaderProps> = ({
       {!isHomePage && (
         <>
           <div className="header-sorting">
-            <Sorting />
+            <Sorting
+              onSortByNewest={onSortByNewest}
+              onSelectEventType={onSelectEventType}
+            />
           </div>
           <div className="create-card-container">
             {!showInputForm ? (

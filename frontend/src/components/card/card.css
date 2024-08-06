@@ -24,7 +24,6 @@
   transform: translateX(-50%);
   font-size: 1em;
   color: var(--color-ui-black);
-  background-color: rgba(255, 255, 255, 0.5);
   padding: 4px 40px;
   border-radius: 4px;
 }
@@ -89,57 +88,69 @@
 }
 
 /* COLORS */
+/* Color set for turqoise */
 .card.--color-turq {
   background-color: var(--color-turq);
   color: var(--color-dark-turq);
 }
-.card.--color-turq .delete-button { color: var(--color-dark-turq); }
- 
+.card.--color-turq .delete-button{ color: var(--color-dark-turq); }
+.card.--color-turq .card-date{ color: var(--color-ui-white); background-color: var(--color-dark-turq);}
+
+/* Color set for matis green */
 .card.--color-mant {
   background-color: var(--color-mant);
   color: var(--color-dark-mant);
-
 }
 .card.--color-mant .delete-button { color: var(--color-dark-mant); }
+.card.--color-mant .card-date{ color: var(--color-ui-white); background-color: var(--color-dark-mant);}
 
+/* Color set for apple green */
 .card.--color-apg {
   background-color: var(--color-apg);
   color: var(--color-dark-apg);
-
 }
 .card.--color-apg .delete-button { color: var(--color-dark-apg); }
+.card.--color-apg .card-date{ color: var(--color-ui-white); background-color: var(--color-dark-apg);}
 
+/* Color set for yellow */
 .card.--color-yell {
   background-color: var(--color-yell);
   color: var(--color-dark-yell);
-
 }
 .card.--color-yell .delete-button { color: var(--color-dark-yell); }
+.card.--color-yell .card-date{ color: var(--color-ui-white); background-color: var(--color-dark-yell);}
 
+/* Color set for orange */
 .card.--color-org {
   background-color: var(--color-org);
   color: var(--color-dark-org);
-
 }
 .card.--color-org .delete-button { color: var(--color-dark-org); }
+.card.--color-org .card-date{ color: var(--color-ui-white); background-color: var(--color-dark-org);}
 
+/* Color set for red */
 .card.--color-red {
   background-color: var(--color-red);
   color: var(--color-dark-red);
-
 }
 .card.--color-red .delete-button { color: var(--color-dark-red); }
+.card.--color-red .card-title{ color: var(--color-ui-white); }
+.card.--color-red .card-date{ color: var(--color-ui-white); background-color: var(--color-dark-red);}
 
+/* Color set for not indigo */
 .card.--color-ind {
   background-color: var(--color-ind);
   color: var(--color-dark-ind);
-
 }
 .card.--color-ind .delete-button { color: var(--color-dark-ind); }
+.card.--color-ind .card-title{ color: var(--color-ui-white); }
+.card.--color-ind .card-date{ color: var(--color-ui-white); background-color: var(--color-dark-ind);}
 
+/* Color set for purple */
 .card.--color-purp {
   background-color: var(--color-purp);
   color: var(--color-dark-purp);
-
 }
 .card.--color-purp .delete-button { color: var(--color-dark-purp); }
+.card.--color-purp .card-title{ color: var(--color-ui-white); }
+.card.--color-purp .card-date{ color: var(--color-ui-white); background-color: var(--color-dark-purp);}

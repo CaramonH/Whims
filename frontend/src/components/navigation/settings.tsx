@@ -4,12 +4,7 @@ import { faTimes, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import "../navigation/navigation.css";
 import { leaveGroup } from "../../firebaseService";
 import { getAuth } from "firebase/auth";
-
-interface GroupData {
-  id: string;
-  groupName: string;
-  groupCode: string;
-}
+import { GroupData } from "../types/groupData";
 
 interface SettingsProps {
   onClose: () => void;
@@ -64,15 +59,14 @@ const Settings: React.FC<SettingsProps> = ({
           label=""
         />
           <div className="pop-window-header">
-            <h2>Settings</h2>
+            <h2>Group Settings</h2>
           </div>
           <div className="group-info">
             <h3>Your Groups:</h3>
             {groups.map((group) => (
               <div key={group.id} className="group-item">
-                <p>
-                  {group.groupName} - Code: {group.groupCode}
-                </p>
+                <p className="group-name"> {group.groupName} </p>
+                <p className="settings-group-code"> - Code: {group.groupCode} </p>
                 <Button
                   icon={faSignOutAlt}
                   onClick={() => handleLeaveGroup(group.id)}

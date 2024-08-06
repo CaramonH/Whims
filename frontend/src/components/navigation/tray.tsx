@@ -1,33 +1,16 @@
 import React from "react";
 import Card from "../card/card";
 import "./navigation.css";
-
-interface WhimData {
-  id: string;
-  groupId: string;
-  createdBy: string;
-  eventName: string;
-  eventType: string;
-  date?: string;
-  location?: string;
-  color: string;
-}
-
-interface GroupData {
-  id: string;
-  createdAt: string;
-  createdBy: string;
-  groupName: string;
-  groupCode: string;
-}
+import { CardData } from "../types/cardData";
+import { GroupData } from "../types/groupData";
 
 interface GroupedWhims {
-  [groupId: string]: WhimData[];
+  [groupId: string]: CardData[];
 }
 
 interface TrayProps {
   groupedWhims: GroupedWhims;
-  onDeleteCard: (cardData: WhimData) => void;
+  onDeleteCard: (cardData: CardData) => void;
   isHomeView: boolean;
   userGroups: GroupData[];
 }

@@ -4,13 +4,13 @@ import Dropdown from "../general/dropdown";
 import { faEnvelope, faClock } from "@fortawesome/free-solid-svg-icons";
 import "./functional.css";
 
-const Sorting: React.FC = () => {
+interface SortingProps {
+  onSortByNewest: () => void;
+}
+
+const Sorting: React.FC<SortingProps> = ({ onSortByNewest }) => {
   const handleUnreadClick = () => {
     console.log("Unread clicked");
-  };
-
-  const handleNewestClick = () => {
-    console.log("Newest clicked");
   };
 
   return (
@@ -25,7 +25,7 @@ const Sorting: React.FC = () => {
         />
         <Button
           icon={faClock}
-          onClick={handleNewestClick}
+          onClick={onSortByNewest}
           label="  Newest"
           className="newest-btn"
           isExpanded={true}

@@ -33,6 +33,7 @@ const Dashboard: React.FC = () => {
   const [allUserCards, setAllUserCards] = useState<CardData[]>([]);
   const [userGroups, setUserGroups] = useState<GroupData[]>([]);
   const [currentGroup, setCurrentGroup] = useState<GroupData>();
+  const [sortByNewest, setSortByNewest] = useState(false);
   const auth = getAuth();
 
   const filteredWhims = currentGroup
@@ -47,7 +48,7 @@ const Dashboard: React.FC = () => {
     return acc;
   }, {} as GroupedWhims);
 
-  const isHomeView = currentGroup === null;
+  const isHomeView = currentGroup === undefined;
 
   const fetchWhims = async () => {
     if (auth.currentUser) {
@@ -55,8 +56,6 @@ const Dashboard: React.FC = () => {
       const allWhimsData = await getWhims(userId);
 
       if (allWhimsData) {
-        // it says the properties don't exist for whims, but it's wrong, it works
-        // LOL
         const formattedWhims = allWhimsData.map((whim) => ({
           id: whim.id,
           groupId: whim.groupId,
@@ -88,15 +87,15 @@ const Dashboard: React.FC = () => {
   };
 
   const handleSelectGroup = (groupData?: GroupData) => {
-    if (groupData == currentGroup) {
-      console.log("Already on this group page"); // Debug log
+    if (groupData === currentGroup) {
+      console.log("Already on this group page");
       return;
     }
     if (groupData) {
-      console.log("Setting selected group to", groupData.groupCode); // Debug log
+      console.log("Setting selected group to", groupData.groupCode);
       setCurrentGroup(groupData);
     } else {
-      console.log("Setting selected group to home"); // Debug log
+      console.log("Setting selected group to home");
       setCurrentGroup(undefined);
     }
   };
@@ -105,6 +104,17 @@ const Dashboard: React.FC = () => {
     console.log("Getting group list from sidebar:", groupList);
     setUserGroups(groupList);
   };
+
+  const handleSortByNewest = () => {
+    setSortByNewest(true);
+  };
+
+  const sortFunction = sortByNewest
+    ? (a: CardData, b: CardData) => {
+        if (!a.date || !b.date) return 0;
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      }
+    : undefined;
 
   return (
     <div className="dashboard">
@@ -117,6 +127,7 @@ const Dashboard: React.FC = () => {
           onCreateCard={handleCreateCard}
           groupData={currentGroup}
           isHomePage={currentGroup === undefined}
+          onSortByNewest={handleSortByNewest}
         />
         <main className="main-content">
           <Tray
@@ -124,6 +135,7 @@ const Dashboard: React.FC = () => {
             onDeleteCard={handleDeleteCard}
             isHomeView={isHomeView}
             userGroups={userGroups}
+            sortFunction={sortFunction}
           />
         </main>
       </div>

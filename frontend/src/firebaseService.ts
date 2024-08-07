@@ -104,8 +104,6 @@ export const getLikesDislikes = async (groupId: string, whimId: string): Promise
   }
 };
 
-// Other functions remain unchanged...
-
 // Function to get all whims of a user
 export const getWhims = async (userId: string): Promise<CardData[]> => {
   try {

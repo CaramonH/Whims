@@ -15,6 +15,8 @@ interface CardData {
   date?: string;
   location?: string;
   color: string;
+  likes?: string[];
+  dislikes?: string[];
 }
 
 interface GroupData {
@@ -34,14 +36,35 @@ const Dashboard: React.FC = () => {
   const [userGroups, setUserGroups] = useState<GroupData[]>([]);
   const [currentGroup, setCurrentGroup] = useState<GroupData>();
   const [sortByNewest, setSortByNewest] = useState(false);
+  const [sortByUpcoming, setSortByUpcoming] = useState(false);
   const [selectedEventType, setSelectedEventType] = useState<string>("");
+  const [likeStatus, setLikeStatus] = useState<string>("all");
   const auth = getAuth();
 
   const filteredWhims = allUserCards
     .filter((whim) => (currentGroup ? whim.groupId === currentGroup.id : true))
     .filter((whim) =>
       selectedEventType ? whim.eventType === selectedEventType : true
-    );
+    )
+    .filter((whim) => {
+      if (likeStatus === "all") return true;
+      if (likeStatus === "liked") {
+        return whim.likes && whim.likes.includes(auth.currentUser?.uid || "");
+      }
+      if (likeStatus === "disliked") {
+        return (
+          whim.dislikes && whim.dislikes.includes(auth.currentUser?.uid || "")
+        );
+      }
+      if (likeStatus === "neutral") {
+        return (
+          (!whim.likes || !whim.likes.includes(auth.currentUser?.uid || "")) &&
+          (!whim.dislikes ||
+            !whim.dislikes.includes(auth.currentUser?.uid || ""))
+        );
+      }
+      return true;
+    });
 
   const groupedWhims: GroupedWhims = filteredWhims.reduce((acc, whim) => {
     if (!acc[whim.groupId]) {
@@ -68,6 +91,8 @@ const Dashboard: React.FC = () => {
           date: whim.date || null,
           location: whim.location || null,
           color: whim.color || null,
+          likes: whim.likes || [],
+          dislikes: whim.dislikes || [],
         }));
         console.log(`formattedWhims:`, formattedWhims);
         setAllUserCards(formattedWhims);
@@ -112,16 +137,27 @@ const Dashboard: React.FC = () => {
     setSortByNewest(true);
   };
 
+  const handleSortByUpcoming = () => {
+    setSortByUpcoming((prev) => !prev);
+  };
+
+  const sortFunction = sortByUpcoming
+    ? (a: CardData, b: CardData) => {
+        if (!a.date || !b.date) return 0;
+        return new Date(a.date).getTime() - new Date(b.date).getTime();
+      }
+    : undefined;
+
   const handleSelectEventType = (eventType: string) => {
     setSelectedEventType(eventType);
   };
 
-  const sortFunction = sortByNewest
-    ? (a: CardData, b: CardData) => {
-        if (!a.date || !b.date) return 0;
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
-      }
-    : undefined;
+  const handleSelectLikeStatus = (status: string) => {
+    console.log("Selected like status:", status);
+    setLikeStatus(status);
+  };
+
+  console.log("Filtered Whims:", filteredWhims);
 
   return (
     <div className="dashboard">
@@ -134,8 +170,9 @@ const Dashboard: React.FC = () => {
           onCreateCard={handleCreateCard}
           groupData={currentGroup}
           isHomePage={currentGroup === undefined}
-          onSortByNewest={handleSortByNewest}
+          onSortByUpcoming={handleSortByUpcoming}
           onSelectEventType={handleSelectEventType}
+          onSelectLikeStatus={handleSelectLikeStatus}
         />
         <main className="main-content">
           <Tray

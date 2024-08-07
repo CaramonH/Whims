@@ -48,7 +48,7 @@
   position: relative;
 }
 
-.close-button:hover, .create-button:hover, .unread-btn:hover, .newest-btn:hover {
+.close-button:hover, .create-button:hover, .unread-btn:hover, .upcoming-btn:hover {
   opacity: 0.8;
 }
 
@@ -82,7 +82,7 @@
   justify-items: center;
 }
 
-.unread-btn, .newest-btn {
+.unread-btn, .upcoming-btn {
   width: 10em;
   font-size: 0.8em;
   box-shadow: 0 2px var(--color-ui-black);
@@ -119,7 +119,7 @@
     width: auto;
   }
 
-  .newest-btn {
+  .upcoming-btn {
     width: auto;
   }
 

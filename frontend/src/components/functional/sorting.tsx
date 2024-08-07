@@ -31,13 +31,6 @@ const Sorting: React.FC<SortingProps> = ({
   return (
     <div className="filter-div">
       <div className="sorting-button-div">
-        {/* <Button
-          icon={faEnvelope}
-          onClick={handleUnreadClick}
-          label="  Unread"
-          className="unread-btn"
-          isExpanded={true}
-        /> */}
         <Button
           icon={faClock}
           onClick={onSortByUpcoming}

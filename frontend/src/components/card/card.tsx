@@ -172,14 +172,14 @@ const Card: React.FC<CardProps> = ({
           className={`like-button ${userChoice === 'like' ? 'active' : ''}`}
         >
           <FontAwesomeIcon icon={faThumbsUp} />
-          <span>{likeCount}</span>
+          <span className="like-dislike-count">{likeCount}</span>
         </button>
         <button
           onClick={handleDislike}
           className={`dislike-button ${userChoice === 'dislike' ? 'active' : ''}`}
         >
           <FontAwesomeIcon icon={faThumbsDown} />
-          <span>{dislikeCount}</span>
+          <span className="like-dislike-count">{dislikeCount}</span>
         </button>
       </div>
       <div className="card-text-container">

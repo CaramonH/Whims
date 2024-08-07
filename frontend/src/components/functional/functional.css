@@ -61,6 +61,14 @@
   position: absolute !important;
   top: 10px;
   left: 10px;
+  box-shadow: 0 2px var(--color-ui-black);
+}
+
+.close-create:active {
+  background-color: var(--color-ui-black);
+  color: var(--color-ui-white);
+  box-shadow: 0 1px var(--color-ui-black);
+  transform: translateY(4px);
 }
 
 /* FILTERS */
@@ -77,6 +85,15 @@
 .unread-btn, .newest-btn {
   width: 10em;
   font-size: 0.8em;
+  box-shadow: 0 2px var(--color-ui-black);
+  border: 1px solid var(--color-ui-dark-blue);
+}
+
+.unread-btn:active, .newest-btn:active {
+  background-color: var(--color-ui-white);
+  color: var(--color-ui-black);
+  box-shadow: 0 1px var(--color-ui-black);
+  transform: translateY(4px);
 }
 
 .sorting-button-div {
@@ -88,13 +105,14 @@
 
 @media (max-width: 850px) {
   .filter-div {
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
-    margin-bottom: 20px;
+    margin: 20px;
   }
 
   .sorting-button-div {
     display: flex;
+    flex-direction: row;
     gap: 10px;
   }
   .unread-btn {
@@ -106,8 +124,13 @@
   }
 
   .create-button {
-    width: 7rem;
-    height: 5rem;
+    width: 9rem;
+    height: 4rem;
+    margin: 20px;
+  }
+
+  .group-section {
+    margin-top: 40px;
   }
 }
 

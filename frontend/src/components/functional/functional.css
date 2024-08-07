@@ -105,13 +105,14 @@
 
 @media (max-width: 850px) {
   .filter-div {
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
-    margin-bottom: 20px;
+    margin: 20px;
   }
 
   .sorting-button-div {
     display: flex;
+    flex-direction: row;
     gap: 10px;
   }
   .unread-btn {
@@ -123,8 +124,13 @@
   }
 
   .create-button {
-    width: 7rem;
-    height: 5rem;
+    width: 9rem;
+    height: 4rem;
+    margin: 20px;
+  }
+
+  .group-section {
+    margin-top: 40px;
   }
 }
 

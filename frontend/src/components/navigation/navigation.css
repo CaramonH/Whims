@@ -312,12 +312,10 @@
   display: flex;
   flex-direction: row;
 }
+
 .group-name, .settings-group-code {
   font-size: large;  
   padding-left: 20px;
-}
-
-.group-name {
 }
 
 .settings-group-code {
@@ -352,15 +350,17 @@
 .tray-container.home-view {
   flex-direction: column;
   flex-wrap: wrap;
+  transform: translateY(-20px);
   justify-content: flex-start;
   align-items: flex-start;
+  padding: 5px;
 }
 
 .group-section {
   background-color: var(--color-ui-white);
   border-radius: 8px;
   padding: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 3px 3px 5px var(--color-ui-dark-blue);
 }
 
 .home-view .group-section {
@@ -371,12 +371,15 @@
 
 .whims-container {
   display: flex;
+  justify-content: space-between;
+  margin: 20px;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 15px;
 }
 
 .group-section h2 {
   margin-bottom: 10px;
-  font-size: 1.2em;
-  color: #333;
+  margin-top: auto;
+  font-size: 1.5em;
+  color: var(--color-ui-black);
 }

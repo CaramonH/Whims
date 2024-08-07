@@ -105,8 +105,16 @@
   background-color: var(--color-ui-green);
   bottom: 10px;
   right: 10px;
+  box-shadow: 0 2px var(--color-ui-black);
 }
 
 .submit-button:hover, .input:hover, .dropdown:hover {
   opacity: 0.8;
+}
+
+.submit-button:active {
+  background-color: var(--color-ui-black);
+  color: var(--color-ui-white);
+  box-shadow: 0 1px var(--color-ui-black);
+  transform: translateY(4px);
 }

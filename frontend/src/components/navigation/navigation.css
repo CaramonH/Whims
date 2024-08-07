@@ -251,6 +251,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 2px var(--color-ui-black);
+}
+
+.close-button:active {
+  background-color: var(--color-ui-black);
+  color: var(--color-ui-white);
+  box-shadow: 0 1px var(--color-ui-black);
+  transform: translateY(4px);
 }
 
 /* ACOUNT WINDOW */
@@ -267,6 +275,14 @@
 
 .delete-account-button {
   background-color: var(--color-dark-red);
+  box-shadow: 0 2px var(--color-ui-black);
+}
+
+.delete-account-button:active {
+  background-color: var(--color-ui-black);
+  color: var(--color-ui-white);
+  box-shadow: 0 1px var(--color-ui-black);
+  transform: translateY(4px);
 }
 
 .delete-text {
@@ -312,6 +328,15 @@
 .leave-button {
   width: 50px;
   height : 50px;
+  box-shadow: 0 2px var(--color-ui-black);
+  border: 1px solid var(--color-ui-dark-blue);
+}
+
+.leave-button:active {
+  background-color: var(--color-ui-white);
+  color: var(--color-ui-black);
+  box-shadow: 0 1px var(--color-ui-black);
+  transform: translateY(4px);
 }
 
 /*TRAY STYLING*/

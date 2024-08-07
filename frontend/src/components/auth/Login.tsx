@@ -21,7 +21,7 @@ const landingTitle: string[] = [
   "Who is Whims for? - Indecisive Friends!", "What is Whims for? - What games to play together!", "Why Whims? - Simple organization!",
   "Who is Whims for? - Coworkers!", "What is Whims for? - Deciding on lunch plans!", "Why Whims? - Ease of access!",
   "Who is Whims for? - Families!", "What is Whims for? - Deciding what to do on Holidays!", "Why Whims? - To build a community!",
-  "Who is Whims for? - Partners and Relationships!", "What is Whims for? - What movies to watch!", "Why Whims? - Ease of comminication!",
+  "Who is Whims for? - Partners and Relationships!", "What is Whims for? - What movies to watch!", "Why Whims? - Ease of communication!",
 ];
 
 const getRandomColor = (previousColor: string): string => {

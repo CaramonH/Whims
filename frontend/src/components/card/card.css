@@ -49,14 +49,19 @@
   display: flex;
 }
 
+.like-dislike-count {
+  margin-left: 4px;
+}
+
 .like-button,
 .dislike-button {
-  margin: 8px;
+  margin: 6px;
   font-size: 1.2em;
   background: none;
-  padding: 6px;
+  padding: 0px;
   color: var(--color-ui-black);
 }
+
 
 .like-button:hover .dislike-button:hover {
   opacity: 0.8;

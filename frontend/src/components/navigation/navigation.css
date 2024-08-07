@@ -319,13 +319,13 @@
 /*TRAY STYLING*/
 .tray-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 20px;
   padding: 20px;
 }
 
 .tray-container.home-view {
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: flex-start;
@@ -341,7 +341,7 @@
 .home-view .group-section {
   flex: 0 1 calc(33.333% - 20px); /* Adjust the percentage based on how many columns you want */
   min-width: 250px; /* Set a minimum width for the tray */
-  max-width: 400px; /* Set a maximum width for the tray */
+  /* max-width: 400px; Set a maximum width for the tray */
 }
 
 .whims-container {

@@ -13,7 +13,7 @@ interface TrayProps {
   onDeleteCard: (cardData: CardData) => void;
   isHomeView: boolean;
   userGroups: GroupData[];
-  sortFunction?: (a: WhimData, b: WhimData) => number;
+  sortFunction?: (a: CardData, b: CardData) => number;
 }
 
 const Tray: React.FC<TrayProps> = ({

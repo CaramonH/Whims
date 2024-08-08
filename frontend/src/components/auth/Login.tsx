@@ -130,27 +130,28 @@ const Login: React.FC = () => {
     setIsRegistering(!isRegistering);
   };
 
-  const handleGoogleLogin = async () => {
-    setErrorMessage(null);
-    const provider = new GoogleAuthProvider();
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+const handleGoogleLogin = async () => {
+  setErrorMessage(null);
+  const provider = new GoogleAuthProvider();
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
 
-      const name = user.displayName || '';
-      const email = user.email || '';
+    const name = user.displayName || '';
+    const email = user.email || '';
 
-      await setDoc(doc(firestore, "users", user.uid), {
-        name: name,
-        email: email
-      });
+    await setDoc(doc(firestore, "users", user.uid), {
+      name: name,
+      email: email
+    }, { merge: true });  // Add merge: true here
 
-      navigate('/dashboard');
-    } catch (error) {
-      console.error("Error logging in with Google", error);
-      setErrorMessage("Failed to log in with Google.");
-    }
-  };
+    navigate('/dashboard');
+  } catch (error) {
+    console.error("Error logging in with Google", error);
+    setErrorMessage("Failed to log in with Google.");
+  }
+};
+
 
   return (
     <>
@@ -173,7 +174,7 @@ const Login: React.FC = () => {
                   <FontAwesomeIcon icon={card.faIcon} />
                 </div>
                 <div className="like-dislike-container">
-                  <LikeDislike />
+                  <LikeDislike groupId={''} whimId={''} userID={''} />
                 </div>
                 <div className="location-container"></div>
               </div>

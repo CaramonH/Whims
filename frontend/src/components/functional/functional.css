@@ -89,7 +89,7 @@
   border: 1px solid var(--color-ui-dark-blue);
 }
 
-.unread-btn:active, .newest-btn:active {
+.unread-btn:active, .upcoming-btn:active {
   background-color: var(--color-ui-white);
   color: var(--color-ui-black);
   box-shadow: 0 1px var(--color-ui-black);
@@ -103,30 +103,44 @@
   gap: 10px;
 }
 
+.sorting-dropdown-div {
+  display: flex;
+  flex-direction: row;
+}
+
 @media (max-width: 850px) {
   .filter-div {
     flex-direction: row;
     gap: 10px;
-    margin: 20px;
+    /* margin: 10px; */
   }
 
   .sorting-button-div {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 10px;
   }
-  .unread-btn {
-    width: auto;
+
+  #dropdown + .event-sorting {
+    content: "Event";
   }
 
   .upcoming-btn {
-    width: auto;
+    display: flex;
+    width: 4rem;
+    height: 4rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .create-button {
-    width: 9rem;
+    width: 5rem;
     height: 4rem;
-    margin: 20px;
+    margin-left: 30px;
+  }
+
+  .sorting-dropdown-div {
+    flex-direction: column;
   }
 
   .group-section {
@@ -229,10 +243,19 @@ h3 {
 
 .pop-window-content {
   background-color: var(--color-ui-blue);
-  width: 250px;
-  height: 400px;
+  width: 300px;
+  height: 500px;
   border-radius: 8px;
   position: relative;
+}
+
+@media (max-width: 768px) {
+  .pop-window-content {
+    display: flex;
+    width: 250px;
+    height: 400px;
+    flex-direction: column;
+  }
 }
 
 .create-join-container {
@@ -253,4 +276,18 @@ h3 {
   margin: 5px;
   color: var(--color-ui-white) !important;
   border: 2px solid var(--color-ui-dark-blue) !important;
+}
+
+.join-group-button {
+  margin-left: 4px;
+  width: 95% !important;
+  box-shadow: 0 2px var(--color-ui-black);
+  border: 2px solid var(--color-ui-dark-blue) !important;
+}
+
+.join-group-button:active {
+  background-color: var(--color-ui-black) !important;
+  color: var(--color-ui-white);
+  box-shadow: 0 1px var(--color-ui-black);
+  transform: translateY(4px);
 }

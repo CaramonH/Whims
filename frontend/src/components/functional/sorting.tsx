@@ -39,17 +39,19 @@ const Sorting: React.FC<SortingProps> = ({
           isExpanded={true}
         />
       </div>
-      <Dropdown
-        onChange={onSelectEventType}
-        className="event-sorting"
-        title="Select event type"
-      />
-      <Dropdown
-        onChange={onSelectLikeStatus}
-        className="like-status-sorting"
-        title="Select like status"
-        customOptions={likeStatusOptions}
-      />
+      <div className="sorting-dropdown-div">
+        <Dropdown
+          onChange={onSelectEventType}
+          className="event-sorting"
+          title="Select Event Type"
+        />
+        <Dropdown
+          onChange={onSelectLikeStatus}
+          className="like-status-sorting"
+          title="Select Like Status"
+          customOptions={likeStatusOptions}
+        />
+      </div>
     </div>
   );
 };

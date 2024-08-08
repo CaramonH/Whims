@@ -127,3 +127,10 @@
     opacity: 0;
   }
 }
+
+@media (max-width: 768px) {
+  .login-div {
+    width: 12em;
+    left: 50%;
+  }
+}

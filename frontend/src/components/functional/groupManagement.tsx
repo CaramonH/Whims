@@ -8,7 +8,7 @@ import {
   faCopy,
   faTimes,
   faPlusCircle,
-  faSignInAlt,
+  faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
 import { createGroup, joinGroup } from "../../firebaseService";
 import "./functional.css";
@@ -213,7 +213,7 @@ const GroupManagement: React.FC<GroupManagementProps> = ({
                           className="join-group-input"
                         />
                         <Button
-                          icon={faSignInAlt}
+                          icon={faUserGroup}
                           onClick={handleJoinGroup}
                           className="nav-item join-group-button"
                           label="Join"

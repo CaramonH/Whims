@@ -18,6 +18,7 @@ a {
   color: var(--color-ui-dark-blue);
   text-decoration: inherit;
 }
+
 a:hover {
   color: var(--color-ui-dark-blue);
 }
@@ -28,6 +29,9 @@ body {
   place-items: flex-start;
   min-width: 320px;
   min-height: 100vh;
+  zoom: 0.9; /* Default for high-res screens */
+  overflow-y: auto; /* Auto scroll bar */
+  overflow-x: hidden; /*Hide left right scroll*/
 }
 
 h1 {
@@ -58,5 +62,18 @@ button {
   }
   button {
     background-color: var(--color-ui-blue);
+  }
+}
+
+.screen-wrapper {
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  background-color: var(--color-ui-black); /* Ensure background is applied */
+}
+
+@media screen and (max-width: 1080px) {
+  body {
+    zoom: 0.8; /* Scale down to 80% */
   }
 }

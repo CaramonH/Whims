@@ -5,6 +5,7 @@
   height: 280px;
   border-radius: 16px;
   padding: 16px;
+  margin: auto;
   display: flex;
   flex-direction: column;
 }

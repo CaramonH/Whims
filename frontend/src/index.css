@@ -3,7 +3,6 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
   color: var(--color-ui-white);
   background-color: var(--color-ui-black);
 
@@ -47,12 +46,13 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: var(--color-ui-black);
+  color: var(--color-ui-white);
   cursor: pointer;
   transition: border-color 0.25s;
 }
 
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
   :root {
     color: var(--color-ui-blue);
     background-color: var(--color-ui-white);
@@ -60,10 +60,7 @@ button {
   a:hover {
     color: var(--color-ui-dark-blue);
   }
-  button {
-    background-color: var(--color-ui-blue);
-  }
-}
+} */
 
 .screen-wrapper {
   display: flex;

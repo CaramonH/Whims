@@ -7,6 +7,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <div className="screen-wrapper">
       <React.StrictMode>
         <App />
-      </React.StrictMode>,
+      </React.StrictMode>
   </div>
 )

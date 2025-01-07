@@ -16,6 +16,7 @@ import "./navigation.css";
 import { getUserGroups } from "../../firebaseService";
 import { GroupData } from "../types/groupData";
 
+// This component is the sidebar navigation for the application
 interface SidebarProps {
   onSelectGroup: (groupData?: GroupData) => void;
   onGetGroupList: (groupList: GroupData[]) => void;
@@ -29,20 +30,24 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup, onGetGroupList }) => {
   const navigate = useNavigate();
   const auth = getAuth();
 
+  // Pass the group list to the parent component
   onGetGroupList(groups);
 
+  // Fetch the user's groups from Firestore
   const fetchGroups = async (): Promise<void> => {
     if (auth.currentUser) {
       const userId = auth.currentUser.uid;
       const groupsData = await getUserGroups(userId);
       // Type assertion to ensure that groupsData is an array of GroupData
-      const formattedGroupsData: GroupData[] = (groupsData as GroupData[]).map((group) => ({
-        id: group.id,
-        createdAt: group.createdAt,
-        createdBy: group.createdBy,
-        groupName: group.groupName || "Unnamed Group",  // Provide a default value if null or undefined
-        groupCode: group.groupCode,
-      }));
+      const formattedGroupsData: GroupData[] = (groupsData as GroupData[]).map(
+        (group) => ({
+          id: group.id,
+          createdAt: group.createdAt,
+          createdBy: group.createdBy,
+          groupName: group.groupName || "Unnamed Group", // Provide a default value if null or undefined
+          groupCode: group.groupCode,
+        })
+      );
       setGroups(formattedGroupsData);
     }
   };
@@ -51,11 +56,13 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup, onGetGroupList }) => {
     fetchGroups();
   }, [auth.currentUser]);
 
+  // Expand or collapse the sidebar
   const handleExpand = (expanded: boolean) => {
     setIsExpanded(expanded);
     document.body.classList.toggle("sidebar-expanded", expanded);
   };
 
+  // Event handlers for the sidebar buttons
   const handleSettings = () => setShowSettings(true);
   const handleCloseSettings = () => setShowSettings(false);
   const handleAccount = () => setShowAccount(true);
@@ -69,6 +76,9 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup, onGetGroupList }) => {
     }
   };
 
+  ////////////////////
+  ///// HANDLERS /////
+  ////////////////////
   const handleCreateGroup = async (groupData: GroupData) => {
     console.log(`Group created with code: ${groupData.groupCode}`); // Debug log
     await fetchGroups();
@@ -93,6 +103,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectGroup, onGetGroupList }) => {
     onSelectGroup(undefined); // Passing undefined to show all groups
   };
 
+  // Render the sidebar
   return (
     <>
       <div

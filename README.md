@@ -8,6 +8,10 @@ Whims is a collaborative idea board designed to help you and your friends organi
 - **Whim Card Creation**: Easily create and display your interests and ideas in a fun, visual format.
 - **Filtering**: Quickly sift through your ideas and find the perfect activity.
 
+# EVAN NOTES
+
+- remove random colors for whim cards (or move it to its own file) it makes files longer and is a lot of data being generated and passed
+
 ## Technologies Used
 
 - **Frontend**: [React](https://reactjs.org/) with TypeScript
@@ -25,21 +29,21 @@ Whims is a collaborative idea board designed to help you and your friends organi
 
 2. Install Dependencies
 
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 
 3. Setup Firebase
 
-    - Create a new Firebase project and set up Firestore and Authentiation.
-    - Copy the Firebase configuration into a `firebaseConfic.tsx` file.
+   - Create a new Firebase project and set up Firestore and Authentiation.
+   - Copy the Firebase configuration into a `firebaseConfic.tsx` file.
 
 4. Run the Application
 
-    ```bash
-    cd frontend
-    npm run dev
-    ```
+   ```bash
+   cd frontend
+   npm run dev
+   ```
 
 ## Usage
 
@@ -53,20 +57,20 @@ Once the application is running, you can:
 ## Authors
 
 **[Cason Bobo](https://github.com/casonbobo)**  
-*GitHub: [casonbobo](https://github.com/casonbobo)*  
-*LinkedIn: [cason-bobo](https://www.linkedin.com/in/cason-bobo)*
+_GitHub: [casonbobo](https://github.com/casonbobo)_  
+_LinkedIn: [cason-bobo](https://www.linkedin.com/in/cason-bobo)_
 
 **[Caramon Hofstetter](https://github.com/CaramonH)**  
-*GitHub: [CaramonH](https://github.com/CaramonH)*  
-*LinkedIn: [caramonhofstetter](https://www.linkedin.com/in/caramonhofstetter)*
+_GitHub: [CaramonH](https://github.com/CaramonH)_  
+_LinkedIn: [caramonhofstetter](https://www.linkedin.com/in/caramonhofstetter)_
 
 **[Evan Newman-Chock](https://github.com/gumquat)**  
-*GitHub: [gumquat](https://github.com/gumquat)*  
-*LinkedIn: [evan-newman-chock](https://www.linkedin.com/in/evan-newman-chock)*
+_GitHub: [gumquat](https://github.com/gumquat)_  
+_LinkedIn: [evan-newman-chock](https://www.linkedin.com/in/evan-newman-chock)_
 
 **[Karis Richardson](https://github.com/krisCrossApplesauce)**  
-*GitHub: [kriscrossApplesauce](https://github.com/krisCrossApplesauce)*  
-*LinkedIn: [karisrichardson](https://www.linkedin.com/in/karisrichardson)*
+_GitHub: [kriscrossApplesauce](https://github.com/krisCrossApplesauce)_  
+_LinkedIn: [karisrichardson](https://www.linkedin.com/in/karisrichardson)_
 
 ## License
 

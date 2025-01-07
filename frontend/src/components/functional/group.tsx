@@ -1,5 +1,6 @@
 import React from "react";
 
+// This component is a group element in the navigation bar that represents a group
 interface GroupData {
   id: string;
   createdAt: string;

@@ -8,9 +8,63 @@ Whims is a collaborative idea board designed to help you and your friends organi
 - **Whim Card Creation**: Easily create and display your interests and ideas in a fun, visual format.
 - **Filtering**: Quickly sift through your ideas and find the perfect activity.
 
-# EVAN NOTES
+# EVAN NOTES and files to go through (TO DO LIST)
 
 - remove random colors for whim cards (or move it to its own file) it makes files longer and is a lot of data being generated and passed
+- cards need to be homogenized, there are two different kinds (i think) [do we need to totally redo cards because of the booboo?]
+- group components that use the same state data and make reducers for those components thay can all access easily
+
+## Components
+
+#### Auth
+
+- Login.tsx []
+
+#### card
+
+- card.tsx []
+
+#### functional
+
+- comment.tsx []
+- createCard.tsx []
+- dateInput.tsx []
+- group.tsx []
+- groupManagement.tsx []
+- likeDislike.tsx []
+- sorting.tsx []
+
+#### general
+
+- button.tsx []
+- dropdown.tsx []
+- input.tsx []
+- popWindow.tsx []
+
+#### navigation
+
+- account.tsx []
+- header.tsx []
+- settings.tsx []
+- sidebar.tsx []
+- tray.tsx []
+
+#### routes
+
+- dashboard.tsx []
+
+#### types
+
+- cardData.ts []
+- groupData.ts []
+
+#### userInput
+
+- inputForm.tsx []
+
+#### customHooks
+
+- useLikeAndDislike.tsx
 
 ## Technologies Used
 

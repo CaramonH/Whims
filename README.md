@@ -10,6 +10,7 @@ Whims is a collaborative idea board designed to help you and your friends organi
 
 # EVAN NOTES and files to go through (TO DO LIST)
 
+- cardData is a child structure of groupData! THIS NEEDS TO CHANGE FOR SQL
 - remove random colors for whim cards (or move it to its own file) it makes files longer and is a lot of data being generated and passed
 - cards need to be homogenized, there are two different kinds (i think) [do we need to totally redo cards because of the booboo?]
 - group components that use the same state data and make reducers for those components thay can all access easily

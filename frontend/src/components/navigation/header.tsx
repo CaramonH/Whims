@@ -6,6 +6,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import "./navigation.css";
 import { CardData } from "../types/cardData";
 
+// This component is the header for the application
 interface GroupData {
   id: string;
   createdAt: string;
@@ -32,14 +33,17 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const [showInputForm, setShowInputForm] = useState(false);
 
+  // Function to handle the create button click
   const handleCreateClick = () => {
     setShowInputForm(true);
   };
 
+  // Function to handle the close form button click
   const handleCloseForm = () => {
     setShowInputForm(false);
   };
 
+  // Return the header component
   return (
     <header className="header">
       {!isHomePage && (

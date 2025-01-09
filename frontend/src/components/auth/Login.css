@@ -12,6 +12,7 @@
   background-color: var(--color-ui-blue);
   width: 20em;
   border-radius: 15px;
+  overflow: hidden;
 }
 
 .body .login-div {

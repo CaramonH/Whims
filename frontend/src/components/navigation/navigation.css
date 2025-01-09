@@ -360,6 +360,7 @@
   background-color: var(--color-ui-white);
   border-radius: 8px;
   padding: 15px;
+  max-width: 1800px;
   box-shadow: 3px 3px 5px var(--color-ui-dark-blue);
 }
 
@@ -372,9 +373,9 @@
 .whims-container {
   display: flex;
   justify-content: space-between;
-  margin: 20px;
+  margin: 30px;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 20px;
 }
 
 .group-section h2 {

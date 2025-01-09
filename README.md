@@ -8,6 +8,76 @@ Whims is a collaborative idea board designed to help you and your friends organi
 - **Whim Card Creation**: Easily create and display your interests and ideas in a fun, visual format.
 - **Filtering**: Quickly sift through your ideas and find the perfect activity.
 
+# EVAN NOTES and files to go through (TO DO LIST)
+
+- remove random colors for whim cards (or move it to its own file) it makes files longer and is a lot of data being generated and passed
+- cards need to be homogenized, there are two different kinds (i think) [do we need to totally redo cards because of the booboo?]
+- group components that use the same state data and make reducers for those components thay can all access easily
+
+1. Denote the structure of how the data is stored
+   1a. CSV file format is a must
+2. Denote the structure of how groups are stored
+   2a. again, csv file format preffered
+3. Denote the structures used to allow these two things to communicate
+   3a. get a list of the files used to bride these together
+4. Create a unified card system that uses one singular structure
+   4a. Change card structure to be csv file formatted
+5. Create a unified group system that works with the cards
+   5a. this is a complete overhaul, teamwork needed here
+6. Prepare both for the new database
+
+## Components
+
+#### Auth
+
+- Login.tsx []
+
+#### card
+
+- card.tsx []
+
+#### functional
+
+- comment.tsx []
+- createCard.tsx []
+- dateInput.tsx []
+- group.tsx []
+- groupManagement.tsx []
+- likeDislike.tsx []
+- sorting.tsx []
+
+#### general
+
+- button.tsx []
+- dropdown.tsx []
+- input.tsx []
+- popWindow.tsx []
+
+#### navigation
+
+- account.tsx []
+- header.tsx []
+- settings.tsx []
+- sidebar.tsx []
+- tray.tsx []
+
+#### routes
+
+- dashboard.tsx []
+
+#### types
+
+- cardData.ts []
+- groupData.ts []
+
+#### userInput
+
+- inputForm.tsx []
+
+#### customHooks
+
+- useLikeAndDislike.tsx
+
 ## Technologies Used
 
 - **Frontend**: [React](https://reactjs.org/) with TypeScript
@@ -25,21 +95,21 @@ Whims is a collaborative idea board designed to help you and your friends organi
 
 2. Install Dependencies
 
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 
 3. Setup Firebase
 
-    - Create a new Firebase project and set up Firestore and Authentiation.
-    - Copy the Firebase configuration into a `firebaseConfic.tsx` file.
+   - Create a new Firebase project and set up Firestore and Authentiation.
+   - Copy the Firebase configuration into a `firebaseConfic.tsx` file.
 
 4. Run the Application
 
-    ```bash
-    cd frontend
-    npm run dev
-    ```
+   ```bash
+   cd frontend
+   npm run dev
+   ```
 
 ## Usage
 
@@ -53,20 +123,20 @@ Once the application is running, you can:
 ## Authors
 
 **[Cason Bobo](https://github.com/casonbobo)**  
-*GitHub: [casonbobo](https://github.com/casonbobo)*  
-*LinkedIn: [cason-bobo](https://www.linkedin.com/in/cason-bobo)*
+_GitHub: [casonbobo](https://github.com/casonbobo)_  
+_LinkedIn: [cason-bobo](https://www.linkedin.com/in/cason-bobo)_
 
 **[Caramon Hofstetter](https://github.com/CaramonH)**  
-*GitHub: [CaramonH](https://github.com/CaramonH)*  
-*LinkedIn: [caramonhofstetter](https://www.linkedin.com/in/caramonhofstetter)*
+_GitHub: [CaramonH](https://github.com/CaramonH)_  
+_LinkedIn: [caramonhofstetter](https://www.linkedin.com/in/caramonhofstetter)_
 
 **[Evan Newman-Chock](https://github.com/gumquat)**  
-*GitHub: [gumquat](https://github.com/gumquat)*  
-*LinkedIn: [evan-newman-chock](https://www.linkedin.com/in/evan-newman-chock)*
+_GitHub: [gumquat](https://github.com/gumquat)_  
+_LinkedIn: [evan-newman-chock](https://www.linkedin.com/in/evan-newman-chock)_
 
 **[Karis Richardson](https://github.com/krisCrossApplesauce)**  
-*GitHub: [kriscrossApplesauce](https://github.com/krisCrossApplesauce)*  
-*LinkedIn: [karisrichardson](https://www.linkedin.com/in/karisrichardson)*
+_GitHub: [kriscrossApplesauce](https://github.com/krisCrossApplesauce)_  
+_LinkedIn: [karisrichardson](https://www.linkedin.com/in/karisrichardson)_
 
 ## License
 

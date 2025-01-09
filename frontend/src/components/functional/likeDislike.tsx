@@ -1,18 +1,32 @@
 import React, { useState, useEffect } from "react";
 import Button from "../general/button";
-import { faThumbsDown as thumbSolidDown, faThumbsUp as thumbSolidUp } from "@fortawesome/free-solid-svg-icons";
-import { faThumbsDown as thumbRegularDown, faThumbsUp as thumbRegularUp } from "@fortawesome/free-regular-svg-icons";
+import {
+  faThumbsDown as thumbSolidDown,
+  faThumbsUp as thumbSolidUp,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  faThumbsDown as thumbRegularDown,
+  faThumbsUp as thumbRegularUp,
+} from "@fortawesome/free-regular-svg-icons";
 import useLikeDislike from "../../customHooks/useLikeAndDislike";
 
+// This component is the like and dislike component for a whim card in a group
 interface LikeDislikeProps {
   groupId: string;
   whimId: string;
   userID: string;
 }
 
-const LikeDislike: React.FC<LikeDislikeProps> = ({ groupId, whimId, userID }) => {
-  const { likeCount, dislikeCount, handleLike, handleDislike, userChoice } = useLikeDislike(groupId, whimId, userID);
-  const [totalCount, setTotalCount] = useState<number>(likeCount - dislikeCount);
+const LikeDislike: React.FC<LikeDislikeProps> = ({
+  groupId,
+  whimId,
+  userID,
+}) => {
+  const { likeCount, dislikeCount, handleLike, handleDislike, userChoice } =
+    useLikeDislike(groupId, whimId, userID);
+  const [totalCount, setTotalCount] = useState<number>(
+    likeCount - dislikeCount
+  );
 
   useEffect(() => {
     setTotalCount((likeCount ?? 0) - (dislikeCount ?? 0));
@@ -53,7 +67,9 @@ const LikeDislike: React.FC<LikeDislikeProps> = ({ groupId, whimId, userID }) =>
       <Button
         icon={userChoice === "dislike" ? thumbSolidDown : thumbRegularDown}
         onClick={handleDislikeClick}
-        className={`dislike-button ${userChoice === "dislike" ? "selected" : ""}`}
+        className={`dislike-button ${
+          userChoice === "dislike" ? "selected" : ""
+        }`}
         label={`(${dislikeCount ?? 0})`}
         disabled={false}
       />

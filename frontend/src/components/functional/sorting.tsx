@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./functional.css";
 
+// This component is the sorting component for the header
 interface SortingProps {
   onSortByUpcoming: () => void;
   onSelectEventType: (eventType: string) => void;
@@ -26,6 +27,7 @@ const Sorting: React.FC<SortingProps> = ({
     { value: "liked", icon: faThumbsUp },
     { value: "disliked", icon: faThumbsDown },
     { value: "neutral", icon: faMinus },
+    // { value: "upcoming", icon: faCalendar },
   ];
 
   return (

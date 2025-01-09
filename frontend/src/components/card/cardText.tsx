@@ -2,6 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
+// This component is a text element for the card
 interface CardTextProps {
   icon?: IconProp;
   className?: string;

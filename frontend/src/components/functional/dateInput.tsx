@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Input from "../general/input";
 
+// This component is a date input element
 interface DateInputProps {
   onChange: (value: string) => void;
 }

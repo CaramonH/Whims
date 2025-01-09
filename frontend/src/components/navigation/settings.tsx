@@ -6,6 +6,7 @@ import { leaveGroup } from "../../firebaseService";
 import { getAuth } from "firebase/auth";
 import { GroupData } from "../types/groupData";
 
+// This component is a pop-up window that displays group settings, and allows the user to leave a group
 interface SettingsProps {
   onClose: () => void;
   groups: GroupData[];
@@ -36,6 +37,7 @@ const Settings: React.FC<SettingsProps> = ({
     };
   }, [onClose]);
 
+  // Leave a group
   const handleLeaveGroup = async (groupId: string) => {
     if (auth.currentUser) {
       const userId = auth.currentUser.uid;
@@ -48,16 +50,17 @@ const Settings: React.FC<SettingsProps> = ({
     }
   };
 
+  // Display group settings
   return (
     <div className="pop-window-overlay">
       <div className="pop-window" ref={windowRef}>
         <div className="settings-window-content">
-        <Button
-          icon={faTimes}
-          onClick={onClose}
-          className="close-button pop-up-close"
-          label=""
-        />
+          <Button
+            icon={faTimes}
+            onClick={onClose}
+            className="close-button pop-up-close"
+            label=""
+          />
           <div className="pop-window-header">
             <h2>Group Settings</h2>
           </div>
@@ -66,7 +69,10 @@ const Settings: React.FC<SettingsProps> = ({
             {groups.map((group) => (
               <div key={group.id} className="group-item">
                 <p className="group-name"> {group.groupName} </p>
-                <p className="settings-group-code"> - Code: {group.groupCode} </p>
+                <p className="settings-group-code">
+                  {" "}
+                  - Code: {group.groupCode}{" "}
+                </p>
                 <Button
                   icon={faSignOutAlt}
                   onClick={() => handleLeaveGroup(group.id)}

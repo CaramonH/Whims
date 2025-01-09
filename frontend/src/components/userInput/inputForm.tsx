@@ -5,7 +5,7 @@ import Button from "../general/button";
 import DateInput from "../functional/dateInput";
 import "./inputForm.css";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { CardData } from "../types/cardData";
+import { CardData } from "../../types/dataTypes";
 
 interface InputFormProps {
   onSubmit: (cardData: CardData) => void;

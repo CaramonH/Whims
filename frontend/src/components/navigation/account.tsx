@@ -1,4 +1,5 @@
-import React, { useRef, useEffect, useState } from "react";
+// src/components/account/Account.tsx
+import React, { useState, useEffect } from "react";
 import {
   getAuth,
   onAuthStateChanged,
@@ -7,11 +8,10 @@ import {
   EmailAuthProvider,
 } from "firebase/auth";
 import { getFirestore, doc, getDoc, deleteDoc } from "firebase/firestore";
-import Button from "../general/button";
-import { faTimes, faUserMinus } from "@fortawesome/free-solid-svg-icons"; // Importing icons
-import "../navigation/navigation.css";
+import { Modal } from "../shared/Modal";
+import { Button } from "../shared/Button";
+import { faUserMinus } from "@fortawesome/free-solid-svg-icons";
 
-// This component is a pop-up window that displays account information, and also allows the user to delete their account
 interface AccountProps {
   onClose: () => void;
 }
@@ -19,42 +19,19 @@ interface AccountProps {
 const Account: React.FC<AccountProps> = ({ onClose }) => {
   const [email, setEmail] = useState<string | null>(null);
   const [name, setName] = useState<string | null>(null);
-  const [password, setPassword] = useState<string | null>(null); // State for password prompt
-  const windowRef = useRef<HTMLDivElement>(null);
 
-  // Close the pop-up window when user clicks outside of it
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        windowRef.current &&
-        !windowRef.current.contains(event.target as Node)
-      ) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [onClose]);
-
-  // Fetch user data from Firestore
   useEffect(() => {
     const auth = getAuth();
     const db = getFirestore();
 
-    // Listen for changes to the user's authentication state
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setEmail(user.email);
         try {
-          const userDocRef = doc(db, "users", user.uid); // Adjust the collection path as needed
+          const userDocRef = doc(db, "users", user.uid);
           const userDoc = await getDoc(userDocRef);
           if (userDoc.exists()) {
-            setName(userDoc.data().name); // Adjust the field name as per your Firestore schema
-          } else {
-            console.log("No such document!");
+            setName(userDoc.data().name);
           }
         } catch (error) {
           console.error("Error fetching user data:", error);
@@ -68,13 +45,11 @@ const Account: React.FC<AccountProps> = ({ onClose }) => {
     return () => unsubscribe();
   }, []);
 
-  // Function to delete the user's account
   const handleDeleteAccount = async () => {
     const auth = getAuth();
     const user = auth.currentUser;
 
     if (user) {
-      // Prompt user to confirm password
       const password = prompt("Please enter your password to confirm:");
 
       if (password) {
@@ -84,14 +59,10 @@ const Account: React.FC<AccountProps> = ({ onClose }) => {
         );
 
         try {
-          // Reauthenticate user
           await reauthenticateWithCredential(user, credential);
-
-          // Proceed with account deletion
           const db = getFirestore();
-          await deleteDoc(doc(db, "users", user.uid)); // Adjust the collection path as needed
+          await deleteDoc(doc(db, "users", user.uid));
           await deleteUser(user);
-
           alert("Your account has been deleted.");
           onClose();
         } catch (error) {
@@ -106,40 +77,31 @@ const Account: React.FC<AccountProps> = ({ onClose }) => {
     }
   };
 
-  // Render the account pop-up window
   return (
-    <div className="pop-window-overlay">
-      <div className="pop-window" ref={windowRef}>
-        <div className="account-window-content">
+    <Modal title="Account" onClose={onClose}>
+      <div className="space-y-4">
+        <div className="account-info">
+          {email ? (
+            <>
+              <p className="text-gray-700">Name: {name || "Loading..."}</p>
+              <p className="text-gray-700">Email: {email}</p>
+            </>
+          ) : (
+            <p>Loading...</p>
+          )}
+        </div>
+
+        <div className="border-t pt-4">
+          <p className="text-red-600 font-medium mb-2">Delete Account?</p>
           <Button
-            icon={faTimes}
-            onClick={onClose}
-            className="close-button pop-up-close"
-            label=""
+            icon={faUserMinus}
+            onClick={handleDeleteAccount}
+            label="Delete Account"
+            className="bg-red-500 text-white hover:bg-red-600"
           />
-          <div className="pop-window-header account-info">
-            <h2 className="account-title">Account</h2>
-            {email ? (
-              <>
-                <p>Name: {name || "Loading..."}</p>
-                <p>Email: {email}</p>
-              </>
-            ) : (
-              <p>Loading...</p>
-            )}
-          </div>
-          <div className="delete-account">
-            <p className="delete-text">Delete Account?</p>
-            <Button
-              icon={faUserMinus}
-              onClick={handleDeleteAccount}
-              label="Delete Account"
-              className="delete-account-button "
-            />
-          </div>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 };
 

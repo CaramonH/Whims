@@ -17,7 +17,7 @@ import "./card.css";
 import Button from "../general/button";
 import { deleteWhim } from "../../firebaseService";
 import { getAuth } from "firebase/auth";
-import { CardData } from "../types/cardData";
+import { CardData } from "../../types/dataTypes";
 import useLikeDislike from "../../customHooks/useLikeAndDislike";
 
 const colorVariables: string[] = [

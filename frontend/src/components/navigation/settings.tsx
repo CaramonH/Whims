@@ -1,82 +1,54 @@
-import React, { useRef, useEffect } from "react";
-import Button from "../general/button";
-import { faTimes, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
-import "../navigation/navigation.css";
-import { leaveGroup } from "../../firebaseService";
+// src/components/settings/Settings.tsx
+import React from "react";
 import { getAuth } from "firebase/auth";
-import { GroupData } from "../types/groupData";
+import { Modal } from "../shared/Modal";
+import { Button } from "../shared/Button";
+import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { leaveGroup } from "../../firebaseService";
+import { useApp } from "../../context/AppContext";
+import { GroupData } from "../../types/dataTypes";
 
-// This component is a pop-up window that displays group settings, and allows the user to leave a group
 interface SettingsProps {
   onClose: () => void;
-  groups: GroupData[];
   onLeaveGroup: (groupId: string) => void;
 }
 
-const Settings: React.FC<SettingsProps> = ({
-  onClose,
-  groups,
-  onLeaveGroup,
-}) => {
-  const windowRef = useRef<HTMLDivElement>(null);
+const Settings: React.FC<SettingsProps> = ({ onClose, onLeaveGroup }) => {
+  const { userGroups } = useApp();
   const auth = getAuth();
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        windowRef.current &&
-        !windowRef.current.contains(event.target as Node)
-      ) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [onClose]);
-
-  // Leave a group
   const handleLeaveGroup = async (groupId: string) => {
     if (auth.currentUser) {
-      const userId = auth.currentUser.uid;
       try {
-        await leaveGroup(userId, groupId);
+        await leaveGroup(auth.currentUser.uid, groupId);
         onLeaveGroup(groupId);
       } catch (e) {
-        console.error("Error leaving group (settings.tsx): ", e);
+        console.error("Error leaving group:", e);
       }
     }
   };
 
-  // Display group settings
   return (
-    <div className="pop-window-overlay">
-      <div className="pop-window" ref={windowRef}>
-        <div className="settings-window-content">
-          <Button
-            icon={faTimes}
-            onClick={onClose}
-            className="close-button pop-up-close"
-            label=""
-          />
-          <div className="pop-window-header">
-            <h2>Group Settings</h2>
-          </div>
-          <div className="group-info">
-            <h3>Your Groups:</h3>
-            {groups.map((group) => (
-              <div key={group.id} className="group-item">
-                <p className="group-name"> {group.groupName} </p>
-                <p className="settings-group-code">
-                  {" "}
-                  - Code: {group.groupCode}{" "}
-                </p>
+    <Modal title="Group Settings" onClose={onClose}>
+      <div className="space-y-6">
+        <div className="group-info">
+          <h3 className="text-lg font-medium mb-4">Your Groups:</h3>
+          <div className="space-y-4">
+            {userGroups.map((group: GroupData) => (
+              <div
+                key={group.id}
+                className="flex items-center justify-between p-3 bg-gray-50 rounded"
+              >
+                <div>
+                  <p className="font-medium">{group.groupName}</p>
+                  <p className="text-sm text-gray-600">
+                    Code: {group.groupCode}
+                  </p>
+                </div>
                 <Button
                   icon={faSignOutAlt}
                   onClick={() => handleLeaveGroup(group.id)}
-                  className="leave-button"
+                  className="text-red-500 hover:text-red-600"
                   label="Leave"
                 />
               </div>
@@ -84,7 +56,7 @@ const Settings: React.FC<SettingsProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 };
 

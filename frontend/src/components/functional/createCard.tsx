@@ -6,7 +6,7 @@ import {
   GroupData,
   getRandomColor,
   EVENT_TYPES,
-} from "../../constants/sharedConstants";
+} from "../shared/constants/sharedConstants";
 import { createWhim } from "../../firebaseService";
 
 interface CreateCardProps {

@@ -1,77 +1,58 @@
+// src/components/navigation/Header.tsx
 import React, { useState } from "react";
 import { CreateCard } from "../functional/createCard";
-import Button from "../general/button";
+import { Button } from "../shared/Button";
 import Sorting from "../functional/sorting";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import "./navigation.css";
-import { CardData } from "../types/cardData";
-
-// This component is the header for the application
-interface GroupData {
-  id: string;
-  createdAt: string;
-  groupName: string;
-  groupCode: string;
-}
+import { useApp } from "../../context/context";
+import { CardData } from "../../types/dataTypes";
 
 interface HeaderProps {
   onCreateCard: (cardData: CardData) => void;
-  groupData?: GroupData;
-  isHomePage: boolean;
-  onSortByUpcoming: () => void;
-  onSelectEventType: (eventType: string) => void;
-  onSelectLikeStatus: (status: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({
-  onCreateCard,
-  groupData,
-  isHomePage,
-  onSortByUpcoming,
-  onSelectEventType,
-  onSelectLikeStatus,
-}) => {
+const Header: React.FC<HeaderProps> = ({ onCreateCard }) => {
   const [showInputForm, setShowInputForm] = useState(false);
+  const {
+    currentGroup,
+    setSortByUpcoming,
+    setSelectedEventType,
+    setLikeStatus,
+  } = useApp();
 
-  // Function to handle the create button click
-  const handleCreateClick = () => {
-    setShowInputForm(true);
-  };
+  const isHomePage = !currentGroup;
 
-  // Function to handle the close form button click
-  const handleCloseForm = () => {
-    setShowInputForm(false);
-  };
-
-  // Return the header component
   return (
-    <header className="header">
+    <header className="bg-white shadow-sm">
       {!isHomePage && (
-        <>
-          <div className="header-sorting">
-            <Sorting
-              onSortByUpcoming={onSortByUpcoming}
-              onSelectEventType={onSelectEventType}
-              onSelectLikeStatus={onSelectLikeStatus}
-            />
-          </div>
-          <div className="create-card-container">
-            {!showInputForm ? (
-              <Button
-                icon={faPlus}
-                onClick={handleCreateClick}
-                className="create-button"
-                label="Create New Event"
+        <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center">
+            <div className="flex-1">
+              <Sorting
+                onSortByUpcoming={setSortByUpcoming}
+                onSelectEventType={setSelectedEventType}
+                onSelectLikeStatus={setLikeStatus}
               />
-            ) : (
-              <CreateCard
-                onCreateCard={onCreateCard}
-                onCloseForm={handleCloseForm}
-                groupData={groupData}
-              />
-            )}
+            </div>
+
+            <div className="flex-shrink-0">
+              {!showInputForm ? (
+                <Button
+                  icon={faPlus}
+                  onClick={() => setShowInputForm(true)}
+                  className="bg-blue-500 text-white hover:bg-blue-600"
+                  label="Create New Event"
+                />
+              ) : (
+                <CreateCard
+                  onCreateCard={onCreateCard}
+                  onCloseForm={() => setShowInputForm(false)}
+                  groupData={currentGroup}
+                />
+              )}
+            </div>
           </div>
-        </>
+        </div>
       )}
     </header>
   );

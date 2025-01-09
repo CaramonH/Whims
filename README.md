@@ -14,6 +14,18 @@ Whims is a collaborative idea board designed to help you and your friends organi
 - cards need to be homogenized, there are two different kinds (i think) [do we need to totally redo cards because of the booboo?]
 - group components that use the same state data and make reducers for those components thay can all access easily
 
+1. Denote the structure of how the data is stored
+   1a. CSV file format is a must
+2. Denote the structure of how groups are stored
+   2a. again, csv file format preffered
+3. Denote the structures used to allow these two things to communicate
+   3a. get a list of the files used to bride these together
+4. Create a unified card system that uses one singular structure
+   4a. Change card structure to be csv file formatted
+5. Create a unified group system that works with the cards
+   5a. this is a complete overhaul, teamwork needed here
+6. Prepare both for the new database
+
 ## Components
 
 #### Auth

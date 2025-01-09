@@ -82,9 +82,10 @@ const Card: React.FC<CardProps> = ({
 }) => {
   const auth = getAuth();
   const randomColor: string = getRandomColor(color);
-  const userId = auth.currentUser?.uid || '';
+  const userId = auth.currentUser?.uid || "";
 
-  const { likeCount, dislikeCount, handleLike, handleDislike, userChoice } = useLikeDislike(groupId, id, userId);
+  const { likeCount, dislikeCount, handleLike, handleDislike, userChoice } =
+    useLikeDislike(groupId, id, userId);
 
   const getEventIcon = (type: string): IconProp => {
     switch (type) {
@@ -141,7 +142,10 @@ const Card: React.FC<CardProps> = ({
       // Allows creator of group to delete any whim within the group
       const group = userGroups.find((group) => group.id === groupId);
       console.log(`group of whim that says "${eventName}":`, group);
-      console.log(`creator of group that contains the previously mentioned whim:`, userId);
+      console.log(
+        `creator of group that contains the previously mentioned whim:`,
+        userId
+      );
       if (group && userId === group.createdBy) {
         return true;
       }
@@ -169,14 +173,16 @@ const Card: React.FC<CardProps> = ({
       <div className="like-dislike-container">
         <button
           onClick={handleLike}
-          className={`like-button ${userChoice === 'like' ? 'active' : ''}`}
+          className={`like-button ${userChoice === "like" ? "active" : ""}`}
         >
           <FontAwesomeIcon icon={faThumbsUp} />
           <span className="like-dislike-count">{likeCount}</span>
         </button>
         <button
           onClick={handleDislike}
-          className={`dislike-button ${userChoice === 'dislike' ? 'active' : ''}`}
+          className={`dislike-button ${
+            userChoice === "dislike" ? "active" : ""
+          }`}
         >
           <FontAwesomeIcon icon={faThumbsDown} />
           <span className="like-dislike-count">{dislikeCount}</span>

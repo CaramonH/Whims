@@ -1,20 +1,19 @@
-// src/components/navigation/Sidebar.tsx
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { getAuth, signOut } from "firebase/auth";
-import { Button } from "../shared/Button";
+import Button from "../general/button";
 import GroupManagement from "../functional/groupManagement";
 import Group from "../functional/group";
 import Settings from "./settings";
 import Account from "./account";
-import { useApp } from "../../context/AppContext";
-import {
+import { GroupData } from "../../types/dataTypes";
   faHome,
   faCog,
   faUser,
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import { GroupData } from "../../types/dataTypes";
+import { getAuth, signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import "./navigation.css";
+import { useApp } from "../../context/context";
 
 const Sidebar: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -23,12 +22,17 @@ const Sidebar: React.FC = () => {
   const navigate = useNavigate();
   const auth = getAuth();
 
-  const { userGroups, currentGroup, setCurrentGroup, updateGroups } = useApp();
+  const { userGroups, setCurrentGroup, updateGroups } = useApp();
 
   const handleExpand = (expanded: boolean) => {
     setIsExpanded(expanded);
     document.body.classList.toggle("sidebar-expanded", expanded);
   };
+
+  const handleSettings = () => setShowSettings(true);
+  const handleCloseSettings = () => setShowSettings(false);
+  const handleAccount = () => setShowAccount(true);
+  const handleCloseAccount = () => setShowAccount(false);
 
   const handleLogout = async () => {
     try {
@@ -39,87 +43,82 @@ const Sidebar: React.FC = () => {
     }
   };
 
-  const handleCreateGroup = async (groupData: GroupData) => {
+  const handleCreateGroup = async () => {
     await updateGroups();
   };
 
-  const handleJoinGroup = async (groupData: GroupData) => {
+  const handleJoinGroup = async () => {
     await updateGroups();
   };
 
-  const handleLeaveGroup = async (groupId: string) => {
-    await updateGroups();
+  const handleGroupClick = (groupData: GroupData) => {
+    console.log(`Group ${groupData.groupCode} button clicked`);
+    setCurrentGroup(groupData);
+  };
+
+  const handleHomeClick = () => {
+    console.log("Home clicked");
+    setCurrentGroup(undefined);
   };
 
   return (
     <>
       <div
-        className={`w-64 h-screen bg-white shadow-lg transition-all duration-200 
-                   ${isExpanded ? "translate-x-0" : "-translate-x-48"}`}
+        className={`sidebar ${isExpanded ? "expanded" : ""}`}
         onMouseEnter={() => handleExpand(true)}
         onMouseLeave={() => handleExpand(false)}
       >
-        <h1 className="text-2xl font-bold p-4">{isExpanded ? "Whims" : "W"}</h1>
-
-        <nav className="flex flex-col h-full">
-          <div className="flex-1">
+        <h1 className="header-title">{isExpanded ? "Whims" : "W"}</h1>
+        <nav className="sidebar-nav">
+          <div id="groups">
             <Button
               icon={faHome}
-              onClick={() => setCurrentGroup(undefined)}
-              className="w-full hover:bg-gray-100"
+              onClick={handleHomeClick}
+              className="nav-item home-button"
               label="Home"
               isExpanded={isExpanded}
             />
-
-            {userGroups.map((group) => (
+            {userGroups.map((group, index) => (
               <Group
-                key={group.id}
+                key={index}
                 isExpanded={isExpanded}
-                onClick={() => setCurrentGroup(group)}
+                onClick={() => handleGroupClick(group)}
                 groupData={group}
               />
             ))}
           </div>
-
           <GroupManagement
             isExpanded={isExpanded}
             onCreateGroup={handleCreateGroup}
             onJoinGroup={handleJoinGroup}
           />
-
-          <div className="border-t p-2">
+          <div className="bottom-buttons">
             <Button
               icon={faCog}
-              onClick={() => setShowSettings(true)}
-              className="w-full hover:bg-gray-100 mb-2"
+              onClick={handleSettings}
+              className="nav-item bottom-button"
               label="Group Settings"
               isExpanded={isExpanded}
             />
             <Button
               icon={faUser}
-              onClick={() => setShowAccount(true)}
-              className="w-full hover:bg-gray-100 mb-2"
+              onClick={handleAccount}
+              className="nav-item bottom-button"
               label="Account"
               isExpanded={isExpanded}
             />
             <Button
               icon={faSignOutAlt}
               onClick={handleLogout}
-              className="w-full hover:bg-gray-100"
+              className="nav-item bottom-button"
               label="Logout"
               isExpanded={isExpanded}
             />
           </div>
         </nav>
       </div>
-
-      {showSettings && (
-        <Settings
-          onClose={() => setShowSettings(false)}
-          onLeaveGroup={handleLeaveGroup}
-        />
-      )}
-      {showAccount && <Account onClose={() => setShowAccount(false)} />}
+      {showSettings && <Settings onClose={handleCloseSettings} />}
+      {showAccount && <Account onClose={handleCloseAccount} />}
     </>
   );
 };

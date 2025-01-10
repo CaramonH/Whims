@@ -19,6 +19,7 @@ interface AppContextType {
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);
 
+// this is the important bit
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {

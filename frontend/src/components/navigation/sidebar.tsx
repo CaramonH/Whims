@@ -14,6 +14,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import "./navigation.css";
 import { useApp } from "../../context/context";
+import { GroupData } from "../../types/dataTypes";
 
 const Sidebar: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);

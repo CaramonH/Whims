@@ -23,5 +23,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "firebaseConfig.ts"]
+  "include": ["src", "src/firebaseConfig.ts"]
 }

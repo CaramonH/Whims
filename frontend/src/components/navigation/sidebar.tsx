@@ -4,7 +4,7 @@ import GroupManagement from "../functional/groupManagement";
 import Group from "../functional/group";
 import Settings from "./settings";
 import Account from "./account";
-import { GroupData } from "../../types/dataTypes";
+import {
   faHome,
   faCog,
   faUser,

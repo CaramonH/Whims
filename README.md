@@ -10,7 +10,8 @@ Whims is a collaborative idea board designed to help you and your friends organi
 
 # EVAN NOTES and files to go through (TO DO LIST)
 
-MAKE SURE APPCONTEXT IS SET UP CORRECTLY FOR THE STATE MANAGEMENT OVERHAUL, MAKE APP PROVIDER
+CANNOT SWITCH GROUPS {STUCK IN HOME PAGE}
+because of that ... CANNOT MAKE NEW WHIMS
 
 - cardData is a child structure of groupData! THIS NEEDS TO CHANGE FOR SQL
 - remove random colors for whim cards (or move it to its own file) it makes files longer and is a lot of data being generated and passed
